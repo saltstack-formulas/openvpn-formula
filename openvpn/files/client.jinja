@@ -1,0 +1,127 @@
+# OpenVPN client configuration '{{ name }}'
+# Managed by salt !!!
+
+client
+
+{%- if config.dev is defined %}
+dev {{ config.dev }}
+{%- else %}
+dev tun
+{%- endif %}
+
+{%- if config.dev_node is defined %}
+dev-node {{ config.dev_node }}
+{%- endif %}
+
+{%- if config.proto is defined %}
+proto {{ config.proto }}
+{%- else %}
+proto udp
+{%- endif %}
+
+{%- if config.remote is defined %}
+{%- for remote in config.remote %}
+remote "{{ remote }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.remote_random is defined %}
+remote-random
+{%- endif %}
+
+{%- if config.resolv_retry is defined %}
+resolv-retry {{ config.resolv-retry }}
+{%- else %}
+resolv-retry infinite
+{%- endif %}
+
+{%- if config.nobind is defined and config.nobind == False %}
+;nobind
+{%- else %}
+nobind
+{%- endif %}
+
+{%- if config.user is defined %}
+user {{ config.user }}
+{%- else %}
+user {{ user }}
+{%- endif %}
+
+{%- if config.group is defined %}
+group {{ config.group }}
+{%- else %}
+group {{ group }}
+{%- endif %}
+
+{%- if config.persist_key is defined and config.persist_key == False %}
+;persist-key
+{%- else %}
+persist-key
+{%- endif %}
+
+{%- if config.persist_tun is defined and config.persist_tun == False %}
+;persist-tun
+{%- else %}
+persist-tun
+{%- endif %}
+
+{%- if config.http_proxy_retry is defined %}
+http-proxy-retry
+{%- endif %}
+
+{%- if config.http_proxy is defined %}
+http-proxy {{ config.http_proxy }}
+{%- endif %}
+
+{%- if config.mute_replay_warnings is defined %}
+mute-replay-warnings
+{%- endif %}
+
+{%- if config.ca is defined %}
+ca {{ config.ca }}
+{%- else %}
+# ca is not set !
+{%- endif %}
+
+{%- if config.cert is defined %}
+cert {{ config.cert }}
+{%- else %}
+# cert is not set !
+{%- endif %}
+
+{%- if config.key is defined %}
+key {{ config.key }}
+{%- else %}
+# key is not set !
+{%- endif %}
+
+{%- if config.ns_cert_type is defined %}
+ns-cert-type {{ config.ns_cert_type }}
+{%- endif %}
+
+{%- if config.tls_auth is defined %}
+tls-auth {{ config.tls_auth }}
+{%- endif %}
+
+{%- if config.ciphers is defined %}
+{%- for cipher in config.ciphers %}
+cipher "{{ cipher }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.comp_lzo is defined and config.comp_lzo == False %}
+;comp-lzo
+{%- else %}
+comp-lzo
+{%- endif %}
+
+
+{%- if config.verb is defined %}
+verb {{ config.verb }}
+{%- else %}
+verb 3
+{%- endif %}
+
+{%- if config.mute is defined %}
+mute {{ config.mute }}
+{%- endif %}

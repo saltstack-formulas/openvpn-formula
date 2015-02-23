@@ -1,0 +1,159 @@
+# OpenVPN server configuration '{{ name }}'
+# Managed by salt !!!
+
+{%- if config.local is defined %}
+local {{ config.local }}
+{%- endif %}
+
+{%- if config.port is defined %}
+port {{ config.port }}
+{%- else %}
+port 1194
+{%- endif %}
+
+
+{%- if config.proto is defined %}
+proto {{ config.proto }}
+{%- else %}
+proto udp
+{%- endif %}
+
+{%- if config.dev is defined %}
+dev {{ config.dev }}
+{%- else %}
+dev tun
+{%- endif %}
+
+{%- if config.dev_node is defined %}
+dev-node {{ config.dev_node }}
+{%- endif %}
+
+{%- if config.ca is defined %}
+ca {{ config.ca }}
+{%- else %}
+# ca is not set !
+{%- endif %}
+
+{%- if config.cert is defined %}
+cert {{ config.cert }}
+{%- else %}
+# cert is not set !
+{%- endif %}
+
+{%- if config.key is defined %}
+key {{ config.key }}
+{%- else %}
+# key is not set !
+{%- endif %}
+
+{%- if config.dh is defined %}
+dh {{ config.dh }}
+{%- else %}
+dh dh1024.pem
+{%- endif %}
+
+{%- if config.server is defined %}
+server {{ config.server }}
+{%- else %}
+server 10.8.0.0 255.255.255.0
+{%- endif %}
+
+{%- if config.ifconfig_pool_persist is defined %}
+ifconfig-pool-persist {{ config.ifconfig_pool_persist }}
+{%- endif %}
+
+{%- if config.server_bridge is defined %}
+server-bridge {{ config.server_bridge }}
+{%- endif %}
+
+{%- if config.push is defined %}
+{%- for push in config.push %}
+push "{{ push }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.client_config_dir is defined %}
+client-config-dir {{ config.client_config_dir }}
+{%- endif %}
+
+{%- if config.learn_address is defined %}
+learn-address {{ config.learn_address }}
+{%- endif %}
+
+{%- if config.client_to_client is defined and config.client_to_client == True %}
+client-to-client
+{%- endif %}
+
+{%- if config.duplicate_cn is defined and config.duplicate_cn == True %}
+duplicate-cn
+{%- endif %}
+
+{%- if config.keepalive is defined %}
+keepalive {{ config.keepalive }}
+{%- endif %}
+
+{%- if config.tls_auth is defined %}
+tls-auth {{ config.tls_auth }}
+{%- endif %}
+
+{%- if config.ciphers is defined %}
+{%- for cipher in config.ciphers %}
+cipher "{{ cipher }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.comp_lzo is defined and config.comp_lzo == False %}
+;comp-lzo
+{%- else %}
+comp-lzo
+{%- endif %}
+
+{%- if config.max_clients is defined %}
+max-clients {{ config.max_clients }}
+{%- endif %}
+
+{%- if config.user is defined %}
+user {{ config.user }}
+{%- else %}
+user {{ user }}
+{%- endif %}
+
+{%- if config.group is defined %}
+group {{ config.group }}
+{%- else %}
+group {{ group }}
+{%- endif %}
+
+{%- if config.persist_key is defined and config.persist_key == False %}
+;persist-key
+{%- else %}
+persist-key
+{%- endif %}
+
+{%- if config.persist_tun is defined and config.persist_tun == False %}
+;persist-tun
+{%- else %}
+persist-tun
+{%- endif %}
+
+{%- if config.status is defined %}
+status {{ config.status }}
+{%- endif %}
+
+{%- if config.log is defined %}
+log {{ config.log }}
+{%- endif %}
+
+{%- if config.log_append is defined %}
+log-append {{ config.log_append }}
+{%- endif %}
+
+{%- if config.verb is defined %}
+verb {{ config.verb }}
+{%- else %}
+verb 3
+{%- endif %}
+
+{%- if config.mute is defined %}
+mute {{ config.mute }}
+{%- endif %}
