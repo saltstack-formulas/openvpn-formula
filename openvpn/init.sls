@@ -10,7 +10,7 @@ openvpn_pkgs:
       - {{pkg }}
       {% endfor %}
 
-# Ensure openvpn servcie is running and autostart is enabled
+# Ensure openvpn service is running and autostart is enabled
 openvpn_service:
   service.running:
     - name: {{ map.service }}
