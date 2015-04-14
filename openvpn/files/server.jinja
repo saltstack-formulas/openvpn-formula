@@ -157,3 +157,10 @@ verb 3
 {%- if config.mute is defined %}
 mute {{ config.mute }}
 {%- endif %}
+
+{%- if config._append is defined %}
+{%-   for data in config._append %}
+{{ data }}
+{%-   endfor %}
+{%- endif %}
+

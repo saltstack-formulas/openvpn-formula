@@ -49,6 +49,9 @@ openvpn:
       log_append: openvpn.log
       verb: 3
       mute: 20
+      _append:
+        - verb 5
+        - mute 25
   client:
     myclient1:
       remote:
@@ -85,3 +88,8 @@ openvpn:
       comp_lzo:
       verb: 3
       mute: 20
+      _append:
+        - script-security 2
+        - up 'echo up'
+        - down 'echo down'
+
