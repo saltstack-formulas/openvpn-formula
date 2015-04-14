@@ -21,7 +21,7 @@ proto udp
 
 {%- if config.remote is defined %}
 {%- for remote in config.remote %}
-remote "{{ remote }}"
+remote {{ remote }}
 {%- endfor %}
 {%- endif %}
 
