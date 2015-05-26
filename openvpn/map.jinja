@@ -21,11 +21,7 @@
         'conf_dir': '/etc/openvpn',
         'dh_files': ['1024', '2048'],
         'user': 'nobody',
-<<<<<<< HEAD
         'group': 'nobody',
-=======
-        'group': 'nogroup',
->>>>>>> f553975e33888fb87daa536a528d196242a3ec7c
     },
 
 }, grain='os', merge=salt['pillar.get']('openvpn:lookup')) %}
