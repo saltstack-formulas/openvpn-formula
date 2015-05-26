@@ -15,5 +15,13 @@
         'user': 'nobody',
         'group': 'nogroup',
     },
+    'Amazon': {
+        'pkgs': ['openvpn'],
+        'service': 'openvpn',
+        'conf_dir': '/etc/openvpn',
+        'dh_files': ['1024', '2048'],
+        'user': 'nobody',
+        'group': 'nogroup',
+    },
 
 }, grain='os', merge=salt['pillar.get']('openvpn:lookup')) %}
