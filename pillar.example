@@ -37,7 +37,7 @@ openvpn:
       tls_auth:
       ciphers:
         - BF-CBC
-        - AES-128-CBC  
+        - AES-128-CBC
       comp_lzo:
       max_clients: 100
       user: nobody
@@ -49,6 +49,15 @@ openvpn:
       log_append: openvpn.log
       verb: 3
       mute: 20
+    myserver3:
+      daemon:
+      port: 443
+      port_share: '127.0.0.1 4430'
+      ccd_exclusive:
+      auth: SHA1
+      username_as_common_name:
+      plugins:
+        - '/usr/lib/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf'
   client:
     myclient1:
       remote:
@@ -81,7 +90,7 @@ openvpn:
       tls_auth:
       ciphers:
         - BF-CBC
-        - AES-128-CBC  
-      comp_lzo:    
+        - AES-128-CBC
+      comp_lzo:
       verb: 3
       mute: 20
