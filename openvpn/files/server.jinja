@@ -183,3 +183,7 @@ username-as-common-name
 plugin "{{ plugin }}"
 {%- endfor %}
 {%- endif %}
+
+{%- if config.reneg_sec is defined %}
+reneg-sec {{ config.reneg_sec }}
+{%- endif %}
