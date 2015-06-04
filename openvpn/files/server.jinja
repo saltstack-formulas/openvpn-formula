@@ -1,8 +1,13 @@
 # OpenVPN server configuration '{{ name }}'
-# Managed by salt !!!
+# Managed by Salt
+# Template: {{ source }}
 
 {%- if config.local is defined %}
 local {{ config.local }}
+{%- endif %}
+
+{%- if config.auth is defined %}
+auth {{ config.auth }}
 {%- endif %}
 
 {%- if config.port is defined %}
@@ -11,6 +16,13 @@ port {{ config.port }}
 port 1194
 {%- endif %}
 
+{%- if config.port_share is defined %}
+port-share {{ config.port_share }}
+{%- endif %}
+
+{%- if config.daemon is defined and config.daemon == True %}
+daemon
+{%- endif %}
 
 {%- if config.proto is defined %}
 proto {{ config.proto }}
@@ -156,4 +168,18 @@ verb 3
 
 {%- if config.mute is defined %}
 mute {{ config.mute }}
+{%- endif %}
+
+{%- if config.ccd_exclusive is defined and config.ccd_exclusive == True %}
+ccd-exclusive
+{%- endif %}
+
+{%- if config.username_as_common_name is defined and config.username_as_common_name == True %}
+username-as-common-name
+{%- endif %}
+
+{%- if config.plugins is defined %}
+{%- for plugin in config.plugins %}
+plugin "{{ plugin }}"
+{%- endfor %}
 {%- endif %}
