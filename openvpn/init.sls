@@ -57,3 +57,20 @@ openvpn_config_{{name}}:
     - watch_in:
       - service: openvpn_service
 {% endfor %}
+
+# Deploy peer config files
+{% for name, config in salt['pillar.get']('openvpn:peer', {}).iteritems() %}
+openvpn_config_{{name}}:
+  file.managed:
+    - name: {{ map.conf_dir }}/{{name}}.conf
+    - source: salt://openvpn/files/peer.jinja
+    - template: jinja
+    - context:
+        name: {{ name }}
+        config: {{ config }}
+        user: {{ map.user }}
+        group: {{ map.group }}
+    - watch_in:
+      - service: openvpn_service
+{% endfor %}
+
