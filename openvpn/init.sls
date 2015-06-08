@@ -10,14 +10,6 @@ openvpn_pkgs:
       - {{pkg }}
       {% endfor %}
 
-# Ensure openvpn servcie is running and autostart is enabled
-openvpn_service:
-  service.running:
-    - name: {{ map.service }}
-    - enable: True
-    - require:
-      - pkg: openvpn_pkgs
-
 # Generate diffie hellman files
 {% for dh in map.dh_files %}
 openvpn_create_dh_{{ dh }}:
@@ -74,3 +66,10 @@ openvpn_config_{{name}}:
       - service: openvpn_service
 {% endfor %}
 
+# Ensure openvpn service is running and autostart is enabled
+openvpn_service:
+  service.running:
+    - name: {{ map.service }}
+    - enable: True
+    - require:
+      - pkg: openvpn_pkgs
