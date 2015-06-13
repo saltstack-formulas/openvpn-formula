@@ -84,6 +84,12 @@ push "{{ push }}"
 {%- endfor %}
 {%- endif %}
 
+{%- if config.route is defined %}
+{%- for route in config.route %}
+route {{ push }}
+{%- endfor %}
+{%- endif %}
+
 {%- if config.client_config_dir is defined %}
 client-config-dir {{ config.client_config_dir }}
 {%- endif %}
