@@ -29,6 +29,8 @@ openvpn:
       server_bridge:
       push:
         - "route 192.168.10.0 255.255.255.0"
+      route:
+        - "192.168.11.0 255.255.255.0"
       client_config_dir:
       learn_address:
       client_to_client: False
