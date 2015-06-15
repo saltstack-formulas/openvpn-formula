@@ -67,6 +67,17 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
       - service: openvpn_service
 {% endif %}
 
+{% if config.tls_auth is defined and config.ta_content is defined %}
+# Deploy {{ type }} {{ name }} TLS key file
+openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
+  file.managed:
+    - name: {{ map.conf_dir }}/{{ config.tls_auth.split()[0] }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
+    - makedirs: True
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
 {% endfor %}
 {% endfor %}
 
