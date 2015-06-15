@@ -45,6 +45,17 @@ openvpn_config_{{ type }}_{{ name }}_ca_file:
       - service: openvpn_service
 {% endif %}
 
+{% if config.cert is defined and config.cert_content is defined %}
+# Deploy {{ type }} {{ name }} certificate file
+openvpn_config_{{ type }}_{{ name }}_cert_file:
+  file.managed:
+    - name: {{ map.conf_dir }}/{{ config.cert }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
+    - makedirs: True
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
 {% endfor %}
 {% endfor %}
 
