@@ -38,7 +38,7 @@ openvpn_config_{{ type }}_{{ name }}:
 # Deploy {{ type }} {{ name }} CA file
 openvpn_config_{{ type }}_{{ name }}_ca_file:
   file.managed:
-    - name: {{ map.conf_dir }}/{{ config.ca }}
+    - name: {{ config.ca }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
     - makedirs: True
     - watch_in:
@@ -49,7 +49,7 @@ openvpn_config_{{ type }}_{{ name }}_ca_file:
 # Deploy {{ type }} {{ name }} certificate file
 openvpn_config_{{ type }}_{{ name }}_cert_file:
   file.managed:
-    - name: {{ map.conf_dir }}/{{ config.cert }}
+    - name: {{ config.cert }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
     - makedirs: True
     - watch_in:
@@ -60,7 +60,7 @@ openvpn_config_{{ type }}_{{ name }}_cert_file:
 # Deploy {{ type }} {{ name }} private key file
 openvpn_config_{{ type }}_{{ name }}_key_file:
   file.managed:
-    - name: {{ map.conf_dir }}/{{ config.key }}
+    - name: {{ config.key }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:key_content
     - makedirs: True
     - watch_in:
@@ -71,7 +71,7 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
 # Deploy {{ type }} {{ name }} TLS key file
 openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
   file.managed:
-    - name: {{ map.conf_dir }}/{{ config.tls_auth.split()[0] }}
+    - name: {{ config.tls_auth.split()[0] }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
     - watch_in:
