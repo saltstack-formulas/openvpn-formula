@@ -18,12 +18,13 @@ openvpn_create_dh_{{ dh }}:
     - creates: {{ map.conf_dir }}/dh{{ dh }}.pem
 {% endfor %}
 
-# Deploy server config files
-{% for name, config in salt['pillar.get']('openvpn:server', {}).iteritems() %}
-openvpn_config_{{name}}:
+{% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
+{% for name, config in names.iteritems() %}
+# Deploy {{ type }} {{ name }} config files
+openvpn_config_{{ type }}_{{ name }}:
   file.managed:
     - name: {{ map.conf_dir }}/{{name}}.conf
-    - source: salt://openvpn/files/server.jinja
+    - source: salt://openvpn/files/{{ type }}.jinja
     - template: jinja
     - context:
         name: {{ name }}
@@ -32,22 +33,52 @@ openvpn_config_{{name}}:
         group: {{ map.group }}
     - watch_in:
       - service: openvpn_service
-{% endfor %}
 
-# Deploy client config files
-{% for name, config in salt['pillar.get']('openvpn:client', {}).iteritems() %}
-openvpn_config_{{name}}:
+{% if config.ca is defined and config.ca_content is defined %}
+# Deploy {{ type }} {{ name }} CA file
+openvpn_config_{{ type }}_{{ name }}_ca_file:
   file.managed:
-    - name: {{ map.conf_dir }}/{{name}}.conf
-    - source: salt://openvpn/files/client.jinja
-    - template: jinja
-    - context:
-        name: {{ name }}
-        config: {{ config }}
-        user: {{ map.user }}
-        group: {{ map.group }}
+    - name: {{ config.ca }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
+    - makedirs: True
     - watch_in:
       - service: openvpn_service
+{% endif %}
+
+{% if config.cert is defined and config.cert_content is defined %}
+# Deploy {{ type }} {{ name }} certificate file
+openvpn_config_{{ type }}_{{ name }}_cert_file:
+  file.managed:
+    - name: {{ config.cert }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
+    - makedirs: True
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
+{% if config.key is defined and config.key_content is defined %}
+# Deploy {{ type }} {{ name }} private key file
+openvpn_config_{{ type }}_{{ name }}_key_file:
+  file.managed:
+    - name: {{ config.key }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:key_content
+    - makedirs: True
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
+{% if config.tls_auth is defined and config.ta_content is defined %}
+# Deploy {{ type }} {{ name }} TLS key file
+openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
+  file.managed:
+    - name: {{ config.tls_auth.split()[0] }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
+    - makedirs: True
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
+{% endfor %}
 {% endfor %}
 
 # Ensure openvpn service is running and autostart is enabled

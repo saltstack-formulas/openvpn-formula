@@ -21,8 +21,20 @@ openvpn:
       dev: tun
       dev_node:
       ca: /path/to/mycacert.pem
+      ca_content: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
       cert: /path/to/mycert.pem
+      cert_content: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
       key: /path/to/mykey.pem
+      key_content: |
+        -----BEGIN PRIVATE KEY-----
+        ...
+        -----END PRIVATE KEY-----
       dh: dh1024.pem
       server: '10.8.0.0 255.255.255.0'
       ifconfig_pool_persist: ipp.txt
@@ -36,7 +48,11 @@ openvpn:
       client_to_client: False
       duplicate_cn: False
       keepalive: '10 120'
-      tls_auth:
+      tls_auth: /path/to/tls.key 0
+      ta_content: |
+        -----BEGIN OpenVPN Static key V1-----
+        ...
+        -----END OpenVPN Static key V1-----
       ciphers:
         - BF-CBC
         - AES-128-CBC
@@ -86,10 +102,26 @@ openvpn:
       http_proxy: 'proxy-server proxy-port'
       mute_replay_warnings:
       ca: /path/to/mycacert.pem
+      ca_content: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
       cert: /path/to/mycert.pem
+      cert_content: |
+        -----BEGIN CERTIFICATE-----
+        ...
+        -----END CERTIFICATE-----
       key: /path/to/mykey.pem
+      key_content: |
+        -----BEGIN PRIVATE KEY-----
+        ...
+        -----END PRIVATE KEY-----
       ns_cert_type: server
-      tls_auth:
+      tls_auth: /path/to/tls.key 0
+      ta_content: |
+        -----BEGIN OpenVPN Static key V1-----
+        ...
+        -----END OpenVPN Static key V1-----
       ciphers:
         - BF-CBC
         - AES-128-CBC
