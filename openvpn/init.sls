@@ -33,6 +33,18 @@ openvpn_config_{{ type }}_{{ name }}:
         group: {{ map.group }}
     - watch_in:
       - service: openvpn_service
+
+{% if config.ca is defined and config.ca_content is defined %}
+# Deploy {{ type }} {{ name }} CA file
+openvpn_config_{{ type }}_{{ name }}_ca_file:
+  file.managed:
+    - name: {{ map.conf_dir }}/{{ config.ca }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
+    - makedirs: True
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
 {% endfor %}
 {% endfor %}
 
