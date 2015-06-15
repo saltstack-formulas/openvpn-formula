@@ -28,4 +28,4 @@ See *openvpn/pillar.example*.
 Notes
 =====
 
-This formula does not deploy certificates and keys. This must be done manually or with another formula.
+This formula does can optionally deploy certificates and keys, but does not generate them. This must be done manually or with another formula.
