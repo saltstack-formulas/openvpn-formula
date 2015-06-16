@@ -19,6 +19,7 @@ openvpn_create_dh_{{ dh }}:
 {% endfor %}
 
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
+{% if type == 'server' or type == 'client' %}
 {% for name, config in names.iteritems() %}
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
@@ -79,6 +80,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
 {% endif %}
 
 {% endfor %}
+{% endif %}
 {% endfor %}
 
 # Ensure openvpn service is running and autostart is enabled
