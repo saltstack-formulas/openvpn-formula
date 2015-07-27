@@ -60,6 +60,7 @@ openvpn:
       max_clients: 100
       user: nobody
       group: nobody
+      tun_mtu: 1350
       persist_key:
       persist_tun:
       status: openvpn-status.log
