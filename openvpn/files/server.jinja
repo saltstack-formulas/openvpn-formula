@@ -193,3 +193,7 @@ plugin "{{ plugin }}"
 {%- if config.reneg_sec is defined %}
 reneg-sec {{ config.reneg_sec }}
 {%- endif %}
+
+{%- if config.tun_mtu is defined %}
+tun-mtu {{ config.tun_mtu }}
+{%- endif %}
