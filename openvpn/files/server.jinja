@@ -186,7 +186,7 @@ username-as-common-name
 
 {%- if config.plugins is defined %}
 {%- for plugin in config.plugins %}
-plugin "{{ plugin }}"
+plugin {{ plugin }}
 {%- endfor %}
 {%- endif %}
 
