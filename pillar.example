@@ -18,6 +18,7 @@ openvpn:
       local: 10.4.0.1
       port: 1194
       proto: udp
+      topology: subnet
       dev: tun
       dev_node:
       ca: /path/to/mycacert.pem
