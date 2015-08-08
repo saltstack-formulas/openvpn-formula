@@ -30,6 +30,10 @@ proto {{ config.proto }}
 proto udp
 {%- endif %}
 
+{%- if config.topology is defined %}
+topology {{ config.topology }}
+{%- endif %}
+
 {%- if config.dev is defined %}
 dev {{ config.dev }}
 {%- else %}
