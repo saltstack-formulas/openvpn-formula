@@ -130,3 +130,7 @@ openvpn:
       comp_lzo:
       verb: 3
       mute: 20
+  ifconfig_pool_persist:
+    ipp.txt:
+      somehostname: 192.168.51.2
+      secondhost: 192.168.51.3

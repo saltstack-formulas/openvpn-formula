@@ -20,6 +20,11 @@ Available states
 
 Installs and configures openvpn client and server. Multiple clients and servers are possible.
 
+``openvpn.ifconfig_pool_persist``
+---------------------------------
+
+Installs and configures an ifconfig_pool_persist file. Used to assign host IPs.
+
 Example
 =======
 
