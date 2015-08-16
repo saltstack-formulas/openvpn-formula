@@ -18,6 +18,7 @@ openvpn:
       local: 10.4.0.1
       port: 1194
       proto: udp
+      topology: subnet
       dev: tun
       dev_node:
       ca: /path/to/mycacert.pem
@@ -60,6 +61,7 @@ openvpn:
       max_clients: 100
       user: nobody
       group: nobody
+      tun_mtu: 1350
       persist_key:
       persist_tun:
       status: openvpn-status.log
@@ -128,3 +130,7 @@ openvpn:
       comp_lzo:
       verb: 3
       mute: 20
+  ifconfig_pool_persist:
+    ipp.txt:
+      somehostname: 192.168.51.2
+      secondhost: 192.168.51.3

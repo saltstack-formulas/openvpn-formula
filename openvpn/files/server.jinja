@@ -30,6 +30,10 @@ proto {{ config.proto }}
 proto udp
 {%- endif %}
 
+{%- if config.topology is defined %}
+topology {{ config.topology }}
+{%- endif %}
+
 {%- if config.dev is defined %}
 dev {{ config.dev }}
 {%- else %}
@@ -186,10 +190,14 @@ username-as-common-name
 
 {%- if config.plugins is defined %}
 {%- for plugin in config.plugins %}
-plugin "{{ plugin }}"
+plugin {{ plugin }}
 {%- endfor %}
 {%- endif %}
 
 {%- if config.reneg_sec is defined %}
 reneg-sec {{ config.reneg_sec }}
+{%- endif %}
+
+{%- if config.tun_mtu is defined %}
+tun-mtu {{ config.tun_mtu }}
 {%- endif %}
