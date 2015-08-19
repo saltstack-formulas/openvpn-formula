@@ -79,6 +79,14 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
       - service: openvpn_service
 {% endif %}
 
+{% if config.client_config_dir is defined %}
+# Ensure client config dir exists
+openvpn_config_{{ type }}_{{ name }}_client_config_dir:
+  file.directory:
+    - name: {{ map.conf_dir }}/{{ config.client_config_dir}}
+    - makedirs: True
+{% endif %}
+
 {% endfor %}
 {% endif %}
 {% endfor %}
