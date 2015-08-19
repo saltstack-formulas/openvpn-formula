@@ -85,6 +85,15 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
   file.directory:
     - name: {{ map.conf_dir }}/{{ config.client_config_dir}}
     - makedirs: True
+
+{% for client, client_config in salt['pillar.get']('openvpn:'+type+':'+name+':client_config', {}).iteritems() %}
+# Client config for {{ client }}
+openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
+  file.managed:
+    - name: {{ map.conf_dir }}/{{ config.client_config_dir}}/{{ client }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
+    - makedirs: True
+{% endfor %}
 {% endif %}
 
 {% endfor %}
