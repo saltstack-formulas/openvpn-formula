@@ -79,6 +79,36 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
       - service: openvpn_service
 {% endif %}
 
+{% if config.status is defined %}
+# Ensure status file exists and is writeable
+openvpn_{{ type }}_{{ name }}_status_file:
+  file.managed:
+    - name: {{ config.status }}
+    - makedirs: True
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+{% endif %}
+
+{% if config.log is defined %}
+# Ensure log file exists and is writeable
+openvpn_{{ type }}_{{ name }}_log_file:
+  file.managed:
+    - name: {{ config.log }}
+    - makedirs: True
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+{% endif %}
+
+{% if config.log_append is defined %}
+# Ensure log file exists and is writeable
+openvpn_{{ type }}_{{ name }}_log_file_append:
+  file.managed:
+    - name: {{ config.log_append }}
+    - makedirs: True
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+{% endif %}
+
 {% if config.client_config_dir is defined %}
 # Ensure client config dir exists
 openvpn_config_{{ type }}_{{ name }}_client_config_dir:
@@ -94,7 +124,6 @@ openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
 {% endfor %}
-{% endif %}
 
 {% endfor %}
 {% endif %}
