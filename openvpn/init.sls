@@ -109,6 +109,22 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
 {% endif %}
 
+{% if config.client_config_dir is defined %}
+# Ensure client config dir exists
+openvpn_config_{{ type }}_{{ name }}_client_config_dir:
+  file.directory:
+    - name: {{ map.conf_dir }}/{{ config.client_config_dir}}
+    - makedirs: True
+
+{% for client, client_config in salt['pillar.get']('openvpn:'+type+':'+name+':client_config', {}).iteritems() %}
+# Client config for {{ client }}
+openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
+  file.managed:
+    - name: {{ map.conf_dir }}/{{ config.client_config_dir}}/{{ client }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
+    - makedirs: True
+{% endfor %}
+
 {% endfor %}
 {% endif %}
 {% endfor %}

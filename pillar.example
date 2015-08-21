@@ -44,7 +44,10 @@ openvpn:
         - "route 192.168.10.0 255.255.255.0"
       route:
         - "192.168.11.0 255.255.255.0"
-      client_config_dir:
+      client_config_dir: clients
+      client_config:
+        client1: |
+          iroute 192.168.10.0 255.255.255.0
       learn_address:
       client_to_client: False
       duplicate_cn: False
