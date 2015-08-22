@@ -124,6 +124,7 @@ openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
 {% endfor %}
+{% endif %}
 
 {% endfor %}
 {% endif %}
