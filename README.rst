@@ -18,7 +18,12 @@ Available states
 ``openvpn``
 --------
 
-Installs and configures openvpn client and server. Multiple clients and servers are possible.
+Installs OpenVPN.
+
+``openvpn.config``
+--------
+
+Configures OpenVPN client and server. Multiple clients and servers are possible.
 
 ``openvpn.ifconfig_pool_persist``
 ---------------------------------
