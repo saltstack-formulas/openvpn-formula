@@ -30,7 +30,7 @@ remote-random
 {%- endif %}
 
 {%- if config.resolv_retry is defined %}
-resolv-retry {{ config.resolv-retry }}
+resolv-retry {{ config.resolv_retry }}
 {%- else %}
 resolv-retry infinite
 {%- endif %}
