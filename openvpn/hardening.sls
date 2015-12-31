@@ -3,6 +3,7 @@
 include:
     - openvpn.config
 
+extend:
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type == 'server' or type == 'client' %}
 {% for name, config in names.iteritems() %}
@@ -10,7 +11,6 @@ include:
 {% do config.update({'cipher': 'AES-256-CBC-HMAC-SHA1'}) %}
 {% do config.update({'tls-cipher': 'TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384'}) %}
 {% do config.update({'auth': 'SHA512'}) %}
-extend:
     openvpn_config_{{ type }}_{{ name }}:
       file.managed:
         - context:
