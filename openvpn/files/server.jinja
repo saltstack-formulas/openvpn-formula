@@ -122,6 +122,14 @@ keepalive {{ config.keepalive }}
 tls-auth {{ config.tls_auth }}
 {%- endif %}
 
+{%- if config.tls_version_min is defined %}
+tls-version-min {{ config.tls_version_min }}
+{%- endif %}
+
+{%- if config.tls_version_max is defined %}
+tls-version-max {{ config.tls_version_max }}
+{%- endif %}
+
 {%- if config.verify_x509_name is defined %}
 verify-x509-name {{ config.verify_x509_name }}
 {%- endif %}
