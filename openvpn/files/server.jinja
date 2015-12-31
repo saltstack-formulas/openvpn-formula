@@ -118,6 +118,10 @@ keepalive {{ config.keepalive }}
 tls-auth {{ config.tls_auth }}
 {%- endif %}
 
+{%- if config.verify_x509_name is defined %}
+verify-x509-name {{ config.verify_x509_name }}
+{%- endif %}
+
 {%- if config.ciphers is defined %}
 {%- for cipher in config.ciphers %}
 cipher "{{ cipher }}"
