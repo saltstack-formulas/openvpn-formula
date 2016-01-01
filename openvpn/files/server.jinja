@@ -74,6 +74,10 @@ server {{ config.server }}
 server 10.8.0.0 255.255.255.0
 {%- endif %}
 
+{%- if config.ifconfig_pool is defined %}
+ifconfig-pool {{ config.ifconfig_pool }}
+{%- endif %}
+
 {%- if config.ifconfig_pool_persist is defined %}
 ifconfig-pool-persist {{ config.ifconfig_pool_persist }}
 {%- endif %}
