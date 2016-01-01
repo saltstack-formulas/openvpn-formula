@@ -25,6 +25,10 @@ remote {{ remote }}
 {%- endfor %}
 {%- endif %}
 
+{%- if config.auth is defined %}
+auth {{ config.auth }}
+{%- endif %}
+
 {%- if config.remote_random is defined %}
 remote-random
 {%- endif %}
