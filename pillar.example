@@ -58,6 +58,7 @@ openvpn:
       duplicate_cn: False
       keepalive: '10 120'
       tls_auth: /path/to/tls.key 0
+      tls_version_min: 1.2
       ta_content: |
         -----BEGIN OpenVPN Static key V1-----
         ...
