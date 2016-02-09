@@ -49,6 +49,9 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
     - name: {{ config.key }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:key_content
     - makedirs: True
+    - mode: 600
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
     - watch_in:
       - service: openvpn_service
 {% endif %}
@@ -60,6 +63,9 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - name: {{ config.tls_auth.split()[0] }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
+    - mode: 600
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
     - watch_in:
       - service: openvpn_service
 {% endif %}
