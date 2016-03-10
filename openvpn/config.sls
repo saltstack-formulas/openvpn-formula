@@ -63,9 +63,6 @@ openvpn_config_{{ type }}_{{ name }}_crl_verify_file:
     - name: {{ config.crl_verify }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:crl_verify_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
     - watch_in:
       - service: openvpn_service
 {% endif %}
