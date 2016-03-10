@@ -56,6 +56,20 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
       - service: openvpn_service
 {% endif %}
 
+{% if config.crl_verify is defined and config.crl_verify_content is defined %}
+# Deploy {{ type }} {{ name }} crl file
+openvpn_config_{{ type }}_{{ name }}_crl_verify_file:
+  file.managed:
+    - name: {{ config.crl_verify }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:crl_verify_content
+    - makedirs: True
+    - mode: 600
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
 {% if config.tls_auth is defined and config.ta_content is defined %}
 # Deploy {{ type }} {{ name }} TLS key file
 openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
