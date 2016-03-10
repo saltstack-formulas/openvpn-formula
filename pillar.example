@@ -36,6 +36,9 @@ openvpn:
         -----BEGIN PRIVATE KEY-----
         ...
         -----END PRIVATE KEY-----
+      askpass: /path/to/password
+      askpass_content: |
+        p4ssw0rd
       dh: dh1024.pem
       server: '10.8.0.0 255.255.255.0'
       ifconfig_pool_persist: ipp.txt
@@ -121,6 +124,9 @@ openvpn:
         -----BEGIN PRIVATE KEY-----
         ...
         -----END PRIVATE KEY-----
+      askpass: /path/to/password
+      askpass_content: |
+        p4ssw0rd
       ns_cert_type: server
       tls_auth: /path/to/tls.key 0
       ta_content: |
