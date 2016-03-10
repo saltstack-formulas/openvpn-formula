@@ -99,6 +99,10 @@ key {{ config.key }}
 # key is not set !
 {%- endif %}
 
+{%- if config.askpass is defined %}
+askpass {{ config.askpass }}
+{%- endif %}
+
 {%- if config.ns_cert_type is defined %}
 ns-cert-type {{ config.ns_cert_type }}
 {%- endif %}
