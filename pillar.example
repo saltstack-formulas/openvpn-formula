@@ -122,6 +122,7 @@ openvpn:
         ...
         -----END PRIVATE KEY-----
       ns_cert_type: server
+      verify-x509-name: server name
       tls_auth: /path/to/tls.key 0
       ta_content: |
         -----BEGIN OpenVPN Static key V1-----

@@ -137,3 +137,8 @@ mute {{ config.mute }}
 {%- if config.reneg_sec is defined %}
 reneg-sec {{ config.reneg_sec }}
 {%- endif %}
+
+
+{%- if config.verify-x509-name is defined %}
+verify-x509-name-sec {{ config.verify-x509-name }}
+{%- endif %}
