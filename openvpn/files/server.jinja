@@ -71,7 +71,11 @@ dh dh1024.pem
 {%- if config.server is defined %}
 server {{ config.server }}
 {%- else %}
+{%- if config.server_bridge is defined %}
+# server_bridge defined, skipping default server directive
+{%- else %}
 server 10.8.0.0 255.255.255.0
+{%- endif %}
 {%- endif %}
 
 {%- if config.ifconfig_pool is defined %}
