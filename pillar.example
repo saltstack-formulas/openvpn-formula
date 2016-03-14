@@ -133,6 +133,11 @@ openvpn:
       comp_lzo:
       verb: 3
       mute: 20
+      up: /usr/local/bin/tunnel_up.sh
+      down: /usr/local/bin/tunnel_down.sh
+      up_delay: True
+      down_pre: True
+      up_restart: True
   ifconfig_pool_persist:
     ipp.txt:
       somehostname: 192.168.51.2

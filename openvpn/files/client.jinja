@@ -137,3 +137,23 @@ mute {{ config.mute }}
 {%- if config.reneg_sec is defined %}
 reneg-sec {{ config.reneg_sec }}
 {%- endif %}
+
+{%- if config.up is defined %}
+up {{ config.up }}
+{%- endif %}
+
+{%- if config.up_delay is defined %}
+up-delay
+{%- endif %}
+
+{%- if config.down is defined %}
+down {{ config.down }}
+{%- endif %}
+
+{%- if config.down_pre is defined %}
+down-pre
+{%- endif %}
+
+{%- if config.up_restart is defined %}
+up-restart
+{%- endif %}
