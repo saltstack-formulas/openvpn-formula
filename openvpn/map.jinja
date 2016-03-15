@@ -26,6 +26,15 @@
         'user': 'nobody',
         'group': 'nobody',
     },
+    'Arch': {
+        'pkgs': ['openvpn','easy-rsa'],
+        'service': 'openvpn',
+        'conf_dir': '/etc/openvpn',
+        'dh_files': ['1024','2048'],
+        'user': 'nobody',
+        'group': 'nobody',
+    },
+
 
     'CentOS': {
         'pkgs': ['openvpn'],
