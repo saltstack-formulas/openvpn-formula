@@ -213,3 +213,7 @@ reneg-sec {{ config.reneg_sec }}
 {%- if config.tun_mtu is defined %}
 tun-mtu {{ config.tun_mtu }}
 {%- endif %}
+
+{%- if config.client_cert_not_required is defined %}
+client-cert-not-required
+{%- endif %}
