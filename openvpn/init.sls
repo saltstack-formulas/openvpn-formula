@@ -27,3 +27,21 @@ openvpn_service:
     - require:
       - pkg: openvpn_pkgs
 
+{% if salt['ps.pgrep']('systemd')|length > 0 %}
+{% for name, config in salt['pillar.get']('openvpn:server', {}).iteritems() %}
+# for systemd systems, create service units for each OpenVPN server defined
+openvpn_service_{{ name }}:
+  service.running:
+    - name: {{ map.service }}@{{ name }}
+    - enable: True
+    - require:
+      - service: openvpn_service
+{% endfor %}
+{% else %}
+openvpn_service:
+  service.running:
+    - name: {{ map.service }}
+    - enable: True
+    - require:
+      - pkg: openvpn_pkgs
+{% endif %}
