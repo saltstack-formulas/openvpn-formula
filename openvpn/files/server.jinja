@@ -62,6 +62,10 @@ key {{ config.key }}
 # key is not set !
 {%- endif %}
 
+{%- if config.askpass is defined %}
+askpass {{ config.askpass }}
+{%- endif %}
+
 {%- if config.dh is defined %}
 dh {{ config.dh }}
 {%- else %}
