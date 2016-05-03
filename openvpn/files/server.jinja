@@ -219,7 +219,5 @@ client-cert-not-required
 {%- endif %}
 
 {%- if config.management is defined %}
-{%- for management in config.management %}
-management {{ management }}
-{%- endfor %}
+management {{ config.management }}
 {%- endif %}
