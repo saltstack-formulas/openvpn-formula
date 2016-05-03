@@ -72,9 +72,7 @@ openvpn:
       log_append: openvpn.log
       verb: 3
       mute: 20
-      management:
-        - 'localhost 7505'
-        - 'tunnel 7505'
+      management: 'tunnel 7505'
     myserver3:
       daemon:
       port: 443
