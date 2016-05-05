@@ -217,3 +217,17 @@ tun-mtu {{ config.tun_mtu }}
 {%- if config.client_cert_not_required is defined %}
 client-cert-not-required
 {%- endif %}
+
+{%- if config.script_security is defined %}
+script-security {{ config.script_security }}
+{%- endif %}
+
+{%- if config.auth_user_pass_verify is defined %}
+auth-user-pass-verify {{ config.auth_user_pass_verify }}
+{%- endif %}
+
+{%- if config.setenv is defined %}
+{%- for setenv in config.setenv %}
+setenv {{ setenv }}
+{% endfor %}
+{% endif %}
