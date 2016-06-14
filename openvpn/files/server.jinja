@@ -44,6 +44,10 @@ dev tun
 dev-node {{ config.dev_node }}
 {%- endif %}
 
+{%- if config.askpass is defined %}
+askpass {{ config.askpass }}
+{%- endif %}
+
 {%- if config.ca is defined %}
 ca {{ config.ca }}
 {%- else %}
