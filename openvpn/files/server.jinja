@@ -70,12 +70,13 @@ dh dh1024.pem
 
 {%- if config.server is defined %}
 server {{ config.server }}
-{%- else %}
-{%- if config.server_bridge is defined %}
+{%- elif config.server_bridge is defined %}
 # server_bridge defined, skipping default server directive
+{%- elif config.mode is defined and config.mode == 'server' %}
+# server is being configured manually
+mode {{ config.mode }}
 {%- else %}
 server 10.8.0.0 255.255.255.0
-{%- endif %}
 {%- endif %}
 
 {%- if config.ifconfig_pool is defined %}
@@ -216,4 +217,16 @@ tun-mtu {{ config.tun_mtu }}
 
 {%- if config.client_cert_not_required is defined %}
 client-cert-not-required
+{%- endif %}
+
+{%- if config.tls_server is defined and config.tls_server == True %}
+tls-server
+{%- endif %}
+
+{%- if config.ifconfig is defined %}
+ifconfig {{ config.ifconfig }}
+{%- endif %}
+
+{%- if config.pkcs12 is defined %}
+pkcs12 {{ config.pkcs12 }}
 {%- endif %}
