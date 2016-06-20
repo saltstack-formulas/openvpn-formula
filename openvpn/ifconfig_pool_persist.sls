@@ -13,5 +13,15 @@ openvpn_config_ifconfig_pool_persist_{{ filename }}:
         user: {{ map.user }}
         group: {{ map.group }}
     - watch_in:
+{% if map.service.endswith('@') %}
+{% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
+{% if type == 'server' or type == 'client' %}
+{% for name in names %}
+      - service: openvpn_service_{{name}}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% else %}
       - service: openvpn_service
+{% endif %}
 {%- endfor %}

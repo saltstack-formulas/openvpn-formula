@@ -6,6 +6,9 @@ include:
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type == 'server' or type == 'client' %}
 {% for name, config in names.iteritems() %}
+
+{% set service_id = 'openvpn_service_{0}'.format(name) if map.service.endswith('@') else 'openvpn_service' %}
+
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
   file.managed:
@@ -18,7 +21,7 @@ openvpn_config_{{ type }}_{{ name }}:
         user: {{ map.user }}
         group: {{ map.group }}
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 
 {% if config.ca is defined and config.ca_content is defined %}
 # Deploy {{ type }} {{ name }} CA file
@@ -28,7 +31,7 @@ openvpn_config_{{ type }}_{{ name }}_ca_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
     - makedirs: True
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.cert is defined and config.cert_content is defined %}
@@ -39,7 +42,7 @@ openvpn_config_{{ type }}_{{ name }}_cert_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
     - makedirs: True
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.key is defined and config.key_content is defined %}
@@ -53,7 +56,7 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.tls_auth is defined and config.ta_content is defined %}
@@ -67,7 +70,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.status is defined %}

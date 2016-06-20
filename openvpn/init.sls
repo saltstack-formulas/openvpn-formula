@@ -2,6 +2,9 @@
 
 {% from "openvpn/map.jinja" import map with context %}
 
+include:
+  - openvpn.service
+
 # Install openvpn packages
 openvpn_pkgs:
   pkg.installed:
@@ -17,13 +20,3 @@ openvpn_create_dh_{{ dh }}:
     - name: openssl dhparam -out {{ map.conf_dir }}/dh{{ dh }}.pem {{ dh }}
     - creates: {{ map.conf_dir }}/dh{{ dh }}.pem
 {% endfor %}
-
-
-# Ensure openvpn service is running and autostart is enabled
-openvpn_service:
-  service.running:
-    - name: {{ map.service }}
-    - enable: True
-    - require:
-      - pkg: openvpn_pkgs
-
