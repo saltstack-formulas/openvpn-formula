@@ -6,6 +6,18 @@ include:
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type == 'server' or type == 'client' %}
 {% for name, config in names.iteritems() %}
+
+# If the os is using systemd, then each openvpn config has its own service
+# e.g for office.conf -> openvpn@office
+{% if salt['grains.has_value']('systemd') %}
+openvpn_{{name}}_service:
+  service.running:
+    - name: {{ 'openvpn@' ~ name }}
+    - enable: True
+    - require:
+      - pkg: openvpn_pkgs
+{% endif %}
+
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
   file.managed:
@@ -18,7 +30,11 @@ openvpn_config_{{ type }}_{{ name }}:
         user: {{ map.user }}
         group: {{ map.group }}
     - watch_in:
+{%- if salt['grains.has_value']('systemd') %}
+      - service: openvpn_{{name}}_service
+{%- else %}
       - service: openvpn_service
+{%- endif %}
 
 {% if config.ca is defined and config.ca_content is defined %}
 # Deploy {{ type }} {{ name }} CA file
@@ -28,7 +44,11 @@ openvpn_config_{{ type }}_{{ name }}_ca_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
     - makedirs: True
     - watch_in:
+{%- if salt['grains.has_value']('systemd') %}
+      - service: openvpn_{{name}}_service
+{%- else %}
       - service: openvpn_service
+{%- endif %}
 {% endif %}
 
 {% if config.cert is defined and config.cert_content is defined %}
@@ -39,7 +59,11 @@ openvpn_config_{{ type }}_{{ name }}_cert_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
     - makedirs: True
     - watch_in:
+{%- if salt['grains.has_value']('systemd') %}
+      - service: openvpn_{{name}}_service
+{%- else %}
       - service: openvpn_service
+{%- endif %}
 {% endif %}
 
 {% if config.key is defined and config.key_content is defined %}
@@ -51,9 +75,13 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
     - makedirs: True
     - mode: 600
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
+{%- if salt['grains.has_value']('systemd') %}
+      - service: openvpn_{{name}}_service
+{%- else %}
       - service: openvpn_service
+{%- endif %}
 {% endif %}
 
 {% if config.tls_auth is defined and config.ta_content is defined %}
@@ -65,9 +93,13 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - makedirs: True
     - mode: 600
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %} 
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
+{%- if salt['grains.has_value']('systemd') %}
+      - service: openvpn_{{name}}_service
+{%- else %}
       - service: openvpn_service
+{%- endif %}
 {% endif %}
 
 {% if config.status is defined %}
@@ -114,12 +146,15 @@ openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
     - name: {{ map.conf_dir }}/{{ config.client_config_dir}}/{{ client }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
+    - watch_in:
+{%- if salt['grains.has_value']('systemd') %}
+      - service: openvpn_{{name}}_service
+{%- else %}
+      - service: openvpn_service
+{%- endif %}
 {% endfor %}
 {% endif %}
 
 {% endfor %}
 {% endif %}
 {% endfor %}
-
-
-
