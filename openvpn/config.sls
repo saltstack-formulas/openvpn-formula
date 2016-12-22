@@ -70,6 +70,20 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
       - service: openvpn_service
 {% endif %}
 
+{% if config.secret is defined and config.secret_content is defined %}
+# Deploy {{ type }} {{ name }} shared secret key file
+openvpn_config_{{ type }}_{{ name }}_secret_file:
+  file.managed:
+    - name: {{ config.secret.split()[0] }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:secret_content
+    - makedirs: True
+    - mode: 600
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    - watch_in:
+      - service: openvpn_service
+{% endif %}
+
 {% if config.status is defined %}
 # Ensure status file exists and is writeable
 openvpn_{{ type }}_{{ name }}_status_file:

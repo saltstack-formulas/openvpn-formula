@@ -81,6 +81,24 @@ openvpn:
       username_as_common_name:
       plugins:
         - '/usr/lib/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf'
+    mysitetosite1:
+      dev: tun
+      ifconfig: '10.8.0.1 10.8.0.2'
+      secret: /path/to/mysecret.key
+      secret_content: |
+        -----BEGIN OpenVPN Static key V1-----
+        ...
+        -----END OpenVPN Static key V1-----
+    mysitetoste2:
+      remote:
+        - 'myremote.mydomain 1194 udp'
+      dev: tun
+      ifconfig: '10.8.0.2 10.8.0.1'
+      secret: /path/to/mysecret.key
+      secret_content: |
+        -----BEGIN OpenVPN Static key V1-----
+        ...
+        -----END OpenVPN Static key V1-----
   client:
     myclient1:
       remote:
