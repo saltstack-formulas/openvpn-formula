@@ -1,18 +1,20 @@
 {% from "openvpn/map.jinja" import map with context %}
 
 include:
-    - openvpn
+  - openvpn
 
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name, config in names.iteritems() %}
 
-{% set service_id = "openvpn_{0}_service".format(name) if salt['grains.has_value']('systemd') else "openvpn_service" %}
+{% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
+
+{% set config_file = "{0}/openvpn_{1}.conf".format(map.conf_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.conf".format(map.conf_dir, name) %}
 
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
   file.managed:
-    - name: {{ map.conf_dir }}/{{name}}.conf
+    - name: {{ config_file }}
     - source: salt://openvpn/files/{{ type }}.jinja
     - template: jinja
     - context:
