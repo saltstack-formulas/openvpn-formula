@@ -133,10 +133,25 @@ tls-version-max {{ config.tls_version_max }}
 verify-x509-name {{ config.verify_x509_name }}
 {%- endif %}
 
+; check with https://bettercrypto.org/static/applied-crypto-hardening.pdf
 {%- if config.ciphers is defined %}
 {%- for cipher in config.ciphers %}
 cipher "{{ cipher }}"
 {%- endfor %}
+{%- endif %}
+
+{%- if config.auths is defined %}
+{%- for auth in config.auths %}
+auth "{{ auth }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.tls_cipher is defined %}
+tls-cipher {{ config.tls_cipher }}
+{%- endif %}
+
+{%- if config.remote_cert_tls is defined %}
+remote-cert-tls {{ config.remote_cert_tls }}
 {%- endif %}
 
 {%- if config.comp_lzo is defined and config.comp_lzo == False %}
