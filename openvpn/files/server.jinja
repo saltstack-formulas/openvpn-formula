@@ -2,6 +2,8 @@
 # Managed by Salt
 # Template: {{ source }}
 
+tls-server
+
 {%- if config.local is defined %}
 local {{ config.local }}
 {%- endif %}

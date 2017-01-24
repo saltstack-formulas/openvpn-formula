@@ -1,7 +1,9 @@
 # OpenVPN client configuration '{{ name }}'
-# Managed by salt !!!
+# Managed by Salt
+# Template: {{ source }}
 
 client
+tls-client
 
 {%- if config.dev is defined %}
 dev {{ config.dev }}
