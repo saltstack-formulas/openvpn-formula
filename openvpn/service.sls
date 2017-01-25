@@ -7,7 +7,7 @@
 # If the OS is using systemd, then each openvpn config has its own service
 # e.g for office.conf -> openvpn@office
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
-{% if type == 'server' or type == 'client' %}
+{% if type in ['client', 'server', 'peer'] %}
 {% for name in names %}
 openvpn_{{ name }}_service:
   service.running:

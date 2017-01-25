@@ -177,3 +177,9 @@ down-pre
 {%- if config.up_restart is defined %}
 up-restart
 {%- endif %}
+
+{%- if config._append is defined %}
+{%-   for data in config._append %}
+{{ data }}
+{%-   endfor %}
+{%- endif %}

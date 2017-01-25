@@ -15,7 +15,7 @@ openvpn_config_ifconfig_pool_persist_{{ filename }}:
     - watch_in:
 {% if salt['grains.has_value']('systemd') %}
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
-{% if type == 'server' or type == 'client' %}
+{% if type in ['client', 'server', 'peer'] %}
 {% for name in names %}
       - service: openvpn_{{name}}_service
 {% endfor %}

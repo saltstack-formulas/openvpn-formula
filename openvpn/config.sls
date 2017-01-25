@@ -4,7 +4,7 @@ include:
     - openvpn
 
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
-{% if type == 'server' or type == 'client' %}
+{% if type in ['client', 'server', 'peer'] %}
 {% for name, config in names.iteritems() %}
 
 {% set service_id = "openvpn_{0}_service".format(name) if salt['grains.has_value']('systemd') else "openvpn_service" %}

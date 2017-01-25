@@ -1,13 +1,8 @@
 # OpenVPN server configuration '{{ name }}'
-# Managed by Salt
-# Template: {{ source }}
+# Managed by salt !!!
 
 {%- if config.local is defined %}
 local {{ config.local }}
-{%- endif %}
-
-{%- if config.auth is defined %}
-auth {{ config.auth }}
 {%- endif %}
 
 {%- if config.port is defined %}
@@ -16,22 +11,11 @@ port {{ config.port }}
 port 1194
 {%- endif %}
 
-{%- if config.port_share is defined %}
-port-share {{ config.port_share }}
-{%- endif %}
-
-{%- if config.daemon is defined and config.daemon == True %}
-daemon
-{%- endif %}
 
 {%- if config.proto is defined %}
 proto {{ config.proto }}
 {%- else %}
 proto udp
-{%- endif %}
-
-{%- if config.topology is defined %}
-topology {{ config.topology }}
 {%- endif %}
 
 {%- if config.dev is defined %}
@@ -44,17 +28,6 @@ dev tun
 dev-node {{ config.dev_node }}
 {%- endif %}
 
-{%- if config.secret is defined %}{# Using simple site-to-site shared secret #}
-secret {{ config.secret }}
-  {%- if config.ifconfig is defined %}
-ifconfig {{ config.ifconfig }}
-  {%- endif %}
-  {%- if config.remote is defined %}
-    {%- for remote in config.remote %}
-remote {{ remote }}
-    {%- endfor %}
-  {%- endif %}
-{%- else %}{# Not using simple site-to-site shared secret #}
 {%- if config.ca is defined %}
 ca {{ config.ca }}
 {%- else %}
@@ -73,10 +46,6 @@ key {{ config.key }}
 # key is not set !
 {%- endif %}
 
-{%- if config.askpass is defined %}
-askpass {{ config.askpass }}
-{%- endif %}
-
 {%- if config.dh is defined %}
 dh {{ config.dh }}
 {%- else %}
@@ -85,18 +54,12 @@ dh dh1024.pem
 
 {%- if config.server is defined %}
 server {{ config.server }}
-{%- elif config.server_bridge is defined %}
-# server_bridge defined, skipping default server directive
-{%- elif config.mode is defined and config.mode == 'server' %}
-# server is being configured manually
-mode {{ config.mode }}
-{%- else %}
-server 10.8.0.0 255.255.255.0
 {%- endif %}
-{%- endif %}{# End checks for site-to-site #}
 
-{%- if config.ifconfig_pool is defined %}
-ifconfig-pool {{ config.ifconfig_pool }}
+{%- if config.remote is defined %}
+{%- for remote in config.remote %}
+remote {{ remote }}
+{%- endfor %}
 {%- endif %}
 
 {%- if config.ifconfig_pool_persist is defined %}
@@ -110,12 +73,6 @@ server-bridge {{ config.server_bridge }}
 {%- if config.push is defined %}
 {%- for push in config.push %}
 push "{{ push }}"
-{%- endfor %}
-{%- endif %}
-
-{%- if config.route is defined %}
-{%- for route in config.route %}
-route {{ route }}
 {%- endfor %}
 {%- endif %}
 
@@ -141,22 +98,6 @@ keepalive {{ config.keepalive }}
 
 {%- if config.tls_auth is defined %}
 tls-auth {{ config.tls_auth }}
-{%- endif %}
-
-{%- if config.tls_cipher is defined %}
-tls-cipher {{ config.tls_cipher }}
-{%- endif %}
-
-{%- if config.tls_version_min is defined %}
-tls-version-min {{ config.tls_version_min }}
-{%- endif %}
-
-{%- if config.tls_version_max is defined %}
-tls-version-max {{ config.tls_version_max }}
-{%- endif %}
-
-{%- if config.verify_x509_name is defined %}
-verify-x509-name {{ config.verify_x509_name }}
 {%- endif %}
 
 {%- if config.ciphers is defined %}
@@ -221,68 +162,9 @@ verb 3
 mute {{ config.mute }}
 {%- endif %}
 
-{%- if config.ccd_exclusive is defined and config.ccd_exclusive == True %}
-ccd-exclusive
-{%- endif %}
-
-{%- if config.username_as_common_name is defined and config.username_as_common_name == True %}
-username-as-common-name
-{%- endif %}
-
-{%- if config.plugins is defined %}
-{%- for plugin in config.plugins %}
-plugin {{ plugin }}
-{%- endfor %}
-{%- endif %}
-
-{%- if config.reneg_sec is defined %}
-reneg-sec {{ config.reneg_sec }}
-{%- endif %}
-
-{%- if config.tun_mtu is defined %}
-tun-mtu {{ config.tun_mtu }}
-{%- endif %}
-
-{%- if config.client_cert_not_required is defined %}
-client-cert-not-required
-{%- endif %}
-
-{%- if config.crl_verify is defined %}
-crl-verify {{ config.crl_verify }}
-{%- endif %}
-
-{%- if config.tls_server is defined and config.tls_server == True %}
-tls-server
-{%- endif %}
-
-{%- if config.ifconfig is defined %}
-ifconfig {{ config.ifconfig }}
-{%- endif %}
-
-{%- if config.pkcs12 is defined %}
-pkcs12 {{ config.pkcs12 }}
-{%- endif %}
-
-{%- if config.management is defined %}
-management {{ config.management }}
-{%- endif %}
-
-{%- if config.script_security is defined %}
-script-security {{ config.script_security }}
-{%- endif %}
-
-{%- if config.auth_user_pass_verify is defined %}
-auth-user-pass-verify {{ config.auth_user_pass_verify }}
-{%- endif %}
-
-{%- if config.setenv is defined %}
-{%- for setenv in config.setenv %}
-setenv {{ setenv }}
-{% endfor %}
-{% endif %}
-
 {%- if config._append is defined %}
 {%-   for data in config._append %}
 {{ data }}
 {%-   endfor %}
 {%- endif %}
+
