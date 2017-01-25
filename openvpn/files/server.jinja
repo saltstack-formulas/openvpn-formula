@@ -44,6 +44,17 @@ dev tun
 dev-node {{ config.dev_node }}
 {%- endif %}
 
+{%- if config.secret is defined %}{# Using simple site-to-site shared secret #}
+secret {{ config.secret }}
+  {%- if config.ifconfig is defined %}
+ifconfig {{ config.ifconfig }}
+  {%- endif %}
+  {%- if config.remote is defined %}
+    {%- for remote in config.remote %}
+remote {{ remote }}
+    {%- endfor %}
+  {%- endif %}
+{%- else %}{# Not using simple site-to-site shared secret #}
 {%- if config.ca is defined %}
 ca {{ config.ca }}
 {%- else %}
@@ -77,6 +88,7 @@ server {{ config.server }}
 server 10.8.0.0 255.255.255.0
 {%- endif %}
 {%- endif %}
+{%- endif %}{# End checks for site-to-site #}
 
 {%- if config.ifconfig_pool is defined %}
 ifconfig-pool {{ config.ifconfig_pool }}
