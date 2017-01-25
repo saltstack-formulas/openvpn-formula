@@ -3,18 +3,38 @@
 {% from "openvpn/map.jinja" import map with context %}
 
 
-{% if salt['grains.has_value']('systemd') %}
+{% if map.multi_services %}
 # If the OS is using systemd, then each openvpn config has its own service
 # e.g for office.conf -> openvpn@office
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name in names %}
+
+# How to name the service (instance)?
+{% if salt['grains.has_value']('systemd') %}
+{% set service_name = 'openvpn@' ~ name %}
+{% else %}
+{% set service_name = 'openvpn_' ~ name %}
+{% endif %}
+
+# Create an init script?
+{% if grains['os_family'] == 'FreeBSD' %}
+/usr/local/etc/rc.d/openvpn_{{ name }}:
+  file.symlink:
+    - target: /usr/local/etc/rc.d/openvpn
+{% endif %}
+
 openvpn_{{ name }}_service:
   service.running:
-    - name: {{ 'openvpn@' ~ name }}
+    - name: {{ service_name }}
     - enable: True
     - require:
       - pkg: openvpn_pkgs
+{% if grains['os_family'] == 'FreeBSD' %}
+    - watch:
+      - file: /usr/local/etc/rc.d/openvpn_{{ name }}
+{% endif %}
+
 {% endfor %}
 {% endif %}
 {% endfor %}

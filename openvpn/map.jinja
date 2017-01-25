@@ -4,28 +4,31 @@
         'pkgs': ['openvpn'],
         'service': 'openvpn',
         'conf_dir': '/etc/openvpn',
-        'dh_files': ['1024', '2048'],
+        'dh_files': ['1024', '2048', '4096'],
         'user': 'nobody',
         'group': 'nogroup',
+        'multi_services': salt['grains.has_value']('systemd'),
     },
 
     'Ubuntu': {
         'pkgs': ['openvpn'],
         'service': 'openvpn',
         'conf_dir': '/etc/openvpn',
-        'dh_files': ['1024', '2048'],
+        'dh_files': ['1024', '2048', '4096'],
         'user': 'nobody',
         'group': 'nogroup',
+        'multi_services': salt['grains.has_value']('systemd'),
     },
 
     'Amazon': {
         'pkgs': ['openvpn'],
         'service': 'openvpn',
         'conf_dir': '/etc/openvpn',
-        'dh_files': ['1024', '2048'],
+        'dh_files': ['1024', '2048', '4096'],
         'user': 'nobody',
         'group': 'nobody',
     },
+
     'Arch': {
         'pkgs': ['openvpn','easy-rsa'],
         'service': 'openvpn',
@@ -33,8 +36,8 @@
         'dh_files': ['1024','2048'],
         'user': 'nobody',
         'group': 'nobody',
+        'multi_services': salt['grains.has_value']('systemd'),
     },
-
 
     'CentOS': {
         'pkgs': ['openvpn'],
@@ -43,6 +46,17 @@
         'dh_files': ['1024', '2048'],
         'user': 'nobody',
         'group': 'nobody',
-    }
+        'multi_services': salt['grains.has_value']('systemd'),
+    },
+
+    'FreeBSD': {
+        'pkgs': ['openvpn'],
+        'service': 'openvpn',
+        'conf_dir': '/usr/local/etc/openvpn',
+        'dh_files': ['1024', '2048', '4096'],
+        'user': 'openvpn',
+        'group': 'openvpn',
+        'multi_services': true,
+    },
 
 }, grain='os', merge=salt['pillar.get']('openvpn:lookup')) %}

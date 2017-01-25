@@ -1,19 +1,24 @@
 {% from "openvpn/map.jinja" import map with context %}
 
 include:
-    - openvpn
+  - openvpn
 
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name, config in names.iteritems() %}
 
-{% set service_id = "openvpn_{0}_service".format(name) if salt['grains.has_value']('systemd') else "openvpn_service" %}
+{% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
+
+{% set config_file = "{0}/openvpn_{1}.conf".format(map.conf_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.conf".format(map.conf_dir, name) %}
 
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
   file.managed:
-    - name: {{ map.conf_dir }}/{{name}}.conf
-    - source: salt://openvpn/files/{{ type }}.jinja
+    - name: {{ config_file }}
+    - source:
+      - salt://openvpn/files/{{ type }}.jinja
+      - salt://openvpn/files/common_opts.jinja  # make available to salt-ssh
+        # see https://github.com/saltstack/salt/issues/21370#issuecomment-226868952
     - template: jinja
     - context:
         name: {{ name }}
@@ -120,6 +125,12 @@ openvpn_{{ type }}_{{ name }}_status_file:
     - makedirs: True
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    - watch_in:
+{%- if map.multi_services %}
+      - service: openvpn_{{name}}_service
+{%- else %}
+      - service: openvpn_service
+{%- endif %}
 {% endif %}
 
 {% if config.log is defined %}
@@ -130,6 +141,12 @@ openvpn_{{ type }}_{{ name }}_log_file:
     - makedirs: True
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    - watch_in:
+{%- if map.multi_services %}
+      - service: openvpn_{{name}}_service
+{%- else %}
+      - service: openvpn_service
+{%- endif %}
 {% endif %}
 
 {% if config.log_append is defined %}
@@ -148,6 +165,12 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
   file.directory:
     - name: {{ map.conf_dir }}/{{ config.client_config_dir}}
     - makedirs: True
+    - watch_in:
+{%- if map.multi_services %}
+      - service: openvpn_{{name}}_service
+{%- else %}
+      - service: openvpn_service
+{%- endif %}
 
 {% for client, client_config in salt['pillar.get']('openvpn:'+type+':'+name+':client_config', {}).iteritems() %}
 # Client config for {{ client }}
