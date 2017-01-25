@@ -15,7 +15,10 @@ include:
 openvpn_config_{{ type }}_{{ name }}:
   file.managed:
     - name: {{ config_file }}
-    - source: salt://openvpn/files/{{ type }}.jinja
+    - source:
+      - salt://openvpn/files/{{ type }}.jinja
+      - salt://openvpn/files/common_opts.jinja  # make available to salt-ssh
+        # see https://github.com/saltstack/salt/issues/21370#issuecomment-226868952
     - template: jinja
     - context:
         name: {{ name }}

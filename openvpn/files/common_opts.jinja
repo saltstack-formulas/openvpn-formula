@@ -1,0 +1,222 @@
+
+; Networking
+{%- if config.dev_node is defined %}
+dev-node {{ config.dev_node }}
+{%- endif %}
+
+{%- if config.proto is defined %}
+proto {{ config.proto }}
+{%- else %}
+proto udp
+{%- endif %}
+
+{%- if config.keepalive is defined %}
+keepalive {{ config.keepalive }}
+{%- endif %}
+
+{%- if config.tun_mtu is defined %}
+tun-mtu {{ config.tun_mtu }}
+{%- endif %}
+
+{%- if config.ifconfig is defined %}
+ifconfig {{ config.ifconfig }}
+{%- endif %}
+
+{%- if config.secret is defined %}{# Using simple site-to-site shared secret #}
+; Site-to-Site
+secret {{ config.secret }}
+{%- endif %}
+
+{%- if config.remote is defined %}
+{%- for remote in config.remote %}
+remote {{ remote }}
+{%- endfor %}
+{%- endif %}
+
+{%- if config.remote_random is defined %}
+remote-random
+{%- endif %}
+
+
+; Operating system
+{%- if config.dev is defined %}
+dev {{ config.dev }}
+{%- else %}
+dev tun
+{%- endif %}
+
+{%- if config.user is defined %}
+user {{ config.user }}
+{%- else %}
+user {{ user }}
+{%- endif %}
+
+{%- if config.group is defined %}
+group {{ config.group }}
+{%- else %}
+group {{ group }}
+{%- endif %}
+
+{%- if config.persist_key is defined and config.persist_key == False %}
+;persist-key
+{%- else %}
+persist-key
+{%- endif %}
+
+{%- if config.persist_tun is defined and config.persist_tun == False %}
+;persist-tun
+{%- else %}
+persist-tun
+{%- endif %}
+
+
+; Data transfer
+{%- if config.comp_lzo is defined and config.comp_lzo == False %}
+;comp-lzo
+{%- else %}
+comp-lzo
+{%- endif %}
+
+
+; Logging / Debugging
+{%- if config.verb is defined %}
+verb {{ config.verb }}
+{%- else %}
+verb 3
+{%- endif %}
+
+{%- if config.status is defined %}
+status {{ config.status }}
+{%- endif %}
+
+{%- if config.log is defined %}
+log {{ config.log }}
+{%- endif %}
+
+{%- if config.log_append is defined %}
+log-append {{ config.log_append }}
+{%- endif %}
+
+{%- if config.mute_replay_warnings is defined %}
+mute-replay-warnings
+{%- endif %}
+
+{%- if config.mute is defined %}
+mute {{ config.mute }}
+{%- endif %}
+
+
+; Cryptographic parameters
+{%- if config.ca is defined %}
+ca {{ config.ca }}
+{%- else %}
+# ca is not set !
+{%- endif %}
+
+{%- if config.crl_verify is defined %}
+crl-verify {{ config.crl_verify }}
+{%- endif %}
+
+{%- if config.cert is defined %}
+cert {{ config.cert }}
+{%- else %}
+# cert is not set !
+{%- endif %}
+
+{%- if config.key is defined %}
+key {{ config.key }}
+{%- else %}
+# key is not set !
+{%- endif %}
+
+{%- if config.dh is defined %}
+dh {{ config.dh }}
+{%- else %}
+dh dh1024.pem
+{%- endif %}
+
+{%- if config.tls_auth is defined %}
+tls-auth {{ config.tls_auth }}
+{%- endif %}
+
+{%- if config.reneg_sec is defined %}
+reneg-sec {{ config.reneg_sec }}
+{%- endif %}
+
+; check with https://bettercrypto.org/static/applied-crypto-hardening.pdf
+{%- if config.auths is defined %}
+{%- for auth in config.auths %}
+auth "{{ auth }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.ciphers is defined %}
+{%- for cipher in config.ciphers %}
+cipher "{{ cipher }}"
+{%- endfor %}
+{%- endif %}
+
+{%- if config.tls_cipher is defined %}
+tls-cipher {{ config.tls_cipher }}
+{%- endif %}
+
+{%- if config.tls_version_min is defined %}
+tls-version-min {{ config.tls_version_min }}
+{%- endif %}
+
+{%- if config.tls_version_max is defined %}
+tls-version-max {{ config.tls_version_max }}
+{%- endif %}
+
+; Certificate verification
+; (Anti MITM)
+{%- if config.verify_x509_name is defined %}
+verify-x509-name {{ config.verify_x509_name }}
+{%- endif %}
+
+{%- if config.ns_cert_type is defined %}
+ns-cert-type {{ config.ns_cert_type }}
+{%- endif %}
+
+{%- if config.remote_cert_tls is defined %}
+remote-cert-tls {{ config.remote_cert_tls }}
+{%- endif %}
+
+{%- if config.askpass is defined %}
+askpass {{ config.askpass }}
+{%- endif %}
+
+
+; Up/Down Scripts
+{%- if config.up is defined %}
+up {{ config.up }}
+{%- endif %}
+
+{%- if config.up_delay is defined %}
+up-delay
+{%- endif %}
+
+{%- if config.down is defined %}
+down {{ config.down }}
+{%- endif %}
+
+{%- if config.down_pre is defined %}
+down-pre
+{%- endif %}
+
+{%- if config.up_restart is defined %}
+up-restart
+{%- endif %}
+
+{%- if config._append is defined %}
+; Append arbitrary parameters
+{%-   for data in config._append %}
+{{ data }}
+{%-   endfor %}
+{%- endif %}
+
+{# backwards compatibility #}
+{%- if config.auth is defined %}
+auth {{ config.auth }}
+{%- endif %}
+

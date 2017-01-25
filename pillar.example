@@ -93,7 +93,8 @@ openvpn:
       port: 443
       port_share: '127.0.0.1 4430'
       ccd_exclusive:
-      auth: SHA1
+      auths:
+        - SHA384
       username_as_common_name:
       plugins:
         - '/usr/lib/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf'

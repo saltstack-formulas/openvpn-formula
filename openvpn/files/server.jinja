@@ -2,14 +2,15 @@
 # Managed by Salt
 # Template: {{ source }}
 
+{% include 'openvpn/files/common_opts.jinja' %}
+
+
+{%- if not (config.tls_server is defined and config.tls_server == False) %}
 tls-server
+{%- endif %}
 
 {%- if config.local is defined %}
 local {{ config.local }}
-{%- endif %}
-
-{%- if config.auth is defined %}
-auth {{ config.auth }}
 {%- endif %}
 
 {%- if config.port is defined %}
@@ -26,63 +27,8 @@ port-share {{ config.port_share }}
 daemon
 {%- endif %}
 
-{%- if config.proto is defined %}
-proto {{ config.proto }}
-{%- else %}
-proto udp
-{%- endif %}
-
 {%- if config.topology is defined %}
 topology {{ config.topology }}
-{%- endif %}
-
-{%- if config.dev is defined %}
-dev {{ config.dev }}
-{%- else %}
-dev tun
-{%- endif %}
-
-{%- if config.dev_node is defined %}
-dev-node {{ config.dev_node }}
-{%- endif %}
-
-{%- if config.secret is defined %}{# Using simple site-to-site shared secret #}
-secret {{ config.secret }}
-  {%- if config.ifconfig is defined %}
-ifconfig {{ config.ifconfig }}
-  {%- endif %}
-  {%- if config.remote is defined %}
-    {%- for remote in config.remote %}
-remote {{ remote }}
-    {%- endfor %}
-  {%- endif %}
-{%- else %}{# Not using simple site-to-site shared secret #}
-{%- if config.ca is defined %}
-ca {{ config.ca }}
-{%- else %}
-# ca is not set !
-{%- endif %}
-
-{%- if config.cert is defined %}
-cert {{ config.cert }}
-{%- else %}
-# cert is not set !
-{%- endif %}
-
-{%- if config.key is defined %}
-key {{ config.key }}
-{%- else %}
-# key is not set !
-{%- endif %}
-
-{%- if config.askpass is defined %}
-askpass {{ config.askpass }}
-{%- endif %}
-
-{%- if config.dh is defined %}
-dh {{ config.dh }}
-{%- else %}
-dh dh1024.pem
 {%- endif %}
 
 {%- if config.server is defined %}
@@ -95,7 +41,6 @@ mode {{ config.mode }}
 {%- else %}
 server 10.8.0.0 255.255.255.0
 {%- endif %}
-{%- endif %}{# End checks for site-to-site #}
 
 {%- if config.ifconfig_pool is defined %}
 ifconfig-pool {{ config.ifconfig_pool }}
@@ -137,101 +82,8 @@ client-to-client
 duplicate-cn
 {%- endif %}
 
-{%- if config.keepalive is defined %}
-keepalive {{ config.keepalive }}
-{%- endif %}
-
-{%- if config.tls_auth is defined %}
-tls-auth {{ config.tls_auth }}
-{%- endif %}
-
-{%- if config.tls_cipher is defined %}
-tls-cipher {{ config.tls_cipher }}
-{%- endif %}
-
-{%- if config.tls_version_min is defined %}
-tls-version-min {{ config.tls_version_min }}
-{%- endif %}
-
-{%- if config.tls_version_max is defined %}
-tls-version-max {{ config.tls_version_max }}
-{%- endif %}
-
-{%- if config.verify_x509_name is defined %}
-verify-x509-name {{ config.verify_x509_name }}
-{%- endif %}
-
-; check with https://bettercrypto.org/static/applied-crypto-hardening.pdf
-{%- if config.ciphers is defined %}
-{%- for cipher in config.ciphers %}
-cipher "{{ cipher }}"
-{%- endfor %}
-{%- endif %}
-
-{%- if config.auths is defined %}
-{%- for auth in config.auths %}
-auth "{{ auth }}"
-{%- endfor %}
-{%- endif %}
-
-{%- if config.keepalive is defined %}
-keepalive {{ config.keepalive }}
-{%- endif %}
-
-{%- if config.comp_lzo is defined and config.comp_lzo == False %}
-;comp-lzo
-{%- else %}
-comp-lzo
-{%- endif %}
-
 {%- if config.max_clients is defined %}
 max-clients {{ config.max_clients }}
-{%- endif %}
-
-{%- if config.user is defined %}
-user {{ config.user }}
-{%- else %}
-user {{ user }}
-{%- endif %}
-
-{%- if config.group is defined %}
-group {{ config.group }}
-{%- else %}
-group {{ group }}
-{%- endif %}
-
-{%- if config.persist_key is defined and config.persist_key == False %}
-;persist-key
-{%- else %}
-persist-key
-{%- endif %}
-
-{%- if config.persist_tun is defined and config.persist_tun == False %}
-;persist-tun
-{%- else %}
-persist-tun
-{%- endif %}
-
-{%- if config.status is defined %}
-status {{ config.status }}
-{%- endif %}
-
-{%- if config.log is defined %}
-log {{ config.log }}
-{%- endif %}
-
-{%- if config.log_append is defined %}
-log-append {{ config.log_append }}
-{%- endif %}
-
-{%- if config.verb is defined %}
-verb {{ config.verb }}
-{%- else %}
-verb 3
-{%- endif %}
-
-{%- if config.mute is defined %}
-mute {{ config.mute }}
 {%- endif %}
 
 {%- if config.ccd_exclusive is defined and config.ccd_exclusive == True %}
@@ -248,24 +100,8 @@ plugin {{ plugin }}
 {%- endfor %}
 {%- endif %}
 
-{%- if config.reneg_sec is defined %}
-reneg-sec {{ config.reneg_sec }}
-{%- endif %}
-
-{%- if config.tun_mtu is defined %}
-tun-mtu {{ config.tun_mtu }}
-{%- endif %}
-
 {%- if config.client_cert_not_required is defined %}
 client-cert-not-required
-{%- endif %}
-
-{%- if config.crl_verify is defined %}
-crl-verify {{ config.crl_verify }}
-{%- endif %}
-
-{%- if config.tls_server is defined and config.tls_server == True %}
-tls-server
 {%- endif %}
 
 {%- if config.ifconfig is defined %}
