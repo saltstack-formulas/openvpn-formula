@@ -79,6 +79,10 @@ dh {{ config.dh }}
 dh dh1024.pem
 {%- endif %}
 
+{%- if config.crl_verify is defined %}
+crl-verify {{ config.crl_verify }}
+{%- endif %}
+
 {%- if config.server is defined %}
 server {{ config.server }}
 {%- elif config.server_bridge is defined %}
