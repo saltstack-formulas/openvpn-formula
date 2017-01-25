@@ -87,6 +87,10 @@ ca {{ config.ca }}
 # ca is not set !
 {%- endif %}
 
+{%- if config.crl_verify is defined %}
+crl-verify {{ config.crl_verify }}
+{%- endif %}
+
 {%- if config.cert is defined %}
 cert {{ config.cert }}
 {%- else %}
