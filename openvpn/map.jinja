@@ -1,4 +1,5 @@
 {% set map = salt['grains.filter_by']({
+
     'Debian': {
         'pkgs': ['openvpn'],
         'service': 'openvpn',
@@ -7,6 +8,7 @@
         'user': 'nobody',
         'group': 'nogroup',
     },
+
     'Ubuntu': {
         'pkgs': ['openvpn'],
         'service': 'openvpn',
@@ -15,6 +17,7 @@
         'user': 'nobody',
         'group': 'nogroup',
     },
+
     'Amazon': {
         'pkgs': ['openvpn'],
         'service': 'openvpn',
@@ -23,5 +26,14 @@
         'user': 'nobody',
         'group': 'nobody',
     },
+
+    'CentOS': {
+        'pkgs': ['openvpn'],
+        'service': 'openvpn',
+        'conf_dir': '/etc/openvpn',
+        'dh_files': ['1024', '2048'],
+        'user': 'nobody',
+        'group': 'nobody',
+    }
 
 }, grain='os', merge=salt['pillar.get']('openvpn:lookup')) %}

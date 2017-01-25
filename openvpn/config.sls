@@ -7,16 +7,7 @@ include:
 {% if type == 'server' or type == 'client' %}
 {% for name, config in names.iteritems() %}
 
-# If the os is using systemd, then each openvpn config has its own service
-# e.g for office.conf -> openvpn@office
-{% if salt['grains.has_value']('systemd') %}
-openvpn_{{name}}_service:
-  service.running:
-    - name: {{ 'openvpn@' ~ name }}
-    - enable: True
-    - require:
-      - pkg: openvpn_pkgs
-{% endif %}
+{% set service_id = "openvpn_{0}_service".format(name) if salt['grains.has_value']('systemd') else "openvpn_service" %}
 
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
@@ -30,11 +21,7 @@ openvpn_config_{{ type }}_{{ name }}:
         user: {{ map.user }}
         group: {{ map.group }}
     - watch_in:
-{%- if salt['grains.has_value']('systemd') %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
+      - service: {{ service_id }}
 
 {% if config.ca is defined and config.ca_content is defined %}
 # Deploy {{ type }} {{ name }} CA file
@@ -44,11 +31,7 @@ openvpn_config_{{ type }}_{{ name }}_ca_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
     - makedirs: True
     - watch_in:
-{%- if salt['grains.has_value']('systemd') %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.cert is defined and config.cert_content is defined %}
@@ -59,11 +42,7 @@ openvpn_config_{{ type }}_{{ name }}_cert_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
     - makedirs: True
     - watch_in:
-{%- if salt['grains.has_value']('systemd') %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.key is defined and config.key_content is defined %}
@@ -77,11 +56,7 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
-{%- if salt['grains.has_value']('systemd') %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.crl_verify is defined and config.crl_verify_content is defined %}
@@ -92,7 +67,7 @@ openvpn_config_{{ type }}_{{ name }}_crl_verify_file:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:crl_verify_content
     - makedirs: True
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.tls_auth is defined and config.ta_content is defined %}
@@ -106,11 +81,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
-{%- if salt['grains.has_value']('systemd') %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.secret is defined and config.secret_content is defined %}
@@ -124,7 +95,7 @@ openvpn_config_{{ type }}_{{ name }}_secret_file:
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.status is defined %}
@@ -172,11 +143,7 @@ openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
     - watch_in:
-{%- if salt['grains.has_value']('systemd') %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
+      - service: {{ service_id }}
 {% endfor %}
 {% endif %}
 
