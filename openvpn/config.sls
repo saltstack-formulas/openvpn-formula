@@ -81,7 +81,7 @@ openvpn_config_{{ type }}_{{ name }}_passwd_file:
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
-      - service: openvpn_service
+      - service: {{ service_id }}
 {% endif %}
 
 {% if config.tls_auth is defined and config.ta_content is defined %}
