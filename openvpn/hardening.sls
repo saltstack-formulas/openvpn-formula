@@ -11,6 +11,7 @@ extend:
 {% do config.update({'cipher': 'AES-256-CBC-HMAC-SHA1'}) %}
 {% do config.update({'tls-cipher': 'TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384'}) %}
 {% do config.update({'auth': 'SHA512'}) %}
+{% do config.update({'tls_version_min': '1.2'}) %}
     openvpn_config_{{ type }}_{{ name }}:
       file.managed:
         - context:
