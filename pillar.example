@@ -36,6 +36,11 @@ openvpn:
         -----BEGIN PRIVATE KEY-----
         ...
         -----END PRIVATE KEY-----
+      crl_verify: /path/to/crl.pem
+      crl_verify_content: |
+        -----BEGIN X509 CRL-----
+        ...
+        -----END X509 CRL-----
       dh: dh1024.pem
       server: '10.8.0.0 255.255.255.0'
       ifconfig_pool_persist: ipp.txt

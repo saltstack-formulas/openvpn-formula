@@ -233,3 +233,7 @@ tun-mtu {{ config.tun_mtu }}
 {%- if config.client_cert_not_required is defined %}
 client-cert-not-required
 {%- endif %}
+
+{%- if config.crl_verify is defined %}
+crl-verify {{ config.crl_verify }}
+{%- endif %}
