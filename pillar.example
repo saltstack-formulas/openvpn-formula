@@ -109,6 +109,9 @@ openvpn:
         -----BEGIN OpenVPN Static key V1-----
         ...
         -----END OpenVPN Static key V1-----
+      _append:
+        - verb 5
+        - mute 25
   client:
     myclient1:
       remote:
@@ -169,6 +172,10 @@ openvpn:
       up_delay: True
       down_pre: True
       up_restart: True
+      _append:
+        - script-security 2
+        - up 'echo up'
+        - down 'echo down'
   ifconfig_pool_persist:
     ipp.txt:
       somehostname: 192.168.51.2
