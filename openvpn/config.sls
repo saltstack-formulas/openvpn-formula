@@ -123,8 +123,6 @@ openvpn_{{ type }}_{{ name }}_status_file:
   file.managed:
     - name: {{ config.status }}
     - makedirs: True
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
     - watch_in:
 {%- if map.multi_services %}
       - service: openvpn_{{name}}_service
