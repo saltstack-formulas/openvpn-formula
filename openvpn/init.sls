@@ -19,4 +19,6 @@ openvpn_create_dh_{{ dh }}:
   cmd.run:
     - name: openssl dhparam -out {{ map.conf_dir }}/dh{{ dh }}.pem {{ dh }}
     - creates: {{ map.conf_dir }}/dh{{ dh }}.pem
+    - require:
+      - pkg: openvpn_pkgs
 {% endfor %}
