@@ -129,9 +129,3 @@ auth-user-pass-verify {{ config.auth_user_pass_verify }}
 setenv {{ setenv }}
 {% endfor %}
 {% endif %}
-
-{%- if config._append is defined %}
-{%-   for data in config._append %}
-{{ data }}
-{%-   endfor %}
-{%- endif %}
