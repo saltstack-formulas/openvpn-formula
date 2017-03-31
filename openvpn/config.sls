@@ -89,11 +89,17 @@ openvpn_config_{{ type }}_{{ name }}_passwd_file:
       - service: {{ service_id }}
 {% endif %}
 
-{% if config.tls_auth is defined and config.ta_content is defined %}
+{% if config.ta_content is defined %}
 # Deploy {{ type }} {{ name }} TLS key file
+  {% if config.tls_auth is defined and config.tls_crypt is not defined %}
 openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
   file.managed:
     - name: {{ config.tls_auth.split()[0] }}
+  {% elif config.tls_crypt is defined and config.tls_auth is not defined %}
+openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
+  file.managed:
+    - name: {{ config.tls_crypt.split()[0] }}
+  {% endif %}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
     - mode: 600
