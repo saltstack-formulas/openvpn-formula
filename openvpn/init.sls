@@ -9,10 +9,11 @@ openvpn_pkgs:
   pkg.installed:
     - pkgs:
       {%- for pkg in map.pkgs %}
-      - {{pkg }}
+      - {{ pkg }}
       {%- endfor %}
 
-{%- if map.use_external_repo == True and grains['os_family'] == "Debian" and grains['oscodename'] in ['wheezy', 'jessie', 'precise', 'trusty', 'xenial'] %}
+
+{%- if map.use_external_repo == True and grains['os_family'] == "Debian" and grains['oscodename'] in map.external_repo_supported %}
 # Install openvpn external repository
 # https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
 openvpn_external_repo:

@@ -9,6 +9,7 @@
         'group': 'nogroup',
         'use_external_repo': False,
         'external_repo_version': 'stable',
+        'external_repo_supported': ['wheezy', 'jessie'],
         'multi_services': salt['grains.has_value']('systemd'),
     },
 
@@ -21,6 +22,7 @@
         'group': 'nogroup',
         'use_external_repo': False,
         'external_repo_version': 'stable',
+        'external_repo_supported': ['precise', 'trusty', 'xenial'],
         'multi_services': salt['grains.has_value']('systemd'),
     },
 
