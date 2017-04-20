@@ -7,6 +7,8 @@
         'dh_files': ['1024', '2048', '4096'],
         'user': 'nobody',
         'group': 'nogroup',
+        'use_external_repo': False,
+        'external_repo_version': 'stable',
         'multi_services': salt['grains.has_value']('systemd'),
     },
 
@@ -17,6 +19,8 @@
         'dh_files': ['1024', '2048', '4096'],
         'user': 'nobody',
         'group': 'nogroup',
+        'use_external_repo': False,
+        'external_repo_version': 'stable',
         'multi_services': salt['grains.has_value']('systemd'),
     },
 

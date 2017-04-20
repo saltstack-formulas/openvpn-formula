@@ -5,8 +5,16 @@
 # Defaults can be overwritten, see openvpn/map.jinja for default values
 # openvpn:
 #   lookup:
-#     dh_files: ['4096'] # This creates a dh file with 4096 bits (which will take a long time).
-#                        # Default: ['1024', '2048', '4096']
+#     dh_files: ['4096']              # This creates a dh file with 4096 bits (which will take a long time).
+#                                     # Default: ['1024', '2048', '4096']
+#
+#     use_external_repo: True         # This will use the OpenVPN repository documented
+#                                     # at the following URL: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
+#                                     # Only valid for Debian OS family
+#
+#     external_repo_version: testing  # The version to use for OpenVPN if 'use_external_repo' is set to 'True'
+#                                     # Info here: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
+#                                     # Valid options: stable (default), testing, release/2.3, release/2.4
 
 openvpn:
   server:
@@ -63,7 +71,12 @@ openvpn:
       client_to_client: False
       duplicate_cn: False
       keepalive: '10 120'
+      # `tls-auth` and `tls-crypt` are mutually exclusive
+      # and `tls-crypt` is only valid for OpenVPN 2.4 and above.
+      # If both are set, `tls-crypt` overrides `tls-auth` and
+      # both options require `ta_content` to be set.
       tls_auth: /path/to/tls.key 0
+      tls_crypt: /path/to/tls.key
       tls_version_min: 1.2
       ta_content: |
         -----BEGIN OpenVPN Static key V1-----
