@@ -8,11 +8,11 @@
 #     dh_files: ['4096']              # This creates a dh file with 4096 bits (which will take a long time).
 #                                     # Default: ['1024', '2048', '4096']
 #
-#     use_external_repo: True         # This will use the OpenVPN repository documented
+#     external_repo_enabled: True     # This will use the OpenVPN repository documented
 #                                     # at the following URL: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
 #                                     # Only valid for Debian OS family
 #
-#     external_repo_version: testing  # The version to use for OpenVPN if 'use_external_repo' is set to 'True'
+#     external_repo_version: testing  # The version to use for OpenVPN if 'external_repo_enabled' is set to 'True'
 #                                     # Info here: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
 #                                     # Valid options: stable (default), testing, release/2.3, release/2.4
 
