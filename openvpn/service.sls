@@ -30,6 +30,7 @@ openvpn_{{ name }}_service:
     - enable: True
     - require:
       - pkg: openvpn_pkgs
+      - sls: openvpn
 {% if grains['os_family'] == 'FreeBSD' %}
     - watch:
       - file: /usr/local/etc/rc.d/openvpn_{{ name }}
@@ -46,4 +47,5 @@ openvpn_service:
     - enable: True
     - require:
       - pkg: openvpn_pkgs
+      - sls: openvpn
 {% endif %}
