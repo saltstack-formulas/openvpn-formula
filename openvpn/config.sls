@@ -129,6 +129,20 @@ openvpn_config_{{ type }}_{{ name }}_secret_file:
       - service: {{ service_id }}
 {% endif %}
 
+{% if config.auth_user_pass is defined and config.auth_user_pass_content is defined %}
+# Deploy {{ type }} {{ name }} auth_user_pass file
+openvpn_config_{{ type }}_{{ name }}_auth_user_pass_file:
+  file.managed:
+    - name: {{ config.auth_user_pass.split()[0] }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:auth_user_pass_content
+    - makedirs: True
+    - mode: 600
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    - watch_in:
+      - service: {{ service_id }}
+{% endif %}
+
 {% if config.status is defined %}
 # Ensure status file exists and is writeable
 openvpn_{{ type }}_{{ name }}_status_file:
