@@ -204,6 +204,8 @@ openvpn:
       sndbuf: 524288
       rcvbuf: 524288
       route_nopull:
+      route:
+        - "8.8.8.8 255.255.255.255 net_gateway"
 
   ifconfig_pool_persist:
     ipp.txt:

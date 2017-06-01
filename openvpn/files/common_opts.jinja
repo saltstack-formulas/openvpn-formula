@@ -242,6 +242,12 @@ route-delay {{ config.route_delay }}
 route-nopull
 {% endif %}
 
+{%- if config.route is defined %}
+{%- for route in config.route %}
+route {{ route }}
+{%- endfor %}
+{%- endif %}
+
 {%- if config.fragment is defined %}
 fragment {{ config.fragment }}
 {% endif %}
