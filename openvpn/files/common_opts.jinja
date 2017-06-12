@@ -222,3 +222,48 @@ up-restart
 auth {{ config.auth }}
 {%- endif %}
 
+{%- if config.fast_io is defined %}
+fast-io
+{%- endif %}
+
+{%- if config.key_direction is defined %}
+key-direction {{ config.key_direction }}
+{% endif %}
+
+{%- if config.route_method is defined %}
+route-method {{ config.route_method }}
+{% endif %}
+
+{%- if config.route_delay is defined %}
+route-delay {{ config.route_delay }}
+{% endif %}
+
+{%- if config.route_nopull is defined %}
+route-nopull
+{% endif %}
+
+{%- if config.route is defined %}
+{%- for route in config.route %}
+route {{ route }}
+{%- endfor %}
+{%- endif %}
+
+{%- if config.fragment is defined %}
+fragment {{ config.fragment }}
+{% endif %}
+
+{%- if config.mssfix is defined %}
+mssfix {{ config.mssfix }}
+{% endif %}
+
+{%- if config.keysize is defined %}
+keysize {{ config.keysize }}
+{% endif %}
+
+{%- if config.sndbuf is defined %}
+sndbuf {{ config.sndbuf }}
+{% endif %}
+
+{%- if config.rcvbuf is defined %}
+rcvbuf {{ config.rcvbuf }}
+{% endif %}

@@ -6,6 +6,10 @@ client
 
 {% include 'openvpn/files/common_opts.jinja' %}
 
+{%- if config.pull is defined %}
+pull
+{% endif %}
+
 {%- if not (config.tls_client is defined and config.tls_client == False) %}
 tls-client
 {%- endif %}
@@ -30,3 +34,6 @@ http-proxy-retry
 http-proxy {{ config.http_proxy }}
 {%- endif %}
 
+{%- if config.auth_user_pass is defined %}
+auth-user-pass {{ config.auth_user_pass }}
+{%- endif %}

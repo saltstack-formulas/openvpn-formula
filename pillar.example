@@ -53,6 +53,7 @@ openvpn:
       server_bridge:
       push:
         - "route 192.168.10.0 255.255.255.0"
+      route_nopull:
       route:
         - "192.168.11.0 255.255.255.0"
       client_config_dir: clients
@@ -187,6 +188,25 @@ openvpn:
         - script-security 2
         - up 'echo up'
         - down 'echo down'
+      auth_user_pass: /path/to/auth.txt
+      auth_user_pass_content: |
+        user
+        password
+      fast_io:
+      pull:
+      tls-client:
+      key-direction: 1
+      route-method: exe
+      route-delay: 2
+      fragment: 1300
+      mssfix: 1450
+      keysize: 256
+      sndbuf: 524288
+      rcvbuf: 524288
+      route_nopull:
+      route:
+        - "8.8.8.8 255.255.255.255 net_gateway"
+
   ifconfig_pool_persist:
     ipp.txt:
       somehostname: 192.168.51.2
