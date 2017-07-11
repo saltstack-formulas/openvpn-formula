@@ -26,11 +26,13 @@ openvpn_external_repo:
 {%- endif %}
 
 # Generate diffie hellman files
-{%- for dh in map.dh_files %}
+{% if salt['pillar.get']('openvpn:server', False) %}
+  {%- for dh in map.dh_files %}
 openvpn_create_dh_{{ dh }}:
   cmd.run:
     - name: openssl dhparam -out {{ map.conf_dir }}/dh{{ dh }}.pem {{ dh }}
     - creates: {{ map.conf_dir }}/dh{{ dh }}.pem
     - require:
       - pkg: openvpn_pkgs
-{%- endfor %}
+  {%- endfor %}
+{% endif %}
