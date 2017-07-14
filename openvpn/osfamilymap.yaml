@@ -1,0 +1,9 @@
+Debian:
+  group: nogroup
+Arch:
+  pkgs: ['openvpn', 'easy-rsa']
+FreeBSD:
+  conf_dir: /usr/local/etc/openvpn
+  group: openvpn
+  multi_services: True
+  user: openvpn
