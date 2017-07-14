@@ -1,0 +1,11 @@
+openvpn:
+  conf_dir: /etc/openvpn
+  dh_files: ['1024', '2048', '4096']
+  external_repo_enabled: False
+  external_repo_supported: []
+  external_repo_version: stable
+  group: nobody
+  multi_services: salt['grains.has_value']('systemd')
+  pkgs: ['openvpn']
+  service: openvpn
+  user: nobody

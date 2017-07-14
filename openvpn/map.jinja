@@ -1,44 +1,17 @@
-{% set map = salt['grains.filter_by']({
-
-    'base': {
-        'conf_dir': '/etc/openvpn',
-        'dh_files': ['1024', '2048', '4096'],
-        'external_repo_enabled': False,
-        'external_repo_supported': [],
-        'external_repo_version': 'stable',
-        'group': 'nogroup',
-        'multi_services': salt['grains.has_value']('systemd'),
-        'pkgs': ['openvpn'],
-        'service': 'openvpn',
-        'user': 'nobody',
-    },
-
-    'Debian': {
-        'external_repo_supported': ['wheezy', 'jessie'],
-    },
-
-    'Ubuntu': {
-        'external_repo_supported': ['precise', 'trusty', 'xenial'],
-    },
-
-    'Amazon': {
-        'group': 'nobody',
-    },
-
-    'Arch': {
-        'group': 'nobody',
-        'pkgs': ['openvpn','easy-rsa'],
-    },
-
-    'CentOS': {
-        'group': 'nobody',
-    },
-
-    'FreeBSD': {
-        'conf_dir': '/usr/local/etc/openvpn',
-        'group': 'openvpn',
-        'multi_services': true,
-        'user': 'openvpn',
-    },
-
-}, grain='os', merge=salt['pillar.get']('openvpn:lookup'), base='base') %}
+{% import_yaml "openvpn/defaults.yaml" as defaults %}
+{% import_yaml "openvpn/osfamilymap.yaml" as osfamilymap %}
+{% import_yaml "openvpn/osmap.yaml" as osmap %}
+    
+{% set map = salt['grains.filter_by'](
+    defaults, 
+    merge=salt['grains.filter_by'](
+	   osfamilymap,
+	   grain='os_family',
+	   merge=salt['grains.filter_by'](
+		 osmap,
+		 grain='os',
+		 merge=salt['pillar.get']('openvpn:lookup', {}),
+         ),
+   ),
+   base='openvpn')
+ %}

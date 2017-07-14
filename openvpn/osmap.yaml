@@ -1,0 +1,4 @@
+Debian:
+  external_repo_supported: ['wheezy', 'jessie', 'stretch']
+Ubuntu:
+  external_repo_supported: ['precise', 'trusty', 'xenial']
