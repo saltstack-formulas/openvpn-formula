@@ -5,7 +5,7 @@ openvpn:
   external_repo_supported: []
   external_repo_version: stable
   group: nobody
-  multi_services: salt['grains.has_value']('systemd')
+  multi_services: False
   pkgs: ['openvpn']
   service: openvpn
   user: nobody

@@ -1,6 +1,8 @@
 {% import_yaml "openvpn/defaults.yaml" as defaults %}
 {% import_yaml "openvpn/osfamilymap.yaml" as osfamilymap %}
 {% import_yaml "openvpn/osmap.yaml" as osmap %}
+
+{% do defaults.openvpn.update({'multi_services': salt['grains.has_value']('systemd')}) %}
     
 {% set map = salt['grains.filter_by'](
     defaults, 
