@@ -7,3 +7,7 @@ FreeBSD:
   group: openvpn
   multi_services: True
   user: openvpn
+Windows:
+  conf_dir: C:\Program Files\OpenVPN\config
+  conf_ext: ovpn
+  service: OpenVPNServiceInteractive
