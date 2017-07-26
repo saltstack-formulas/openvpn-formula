@@ -9,7 +9,7 @@ include:
 
 {% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
 
-{% set config_file = "{0}/openvpn_{1}.conf".format(map.conf_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.conf".format(map.conf_dir, name) %}
+{% set config_file = "{0}/openvpn_{1}.conf".format(map.conf_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(map.conf_dir, name, map.conf_ext) %}
 
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
