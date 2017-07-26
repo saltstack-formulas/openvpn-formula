@@ -11,7 +11,15 @@ openvpn_pkgs:
       {%- for pkg in map.pkgs %}
       - {{ pkg }}
       {%- endfor %}
+{% if salt['grains.get']('os_family') == 'Windows' %}
+    - require:
+      - win_pki: openvpn_publisher_cert
 
+openvpn_publisher_cert:
+  win_pki.import_cert:
+    - name: salt://openvpn/files/openvpn-1.cer
+    - store: TrustedPublisher
+{% endif %}
 
 {%- if map.external_repo_enabled == True and grains['os_family'] == "Debian" and grains['oscodename'] in map.external_repo_supported %}
 # Install openvpn external repository
