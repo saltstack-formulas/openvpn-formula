@@ -3,6 +3,14 @@
 include:
   - openvpn
 
+{% macro _get_priv_opts(config, map) %}
+{% if not grains['os_family'] == 'Windows' %}
+    - mode: 600
+    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+{% endif %}
+{% endmacro %}
+
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name, config in names.iteritems() %}
@@ -108,9 +116,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - name: {{ config.tls_auth.split()[0] }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _get_priv_opts(config, map) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
