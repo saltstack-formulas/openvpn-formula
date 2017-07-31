@@ -102,10 +102,6 @@ client-cert-not-required
 ifconfig {{ config.ifconfig }}
 {%- endif %}
 
-{%- if config.pkcs12 is defined %}
-pkcs12 {{ config.pkcs12 }}
-{%- endif %}
-
 {%- if config.management is defined %}
 management {{ config.management }}
 {%- endif %}

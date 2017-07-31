@@ -129,6 +129,10 @@ key {{ config.key }}
 # key is not set !
 {%- endif %}
 
+{%- if config.pkcs12 is defined %}
+pkcs12 {{ config.pkcs12 }}
+{%- endif %}
+
 {%- if config.dh is defined %}
 dh {{ config.dh }}
 {%- elif config.server is defined  %}
