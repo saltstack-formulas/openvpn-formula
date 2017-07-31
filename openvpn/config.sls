@@ -3,13 +3,28 @@
 include:
   - openvpn
 
-{% macro _get_file_opts(config, map, private=False ) %}
-{% if not grains['os_family'] == 'Windows' %}
-  {% if private %}
+{% macro _set_file(config, map, type, name, file_type, private=False, contents=False) %}
+{% if config[file_type] is defined %}
+openvpn_{{ type }}_{{ name }}_{{ file_type }}_file:
+  file.managed:
+    - name: {{ config[file_type] }}
+    - makedirs: True
+  {%- if contents and config[contents] is defined  %}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:{{ contents }}
+  {%- endif %}
+  {%- if not grains['os_family'] == 'Windows' %}
+    {%- if private %}
     - mode: 600
-  {% endif %}
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {%- endif %}
+  {%- endif %}
+    - watch_in:
+  {%- if map.multi_services %}
+      - service: openvpn_{{ name }}_service
+  {%- else %}
+      - service: openvpn_service
+  {%- endif %}
 {% endif %}
 {% endmacro %}
 
@@ -112,15 +127,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
     - watch_in:
       - service: {{ service_id }}
 {% elif config.ta_content is defined and config.tls_auth is defined %}
-# Deploy {{ type }} {{ name }} TLS key file
-openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
-  file.managed:
-    - name: {{ config.tls_auth.split()[0] }}
-    - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
-    - makedirs: True
-    {{ _get_file_opts(config, map, private=True) }}
-    - watch_in:
-      - service: {{ service_id }}
+{{ _set_file(config, map, type, name, 'tls_auth', private=True, contents='ta_content') }}
 {% endif %}
 
 {% if config.secret is defined and config.secret_content is defined %}
@@ -168,29 +175,8 @@ openvpn_{{ type }}_{{ name }}_status_file:
 {%- endif %}
 {% endif %}
 
-{% if config.log is defined %}
-# Ensure log file exists and is writeable
-openvpn_{{ type }}_{{ name }}_log_file:
-  file.managed:
-    - name: {{ config.log }}
-    - makedirs: True
-    {{ _get_file_opts(config, map) }}
-    - watch_in:
-{%- if map.multi_services %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
-{% endif %}
-
-{% if config.log_append is defined %}
-# Ensure log file exists and is writeable
-openvpn_{{ type }}_{{ name }}_log_file_append:
-  file.managed:
-    - name: {{ config.log_append }}
-    - makedirs: True
-    {{ _get_file_opts(config, map) }}
-{% endif %}
+{{ _set_file(config, map, type, name, 'log') }}
+{{ _set_file(config, map, type, name, 'log_append') }}
 
 {% if config.client_config_dir is defined %}
 # Ensure client config dir exists
