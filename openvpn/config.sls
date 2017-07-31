@@ -3,9 +3,11 @@
 include:
   - openvpn
 
-{% macro _get_priv_opts(config, map) %}
+{% macro _get_file_opts(config, map, private=False ) %}
 {% if not grains['os_family'] == 'Windows' %}
+  {% if private %}
     - mode: 600
+  {% endif %}
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
 {% endif %}
@@ -116,7 +118,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - name: {{ config.tls_auth.split()[0] }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
-    {{ _get_priv_opts(config, map) }}
+    {{ _get_file_opts(config, map, private=True) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -172,8 +174,7 @@ openvpn_{{ type }}_{{ name }}_log_file:
   file.managed:
     - name: {{ config.log }}
     - makedirs: True
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _get_file_opts(config, map) }}
     - watch_in:
 {%- if map.multi_services %}
       - service: openvpn_{{name}}_service
@@ -188,8 +189,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
   file.managed:
     - name: {{ config.log_append }}
     - makedirs: True
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _get_file_opts(config, map) }}
 {% endif %}
 
 {% if config.client_config_dir is defined %}
