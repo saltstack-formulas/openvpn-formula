@@ -7,6 +7,7 @@ openvpn_tap_adapter_{{ adapter }}:
     - source: salt://openvpn/files/tap-adapter.ps1
     - args: -New {{ adapter }}
     - shell: powershell
+    - stateful: True
     - require:
       - pkg: openvpn_pkgs
 {% endfor %}
