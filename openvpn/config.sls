@@ -3,7 +3,7 @@
 include:
   - openvpn
 
-{% macro _set_file(config, map, type, name, file_type, private=False, contents=False) %}
+{% macro _print_file_block(config, map, type, name, file_type, private=False, contents=False) %}
 {% if config[file_type] is defined %}
 openvpn_{{ type }}_{{ name }}_{{ file_type }}_file:
   file.managed:
@@ -127,7 +127,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
     - watch_in:
       - service: {{ service_id }}
 {% elif config.ta_content is defined and config.tls_auth is defined %}
-{{ _set_file(config, map, type, name, 'tls_auth', private=True, contents='ta_content') }}
+{{ _print_file_block(config, map, type, name, 'tls_auth', private=True, contents='ta_content') }}
 {% endif %}
 
 {% if config.secret is defined and config.secret_content is defined %}
@@ -175,8 +175,8 @@ openvpn_{{ type }}_{{ name }}_status_file:
 {%- endif %}
 {% endif %}
 
-{{ _set_file(config, map, type, name, 'log') }}
-{{ _set_file(config, map, type, name, 'log_append') }}
+{{ _print_file_block(config, map, type, name, 'log') }}
+{{ _print_file_block(config, map, type, name, 'log_append') }}
 
 {% if config.client_config_dir is defined %}
 # Ensure client config dir exists
