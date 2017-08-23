@@ -1,4 +1,5 @@
 {% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import multipart_param with context %}
 
 include:
   - openvpn
@@ -105,7 +106,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
 # Deploy {{ type }} {{ name }} TLS key file
 openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
   file.managed:
-    - name: {{ config.tls_auth.split()[0] }}
+    - name: {{ multipart_param(config.tls_auth, 0) }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
     - mode: 600
@@ -119,7 +120,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
 # Deploy {{ type }} {{ name }} shared secret key file
 openvpn_config_{{ type }}_{{ name }}_secret_file:
   file.managed:
-    - name: {{ config.secret.split()[0] }}
+    - name: {{ multipart_param(config.secret, 0) }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:secret_content
     - makedirs: True
     - mode: 600

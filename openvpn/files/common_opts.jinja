@@ -1,4 +1,4 @@
-
+{% from "openvpn/map.jinja" import multipart_param with context %}
 ; Networking
 {%- if config.dev_node is defined %}
 dev-node {{ config.dev_node }}
@@ -24,7 +24,7 @@ ifconfig {{ config.ifconfig }}
 
 {%- if config.secret is defined %}{# Using simple site-to-site shared secret #}
 ; Site-to-Site
-secret {{ config.secret }}
+secret {{ multipart_param(config.secret) }}
 {%- endif %}
 
 {%- if config.remote is defined %}
@@ -142,7 +142,7 @@ dh dh1024.pem
 {%- if config.ta_content is defined and config.tls_crypt is defined %}
 tls-crypt {{ config.tls_crypt }}
 {%- elif config.ta_content is defined and config.tls_auth is defined %}
-tls-auth {{ config.tls_auth }}
+tls-auth {{ multipart_param(config.tls_auth) }}
 {%- endif %}
 
 {%- if config.reneg_sec is defined %}
