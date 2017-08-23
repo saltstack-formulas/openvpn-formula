@@ -133,7 +133,7 @@ openvpn_config_{{ type }}_{{ name }}_secret_file:
 # Deploy {{ type }} {{ name }} auth_user_pass file
 openvpn_config_{{ type }}_{{ name }}_auth_user_pass_file:
   file.managed:
-    - name: {{ config.auth_user_pass.split()[0] }}
+    - name: {{ config.auth_user_pass }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:auth_user_pass_content
     - makedirs: True
     - mode: 600
