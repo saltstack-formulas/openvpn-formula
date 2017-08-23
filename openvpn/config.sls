@@ -93,7 +93,7 @@ openvpn_config_{{ type }}_{{ name }}_passwd_file:
 # Deploy {{ type }} {{ name }} TLS key file
 openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
   file.managed:
-    - name: {{ config.tls_crypt.split()[0] }}
+    - name: {{ config.tls_crypt }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
     - mode: 600
