@@ -116,6 +116,12 @@ openvpn:
       dev: tun
       ifconfig: '10.8.0.1 10.8.0.2'
       secret: /path/to/mysecret.key
+      # or
+      #secret: /path/to/mysecret.key 0
+      # or
+      #secret:  # use this form for paths with spaces
+      #  - /path/to/mysecret.key
+      #  - 0
       secret_content: |
         -----BEGIN OpenVPN Static key V1-----
         ...
@@ -177,7 +183,11 @@ openvpn:
       askpass_content: |
         p4ssw0rd
       ns_cert_type: server
-      tls_auth: /path/to/tls.key 0
+      #tls_auth: /path/to/tls.key 0
+      # or:
+      tls_auth:  # use this form for paths with spaces
+        - /path/to/tls.key
+        - 0
       ta_content: |
         -----BEGIN OpenVPN Static key V1-----
         ...

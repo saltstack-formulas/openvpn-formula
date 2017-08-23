@@ -3,6 +3,17 @@
 include:
   - openvpn
 
+{%- macro multipart_param(value, index=False) %}
+{%-   if value is string %}
+{%-     set value = value.split() %}
+{%-   endif %}
+{%-   if index is number -%}
+{{ value[index] }}
+{%-   else -%}
+{{ ' '.join(value) }}
+{%-   endif %}
+{%- endmacro -%}
+
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name, config in names.iteritems() %}
@@ -105,7 +116,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
 # Deploy {{ type }} {{ name }} TLS key file
 openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
   file.managed:
-    - name: {{ config.tls_auth.split()[0] }}
+    - name: {{ multipart_param(config.tls_auth, 0) }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
     - mode: 600
@@ -119,7 +130,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
 # Deploy {{ type }} {{ name }} shared secret key file
 openvpn_config_{{ type }}_{{ name }}_secret_file:
   file.managed:
-    - name: {{ config.secret.split()[0] }}
+    - name: {{ multipart_param(config.secret, 0) }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:secret_content
     - makedirs: True
     - mode: 600
