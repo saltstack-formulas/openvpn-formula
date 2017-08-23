@@ -168,12 +168,6 @@ openvpn_{{ type }}_{{ name }}_log_file:
     - makedirs: True
     - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
     - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
-    - watch_in:
-{%- if map.multi_services %}
-      - service: openvpn_{{name}}_service
-{%- else %}
-      - service: openvpn_service
-{%- endif %}
 {% endif %}
 
 {% if config.log_append is defined %}
