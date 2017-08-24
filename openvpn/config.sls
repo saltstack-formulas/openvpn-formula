@@ -1,18 +1,8 @@
 {% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import multipart_param with context %}
 
 include:
   - openvpn
-
-{%- macro multipart_param(value, index=False) %}
-{%-   if value is string %}
-{%-     set value = value.split() %}
-{%-   endif %}
-{%-   if index is number -%}
-{{ value[index] }}
-{%-   else -%}
-{{ ' '.join(value) }}
-{%-   endif %}
-{%- endmacro -%}
 
 {% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
 {% if type in ['client', 'server', 'peer'] %}
