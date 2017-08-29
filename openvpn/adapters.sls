@@ -1,3 +1,4 @@
+{% if salt['grains.get']('os_family') == 'Windows' %}
 include:
   - openvpn
 
@@ -17,3 +18,5 @@ openvpn_tap_adapter_{{ config.dev_node }}:
 {%     endfor %}
 {%   endif %}
 {% endfor %}
+
+{% endif %}
