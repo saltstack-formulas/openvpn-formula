@@ -10,7 +10,9 @@ include:
 
 {% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
 
-{% set config_file = "{0}/openvpn_{1}.conf".format(map.conf_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(map.conf_dir, name, map.conf_ext) %}
+{% set config_dir = config.conf_dir if config.conf_dir is defined else map.conf_dir %}
+
+{% set config_file = "{0}/openvpn_{1}.conf".format(config_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(config_dir, name, map.conf_ext) %}
 
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
@@ -185,7 +187,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
 # Ensure client config dir exists
 openvpn_config_{{ type }}_{{ name }}_client_config_dir:
   file.directory:
-    - name: {{ map.conf_dir }}/{{ config.client_config_dir}}
+    - name: {{ config_dir }}/{{ config.client_config_dir}}
     - makedirs: True
     - watch_in:
 {%- if map.multi_services %}
@@ -198,7 +200,7 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
 # Client config for {{ client }}
 openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
   file.managed:
-    - name: {{ map.conf_dir }}/{{ config.client_config_dir}}/{{ client }}
+    - name: {{ config_dir }}/{{ config.client_config_dir}}/{{ client }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
     - watch_in:
