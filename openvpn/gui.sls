@@ -1,3 +1,5 @@
+{% if salt['grains.get']('os_family') == 'Windows' %}
+
 # See https://github.com/OpenVPN/openvpn-gui
 {% set reg_values = { 'config_dir': 'REG_SZ',
                       'exe_path': 'REG_SZ',
@@ -15,3 +17,5 @@ openvpn_gui_reg_{{ name }}:
     - vtype: {{ reg_values[name] }}
 {%   endif %}
 {% endfor %}
+
+{% endif %}
