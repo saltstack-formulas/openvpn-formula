@@ -8,6 +8,14 @@ include:
 {% if type in ['client', 'server', 'peer'] %}
 {% for name, config in names.iteritems() %}
 
+{% macro _permissions(mode=644, user=None, group=None) %}
+{%-  if not grains['os_family'] == 'Windows' -%}
+    - mode: {{ mode }}
+    - user: {% if user %}{{ user }}{% elif config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if group %}{{ group }}{% elif config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+{%-  endif -%}
+{% endmacro %}
+
 {% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
 
 {% set config_file = "{0}/openvpn_{1}.conf".format(map.conf_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(map.conf_dir, name, map.conf_ext) %}
@@ -58,9 +66,7 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
     - name: {{ config.key }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:key_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -83,9 +89,7 @@ openvpn_config_{{ type }}_{{ name }}_passwd_file:
     - name: {{ config.askpass }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:askpass_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -97,9 +101,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
     - name: {{ config.tls_crypt }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% elif config.ta_content is defined and config.tls_auth is defined %}
@@ -109,9 +111,7 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
     - name: {{ multipart_param(config.tls_auth, 0) }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -123,9 +123,7 @@ openvpn_config_{{ type }}_{{ name }}_secret_file:
     - name: {{ multipart_param(config.secret, 0) }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:secret_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -137,9 +135,7 @@ openvpn_config_{{ type }}_{{ name }}_auth_user_pass_file:
     - name: {{ config.auth_user_pass }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:auth_user_pass_content
     - makedirs: True
-    - mode: 600
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -150,9 +146,7 @@ openvpn_{{ type }}_{{ name }}_status_file:
   file.managed:
     - name: {{ config.status }}
     - makedirs: True
-    - user: root
-    - group: 0  # different names on FreeBSD and Debian/Ubuntu
-    - mode: 600
+    {{ _permissions(600, 'root', 0) }}  # different names on FreeBSD and Debian/Ubuntu
     - watch_in:
 {%- if map.multi_services %}
       - service: openvpn_{{name}}_service
@@ -167,8 +161,7 @@ openvpn_{{ type }}_{{ name }}_log_file:
   file.managed:
     - name: {{ config.log }}
     - makedirs: True
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions() }}
 {% endif %}
 
 {% if config.log_append is defined %}
@@ -177,8 +170,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
   file.managed:
     - name: {{ config.log_append }}
     - makedirs: True
-    - user: {% if config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    {{ _permissions() }}
 {% endif %}
 
 {% if config.client_config_dir is defined %}
