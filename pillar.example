@@ -165,7 +165,13 @@ openvpn:
       http_proxy_retry:
       http_proxy: 'proxy-server proxy-port'
       mute_replay_warnings:
+{% if grains['os_family'] == 'Windows' %}
+      dev_node: ovpn-myclient2
+      # Take care with the quoting for Windows paths with spaces
+      ca: '"C:\\Program Files\\OpenVPN\\config\\mycacert.pem"'
+{% else %}
       ca: /path/to/mycacert.pem
+{% endif %}
       ca_content: |
         -----BEGIN CERTIFICATE-----
         ...
