@@ -143,6 +143,7 @@ openvpn:
     myclient1:
       remote:
         - 'my-server-1 1194'
+      conf_dir: /path/to  # set this for non-default config directory
       ca: /path/to/mycacert.pem
       cert: /path/to/mycert.pem
       key: /path/to/mykey.pem
