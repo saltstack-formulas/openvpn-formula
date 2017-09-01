@@ -30,6 +30,11 @@ Configures OpenVPN client and server. Multiple clients and servers are possible.
 
 Configures OpenVPN GUI (Windows only). Sets global registry settings as described `here <https://github.com/OpenVPN/openvpn-gui/#registry-values-affecting-the-openvpn-gui-operation>`_.
 
+``openvpn.adapters``
+--------
+
+Manages TAP-Windows device adapters (Windows only). Ensures that any devices specified with ``dev_node`` in pillar exist.
+
 ``openvpn.ifconfig_pool_persist``
 ---------------------------------
 
