@@ -235,3 +235,7 @@ openvpn:
     ipp.txt:
       somehostname: 192.168.51.2
       secondhost: 192.168.51.3
+
+  # See GUI config options https://github.com/OpenVPN/openvpn-gui
+  gui:
+    disable_save_passwords: 1
