@@ -25,6 +25,11 @@ Installs OpenVPN.
 
 Configures OpenVPN client and server. Multiple clients and servers are possible.
 
+``openvpn.gui``
+--------
+
+Configures OpenVPN GUI (Windows only). Sets global registry settings as described `here <https://github.com/OpenVPN/openvpn-gui/#registry-values-affecting-the-openvpn-gui-operation>`_.
+
 ``openvpn.ifconfig_pool_persist``
 ---------------------------------
 
