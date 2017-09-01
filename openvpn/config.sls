@@ -146,7 +146,7 @@ openvpn_{{ type }}_{{ name }}_status_file:
   file.managed:
     - name: {{ config.status }}
     - makedirs: True
-    {{ _permissions(600, 'root', 0) }}  # different names on FreeBSD and Debian/Ubuntu
+    {{ _permissions(600, 'root', 0) }}  # different group names on FreeBSD and Debian/Ubuntu
     - watch_in:
 {%- if map.multi_services %}
       - service: openvpn_{{name}}_service
