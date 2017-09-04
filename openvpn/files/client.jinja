@@ -2,8 +2,6 @@
 # Managed by Salt
 # Template: {{ source }}
 
-client
-
 {% include 'openvpn/files/common_opts.jinja' %}
 
 {%- if config.pull is defined %}
