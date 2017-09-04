@@ -11,8 +11,8 @@ include:
 {% macro _permissions(mode=644, user=None, group=None) %}
 {%-  if not grains['os_family'] == 'Windows' -%}
     - mode: {{ mode }}
-    - user: {% if user %}{{ user }}{% elif config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if group %}{{ group }}{% elif config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    - user: {% if not user is none %}{{ user }}{% elif config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
+    - group: {% if not group is none %}{{ group }}{% elif config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
 {%-  endif -%}
 {% endmacro %}
 
