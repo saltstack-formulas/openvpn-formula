@@ -18,9 +18,7 @@ resolv-retry {{ config.resolv_retry }}
 resolv-retry infinite
 {%- endif %}
 
-{%- if config.nobind is defined and config.nobind == False %}
-;nobind
-{%- else %}
+{%- if config.nobind is defined %}
 nobind
 {%- endif %}
 

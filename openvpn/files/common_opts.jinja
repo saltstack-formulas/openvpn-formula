@@ -77,23 +77,17 @@ group {{ config.group }}
 group {{ group }}
 {%- endif %}
 
-{%- if config.persist_key is defined and config.persist_key == False %}
-;persist-key
-{%- else %}
+{%- if config.persist_key is defined %}
 persist-key
 {%- endif %}
 
-{%- if config.persist_tun is defined and config.persist_tun == False %}
-;persist-tun
-{%- else %}
+{%- if config.persist_tun is defined %}
 persist-tun
 {%- endif %}
 
 
 ; Data transfer
-{%- if config.comp_lzo is defined and config.comp_lzo == False %}
-;comp-lzo
-{%- else %}
+{%- if config.comp_lzo is defined %}
 comp-lzo
 {%- endif %}
 
