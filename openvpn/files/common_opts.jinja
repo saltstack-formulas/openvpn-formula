@@ -14,6 +14,22 @@ proto {{ config.proto }}
 proto udp
 {%- endif %}
 
+{%- if config.ping is defined %}
+ping {{ config.ping }}
+{%- endif %}
+
+{%- if config.ping_restart is defined %}
+ping-restart {{ config.ping_restart }}
+{%- endif %}
+
+{%- if config.ping_exit is defined %}
+ping-exit {{ config.ping_exit }}
+{%- endif %}
+
+{%- if config.ping_timer_rem is defined %}
+ping-timer-rem
+{%- endif %}
+
 {%- if config.keepalive is defined %}
 keepalive {{ config.keepalive }}
 {%- endif %}
