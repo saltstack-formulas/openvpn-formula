@@ -4,6 +4,10 @@
 dev-node {{ config.dev_node }}
 {%- endif %}
 
+{%- if config.dev_type is defined %}
+dev-type {{ config.dev_type }}
+{%- endif %}
+
 {%- if config.proto is defined %}
 proto {{ config.proto }}
 {%- else %}
