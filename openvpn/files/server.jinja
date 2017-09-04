@@ -98,10 +98,6 @@ plugin {{ plugin }}
 client-cert-not-required
 {%- endif %}
 
-{%- if config.ifconfig is defined %}
-ifconfig {{ config.ifconfig }}
-{%- endif %}
-
 {%- if config.management is defined %}
 management {{ config.management }}
 {%- endif %}
