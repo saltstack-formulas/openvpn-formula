@@ -38,7 +38,7 @@ openvpn_external_repo:
   {%- for dh in map.dh_files %}
 openvpn_create_dh_{{ dh }}:
   cmd.run:
-    - name: openssl dhparam -out {{ map.conf_dir }}/dh{{ dh }}.pem {{ dh }}
+    - name: openssl dhparam -dsaparam -out {{ map.conf_dir }}/dh{{ dh }}.pem {{ dh }}
     - creates: {{ map.conf_dir }}/dh{{ dh }}.pem
     - require:
       - pkg: openvpn_pkgs
