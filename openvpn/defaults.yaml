@@ -1,7 +1,7 @@
 openvpn:
   conf_dir: /etc/openvpn
   conf_ext: conf
-  dh_files: ['1024', '2048', '4096']
+  dh_files: ['2048', '4096']
   external_repo_enabled: False
   external_repo_supported: []
   external_repo_version: stable

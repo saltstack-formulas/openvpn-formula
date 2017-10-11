@@ -6,7 +6,9 @@
 # openvpn:
 #   lookup:
 #     dh_files: ['4096']              # This creates a dh file with 4096 bits (which will take a long time).
-#                                     # Default: ['1024', '2048', '4096']
+#     dh_files: ['2048']              # This creates a dh file with 2048 bits (which should be enough.)
+#                                     # Default: ['2048', '4096']
+#                                     # (It creates both variants.)
 #
 #     external_repo_enabled: True     # This will use the OpenVPN repository documented
 #                                     # at the following URL: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
@@ -60,6 +62,8 @@ openvpn:
       # https://security.stackexchange.com/questions/94390/whats-the-purpose-of-dh-parameters
       # tl;dr: The bigger, the better.
       dh: dh4096.pem
+      # for faster DP params generation use only ['2048'] in openvpn:lookup:dh_files
+      #dh: dh2048.pem
       server: '10.8.0.0 255.255.255.0'
       ifconfig_pool_persist: ipp.txt
       server_bridge:
