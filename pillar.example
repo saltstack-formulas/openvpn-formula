@@ -10,6 +10,11 @@
 #                                     # Default: ['2048', '4096']
 #                                     # (It creates both variants.)
 #
+#     dsaparam: False                 # Set this to True if you want to use the -dsaparam flag in DH param generation.
+#                                     # See also:
+#                                     # https://github.com/saltstack-formulas/openvpn-formula/pull/77
+#                                     # https://security.stackexchange.com/questions/42415/openvpn-dhparam
+#
 #     external_repo_enabled: True     # This will use the OpenVPN repository documented
 #                                     # at the following URL: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
 #                                     # Only valid for Debian OS family
