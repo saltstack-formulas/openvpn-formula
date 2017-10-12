@@ -2,11 +2,9 @@
 # Managed by Salt
 # Template: {{ source }}
 
-client
-
 {% include 'openvpn/files/common_opts.jinja' %}
 
-{%- if config.pull is defined %}
+{%- if not (config.pull is defined and config.pull == False) %}
 pull
 {% endif %}
 
@@ -20,9 +18,7 @@ resolv-retry {{ config.resolv_retry }}
 resolv-retry infinite
 {%- endif %}
 
-{%- if config.nobind is defined and config.nobind == False %}
-;nobind
-{%- else %}
+{%- if not (config.nobind is defined and config.nobind == False) %}
 nobind
 {%- endif %}
 
