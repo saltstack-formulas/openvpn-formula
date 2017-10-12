@@ -250,6 +250,13 @@ openvpn:
       route_nopull:
       route:
         - "8.8.8.8 255.255.255.255 net_gateway"
+    myclient3:
+      pull: False
+      # from the man page:
+      # This option must be used on a client which is connecting to a
+      # multi-client server. It indicates to OpenVPN that it should accept
+      # options pushed by the server, provided they are part of the legal
+      # set of pushable options 
 
   ifconfig_pool_persist:
     ipp.txt:

@@ -4,7 +4,7 @@
 
 {% include 'openvpn/files/common_opts.jinja' %}
 
-{%- if config.pull is defined %}
+{%- if not (config.pull is defined and config.pull == False) %}
 pull
 {% endif %}
 
