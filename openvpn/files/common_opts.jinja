@@ -8,6 +8,10 @@ dev-node {{ config.dev_node }}
 dev-type {{ config.dev_type }}
 {%- endif %}
 
+{%- if config.tun_ipv6 is defined and config.tun_ipv6 == True %}
+tun-ipv6
+{%- endif %}
+
 {%- if config.proto is defined %}
 proto {{ config.proto }}
 {%- else %}
@@ -36,6 +40,10 @@ keepalive {{ config.keepalive }}
 
 {%- if config.tun_mtu is defined %}
 tun-mtu {{ config.tun_mtu }}
+{%- endif %}
+
+{%- if config.ifconfig_ipv6 is defined %}
+ifconfig-ipv6 {{ config.ifconfig_ipv6 }}
 {%- endif %}
 
 {%- if config.ifconfig is defined %}
@@ -259,6 +267,12 @@ route-delay {{ config.route_delay }}
 {%- if config.route_nopull is defined %}
 route-nopull
 {% endif %}
+
+{%- if config.route_ipv6 is defined %}
+{%- for route in config.route_ipv6 %}
+route-ipv6 {{ route }}
+{%- endfor %}
+{%- endif %}
 
 {%- if config.route is defined %}
 {%- for route in config.route %}
