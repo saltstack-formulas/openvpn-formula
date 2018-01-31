@@ -30,6 +30,8 @@ openvpn:
       cert: /path/to/mycert.pem
       key: /path/to/mykey.pem
       server: '10.8.0.0 255.255.255.0'
+      ifconfig_ipv6: 2001:db8::1/64 2001:db8::1
+      ifconfig_ipv6_pool: 2001:db8::2/64
     myserver2:
       local: 10.4.0.1
       port: 1194

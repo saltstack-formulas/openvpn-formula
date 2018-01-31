@@ -33,20 +33,26 @@ topology {{ config.topology }}
 
 {%- if config.server is defined %}
 server {{ config.server }}
-{%- elif config.server_ipv6 is defined %}
-server-ipv6 {{ config.server_ipv6 }}
 {%- elif config.server_bridge is defined %}
 server-bridge {{ config.server_bridge }}
 {%- elif config.mode is defined %}
 mode {{ config.mode }}
 {%- endif %}
 
-{%- if config.ifconfig_ipv6_pool is defined %}
-ifconfig-ipv6-pool {{ config.ifconfig_ipv6_pool }}
-{%- endif %}
-
 {%- if config.ifconfig_pool is defined %}
 ifconfig-pool {{ config.ifconfig_pool }}
+{%- endif %}
+
+{%- if config.server_ipv6 is defined %}
+server-ipv6 {{ config.server_ipv6 }}
+{%- endif %}
+
+{%- if config.ifconfig_ipv6 is defined %}
+ifconfig-ipv6 {{ config.ifconfig_ipv6 }}
+{%- endif %}
+
+{%- if config.ifconfig_ipv6_pool is defined %}
+ifconfig-ipv6-pool {{ config.ifconfig_ipv6_pool }}
 {%- endif %}
 
 {%- if config.ifconfig_pool_persist is defined %}
