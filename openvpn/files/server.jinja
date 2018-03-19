@@ -45,6 +45,18 @@ mode {{ config.mode }}
 ifconfig-pool {{ config.ifconfig_pool }}
 {%- endif %}
 
+{%- if config.server_ipv6 is defined %}
+server-ipv6 {{ config.server_ipv6 }}
+{%- endif %}
+
+{%- if config.ifconfig_ipv6 is defined %}
+ifconfig-ipv6 {{ config.ifconfig_ipv6 }}
+{%- endif %}
+
+{%- if config.ifconfig_ipv6_pool is defined %}
+ifconfig-ipv6-pool {{ config.ifconfig_ipv6_pool }}
+{%- endif %}
+
 {%- if config.ifconfig_pool_persist is defined %}
 ifconfig-pool-persist {{ config.ifconfig_pool_persist }}
 {%- endif %}
