@@ -6,7 +6,9 @@
 
 
 {%- if not (config.tls_server is defined and config.tls_server == False) %}
+{%- if not (config.secret is defined) %}
 tls-server
+{%- endif %}
 {%- endif %}
 
 {%- if config.local is defined %}
