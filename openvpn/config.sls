@@ -4,9 +4,9 @@
 include:
   - openvpn
 
-{% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
+{% for type, names in salt['pillar.get']('openvpn', {}).items() %}
 {% if type in ['client', 'server', 'peer'] %}
-{% for name, config in names.iteritems() %}
+{% for name, config in names.items() %}
 
 {% macro _permissions(mode=644, user=None, group=None) %}
 {%-  if not grains['os_family'] == 'Windows' -%}
@@ -188,7 +188,7 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
       - service: openvpn_service
 {%- endif %}
 
-{% for client, client_config in salt['pillar.get']('openvpn:'+type+':'+name+':client_config', {}).iteritems() %}
+{% for client, client_config in salt['pillar.get']('openvpn:'+type+':'+name+':client_config', {}).items() %}
 # Client config for {{ client }}
 openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
   file.managed:
