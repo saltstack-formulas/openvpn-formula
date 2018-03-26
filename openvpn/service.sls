@@ -6,7 +6,7 @@
 {% if map.multi_services %}
 # If the OS is using systemd, then each openvpn config has its own service
 # e.g for office.conf -> openvpn@office
-{% for type, names in salt['pillar.get']('openvpn', {}).iteritems() %}
+{% for type, names in salt['pillar.get']('openvpn', {}).items() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name in names %}
 
