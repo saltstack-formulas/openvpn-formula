@@ -33,7 +33,8 @@ openvpn_config_{{ type }}_{{ name }}:
     - template: jinja
     - context:
         name: {{ name }}
-        config: {{ config }}
+        config:
+          {{ config | json_encode_dict }}
         user: {{ map.user }}
         group: {{ map.group }}
     - watch_in:
