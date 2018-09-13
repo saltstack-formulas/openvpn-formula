@@ -95,8 +95,10 @@ persist-tun
 
 
 ; Data transfer
-{%- if not (config.comp_lzo is defined and config.comp_lzo == False) %}
+{%- if config.comp_lzo is defined and config.comp_lzo == False %}
 comp-lzo no
+{%- elif config.comp_lzo is defined %}
+comp-lzo {{ config.comp_lzo }}
 {%- endif %}
 
 
