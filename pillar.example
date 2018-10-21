@@ -268,3 +268,37 @@ openvpn:
   # See GUI config options https://github.com/OpenVPN/openvpn-gui
   gui:
     disable_save_passwords: 1
+
+
+  # Managing clients which use NetworkManager
+  # (Intentionally does not handle certificate/key distribution!)
+  network_manager:
+    networks:
+      myserver_udp: &myserver_udp_net
+        _vpn_instance: myserver
+        _name: '(Salt) myserver UDP'
+        connection:
+          type: vpn
+          permissions: 'user:a:;'
+          autoconnect: 'false'
+        vpn: &vpn
+          # optional
+          service_type: org.freedesktop.NetworkManager.openvpn
+          # remote defaults to openvpn:client:${vpn_instance}:remote
+          remote: '1.2.3.4'
+          # optional
+          port: 1194
+        ipv4:
+          method: auto
+          never_default: 'true'
+        ipv6:
+          method: ignore
+
+      myserver_tcp: &myserver_tcp_net
+        <<: *myserver_udp_net
+        _vpn_instance: myserver_tcp
+        _name: '(Salt) myserver TCP'
+
+      # Remove config file from NetworkManager
+      myoldserver:
+        remove: true

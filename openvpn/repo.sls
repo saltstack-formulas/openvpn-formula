@@ -1,5 +1,8 @@
 {%- from "openvpn/map.jinja" import map with context %}
 
+include:
+  - openvpn.install
+
 {%- if map.external_repo_enabled == True and grains['os_family'] == "Debian" and grains['oscodename'] in map.external_repo_supported %}
 # Install openvpn external repository
 # https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos

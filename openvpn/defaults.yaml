@@ -11,3 +11,6 @@ openvpn:
   pkgs: ['openvpn']
   service: openvpn
   user: nobody
+  network_manager_pkgs:
+    - network-manager-openvpn
+    - network-manager-openvpn-gnome
