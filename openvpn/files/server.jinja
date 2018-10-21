@@ -15,18 +15,8 @@ tls-server
 local {{ config.local }}
 {%- endif %}
 
-{%- if config.port is defined %}
-port {{ config.port }}
-{%- else %}
-port 1194
-{%- endif %}
-
 {%- if config.port_share is defined %}
 port-share {{ config.port_share }}
-{%- endif %}
-
-{%- if config.daemon is defined and config.daemon == True %}
-daemon
 {%- endif %}
 
 {%- if config.topology is defined %}
