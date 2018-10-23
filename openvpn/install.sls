@@ -2,7 +2,11 @@
 
 # Install openvpn packages
 openvpn_pkgs:
+{%- if salt['pillar.get']('openvpn:use_latest', False) %}
+  pkg.latest:
+{% else %}
   pkg.installed:
+{% endif %}
     - pkgs:
       {%- for pkg in map.pkgs %}
       - {{ pkg }}

@@ -269,6 +269,9 @@ openvpn:
   gui:
     disable_save_passwords: 1
 
+  ##
+  # Use latest OpenVPN packages (default: false)
+  use_latest: False
 
   # Managing clients which use NetworkManager
   # (Intentionally does not handle certificate/key distribution!)
