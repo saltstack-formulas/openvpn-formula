@@ -312,3 +312,7 @@ sndbuf {{ config.sndbuf }}
 {%- if config.rcvbuf is defined %}
 rcvbuf {{ config.rcvbuf }}
 {% endif %}
+
+{%  if config.get('float', False) -%}
+float
+{%- endif %}
