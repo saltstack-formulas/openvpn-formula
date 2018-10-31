@@ -40,6 +40,11 @@ Manages TAP-Windows device adapters (Windows only). Ensures that any devices spe
 
 Installs and configures an ifconfig_pool_persist file. Used to assign host IPs.
 
+``openvpn.network_manager_networks``
+------------------------------------
+
+Don't setup a OpenVPN client service, but add ready-to-use NetworkManager configurations.
+
 Example
 =======
 

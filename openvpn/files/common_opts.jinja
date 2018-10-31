@@ -1,4 +1,9 @@
 {% from "openvpn/map.jinja" import multipart_param with context %}
+
+{%- if config.daemon is defined and config.daemon == True %}
+daemon
+{%- endif -%}
+
 ; Networking
 {%- if config.dev_node is defined %}
 dev-node {{ config.dev_node }}
@@ -16,6 +21,12 @@ tun-ipv6
 proto {{ config.proto }}
 {%- else %}
 proto udp
+{%- endif %}
+
+{%- if config.port is defined %}
+port {{ config.port }}
+{%- else %}
+port 1194
 {%- endif %}
 
 {%- if config.ping is defined %}
@@ -301,3 +312,7 @@ sndbuf {{ config.sndbuf }}
 {%- if config.rcvbuf is defined %}
 rcvbuf {{ config.rcvbuf }}
 {% endif %}
+
+{%  if config.get('float', False) -%}
+float
+{%- endif %}

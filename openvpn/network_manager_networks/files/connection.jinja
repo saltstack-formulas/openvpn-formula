@@ -1,0 +1,95 @@
+{%- from "openvpn/map.jinja" import multipart_param with context -%}
+{%- set config = salt['pillar.get']('openvpn:network_manager:networks:'+network_name, {}) -%}
+{%- macro pairs(data) -%}
+{%-   for key, value in data|dictsort -%}
+{{ key|replace('_', '-') }}={{ value }}
+{%    endfor -%}
+{%- endmacro -%}
+
+[connection]
+{%- if not 'id' in config.get('connection', {}) -%}
+{%-   if '_name' in config %}
+id={{ config.get('_name') }}
+{%-   else %}
+id={{ network_name }}
+{%-   endif %}
+{%- endif %}
+uuid={{ salt['cmd.run']("python2 -c \"import uuid; print uuid.uuid5(uuid.NAMESPACE_DNS, '{}{}')\"".format(network_name, grains['id'])) }}
+{{ pairs(config.get('connection', {})) }}
+
+{%- for segment, data in config|dictsort -%}
+{%-   if segment|list|first == '_' %}{% continue %}{% endif -%}
+{%-   if segment == 'connection' %}{% continue %}{% endif %}
+[{{ segment }}]
+{%-   if segment == 'vpn' %}
+{%-     if config[segment].get('service_type', 'org.freedesktop.NetworkManager.openvpn') == 'org.freedesktop.NetworkManager.openvpn' %}
+{%-       set instance_name = config.get('_vpn_instance', network_name) %}
+{%-       set vpn_data = salt['pillar.get']('openvpn:client:'+instance_name, {}) %}
+connection-type=tls
+
+{%-       for key in ['ca', 'key', 'cert', 'remote_cert_tls'] -%}
+{%-         if key in vpn_data %}
+{{ key|replace('_', '-') }}={{ vpn_data[key] }}
+{%-         endif -%}
+{%-       endfor %}
+
+{%-       if 'ciphers' in vpn_data %}
+cipher={{ vpn_data['ciphers']|first }}
+{%-       endif %}
+
+{%-       if 'auths' in vpn_data %}
+auth={{ vpn_data['auths']|first }}
+{%-       endif %}
+
+{%-       set remote_list = vpn_data.get('remote', False) %}
+{%-       set remote = config[segment].get('remote', False) %}
+{%-       if remote %}
+{%-         set port = config[segment].pop('port', 1194) %}
+{%-       elif remote_list is iterable %}
+{%-         set remote_pair = remote_list[0].split(' ') %}
+{%-         set remote = remote_pair|first %}
+{%-         set port = config[segment].pop('port', False) %}
+{%-         if port != False and remote_pair|length > 1 %}
+{%-           set port = remote_pair|last %}
+{%-         else %}
+{%-           set port = 1194 %}
+{%-         endif %}
+{%-       endif %}
+{%-       if remote and port %}
+remote={{ remote }}
+port={{ port }}
+{%-       endif %}
+
+{%-       if 'tls_auth' in vpn_data %}
+ta-dir={{ multipart_param(vpn_data.tls_auth, 1) }}
+ta={{ multipart_param(vpn_data.tls_auth, 0) }}
+{%-       endif -%}
+
+{%-       if 'tun_mtu' in vpn_data %}
+tunnel-mtu={{ vpn_data['tun_mtu'] }}
+{%-       endif -%}
+
+{%-       if 'comp_lzo' in vpn_data %}
+comp-lzo={{ vpn_data['comp_lzo'] }}
+{%-       endif -%}
+
+{%-       if 'key_passphrase' in vpn_data and (grains['saltversioninfo'][0] > 2017 ) %}
+{# 2016.11: x509.private_key_managed has no parameter 'passphrase' #}
+cert-pass-flags=1
+{%-       endif -%}
+
+{%-       if vpn_data.get('proto') == 'tcp' %}
+proto-tcp=yes
+{%-       endif -%}
+
+{#- NOT WORKING IN Ubuntu 16.04 #}
+{%-       if salt['grains.get']('osfinger') != 'Ubuntu-16.04' %}
+{%-         if 'verify_x509_name' in vpn_data %}
+tls-remote=/{{ vpn_data['verify_x509_name']|replace(', ', '/')|replace("'", "") }}
+{%-         endif -%}
+{%-       endif -%}
+
+{%-     endif -%}
+{%-   endif %}
+{{ pairs(config[segment]) }}
+{%- endfor -%}
