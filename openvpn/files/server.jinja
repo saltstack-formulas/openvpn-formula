@@ -99,6 +99,10 @@ plugin {{ plugin }}
 client-cert-not-required
 {%- endif %}
 
+{%- if config.verify_client_cert is defined %}
+verify-client-cert {{ config.verify_client_cert }}
+{%- endif %}
+
 {%- if config.management is defined %}
 management {{ config.management }}
 {%- endif %}
