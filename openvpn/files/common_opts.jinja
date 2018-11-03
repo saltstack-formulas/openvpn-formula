@@ -49,6 +49,10 @@ ping-timer-rem
 keepalive {{ config.keepalive }}
 {%- endif %}
 
+{%- if config.persist_remote_ip is defined and config.persist_remote_ip == True %}
+persist-remote-ip
+{%- endif %}
+
 {%- if config.tun_mtu is defined %}
 tun-mtu {{ config.tun_mtu }}
 {%- endif %}
