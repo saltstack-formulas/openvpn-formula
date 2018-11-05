@@ -1,4 +1,5 @@
 {% from "openvpn/map.jinja" import multipart_param with context %}
+{%- set config = salt['pillar.get']("openvpn:{}:{}".format(type, name), {}) %}
 
 {%- if config.daemon is defined and config.daemon == True %}
 daemon
