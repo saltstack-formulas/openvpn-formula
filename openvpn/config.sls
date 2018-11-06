@@ -26,6 +26,7 @@ include:
 openvpn_config_{{ type }}_{{ name }}:
   file.managed:
     - name: {{ config_file }}
+    {{ _permissions(640, 'root') }}
     - source:
       - salt://openvpn/files/{{ type }}.jinja
       - salt://openvpn/files/common_opts.jinja  # make available to salt-ssh
@@ -44,6 +45,7 @@ openvpn_config_{{ type }}_{{ name }}:
 openvpn_config_{{ type }}_{{ name }}_ca_file:
   file.managed:
     - name: {{ config.ca }}
+    {{ _permissions(640, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ca_content
     - makedirs: True
     - watch_in:
@@ -55,6 +57,7 @@ openvpn_config_{{ type }}_{{ name }}_ca_file:
 openvpn_config_{{ type }}_{{ name }}_cert_file:
   file.managed:
     - name: {{ config.cert }}
+    {{ _permissions(640, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:cert_content
     - makedirs: True
     - watch_in:
@@ -66,9 +69,9 @@ openvpn_config_{{ type }}_{{ name }}_cert_file:
 openvpn_config_{{ type }}_{{ name }}_key_file:
   file.managed:
     - name: {{ config.key }}
+    {{ _permissions(600, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:key_content
     - makedirs: True
-    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -78,6 +81,7 @@ openvpn_config_{{ type }}_{{ name }}_key_file:
 openvpn_config_{{ type }}_{{ name }}_crl_verify_file:
   file.managed:
     - name: {{ config.crl_verify }}
+    {{ _permissions(640, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:crl_verify_content
     - makedirs: True
     - watch_in:
@@ -89,9 +93,9 @@ openvpn_config_{{ type }}_{{ name }}_crl_verify_file:
 openvpn_config_{{ type }}_{{ name }}_passwd_file:
   file.managed:
     - name: {{ config.askpass }}
+    {{ _permissions(600, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:askpass_content
     - makedirs: True
-    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -101,9 +105,9 @@ openvpn_config_{{ type }}_{{ name }}_passwd_file:
 openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
   file.managed:
     - name: {{ config.tls_crypt }}
+    {{ _permissions(600, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
-    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% elif config.ta_content is defined and config.tls_auth is defined %}
@@ -111,9 +115,9 @@ openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
 openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
   file.managed:
     - name: {{ multipart_param(config.tls_auth, 0) }}
+    {{ _permissions(600, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
     - makedirs: True
-    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -123,9 +127,9 @@ openvpn_config_{{ type }}_{{ name }}_tls_auth_file:
 openvpn_config_{{ type }}_{{ name }}_secret_file:
   file.managed:
     - name: {{ multipart_param(config.secret, 0) }}
+    {{ _permissions(600, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:secret_content
     - makedirs: True
-    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -135,9 +139,9 @@ openvpn_config_{{ type }}_{{ name }}_secret_file:
 openvpn_config_{{ type }}_{{ name }}_auth_user_pass_file:
   file.managed:
     - name: {{ config.auth_user_pass }}
+    {{ _permissions(600, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:auth_user_pass_content
     - makedirs: True
-    {{ _permissions(600) }}
     - watch_in:
       - service: {{ service_id }}
 {% endif %}
@@ -163,7 +167,7 @@ openvpn_{{ type }}_{{ name }}_log_file:
   file.managed:
     - name: {{ config.log }}
     - makedirs: True
-    {{ _permissions() }}
+    {{ _permissions(640) }}
 {% endif %}
 
 {% if config.log_append is defined %}
@@ -172,7 +176,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
   file.managed:
     - name: {{ config.log_append }}
     - makedirs: True
-    {{ _permissions() }}
+    {{ _permissions(640) }}
 {% endif %}
 
 {% if config.client_config_dir is defined %}
@@ -180,6 +184,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
 openvpn_config_{{ type }}_{{ name }}_client_config_dir:
   file.directory:
     - name: {{ config_dir }}/{{ config.client_config_dir}}
+    {{ _permissions(750, 'root') }}
     - makedirs: True
     - watch_in:
 {%- if map.multi_services %}
@@ -193,6 +198,7 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
 openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
   file.managed:
     - name: {{ config_dir }}/{{ config.client_config_dir}}/{{ client }}
+    {{ _permissions(640, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
     - watch_in:
