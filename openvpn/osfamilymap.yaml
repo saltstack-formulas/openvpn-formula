@@ -7,6 +7,8 @@ FreeBSD:
   group: openvpn
   multi_services: True
   user: openvpn
+  manage_user: False
+  manage_group: False
 Windows:
   conf_dir: C:\Program Files\OpenVPN\config
   conf_ext: ovpn
