@@ -3,6 +3,7 @@
 
 include:
   - openvpn
+  - openvpn.general_config
 
 {% for type, names in salt['pillar.get']('openvpn', {}).items() %}
 {% if type in ['client', 'server', 'peer'] %}
