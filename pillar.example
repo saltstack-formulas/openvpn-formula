@@ -23,6 +23,31 @@
 #                                     # Info here: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
 #                                     # Valid options: stable (default), testing, release/2.3, release/2.4
 
+
+##
+# OpenVPN user and group
+#
+# For historic reasons these are the default values:
+#openvpn:
+#  lookup:
+#    user: nobody
+#    group: nobody  # nogroup on Debian
+
+# You should change them in order to prevent other members of 'nobody'
+# (resp. 'nogroup') to view OpenVPN's config.
+
+openvpn:
+  lookup:
+    user: openvpn
+    group: openvpn
+    # When the user is not 'nobody', it will be managed by this formula.
+    # You can suppress this by: (Default on FreeBSD)
+    manage_user: False
+    # When the group is neither 'nobody' nor 'nogroup',
+    # it will be managed by this formula.
+    # You can suppress this by: (Default on FreeBSD)
+    manage_group: False
+
 openvpn:
   server:
     myserver1:
