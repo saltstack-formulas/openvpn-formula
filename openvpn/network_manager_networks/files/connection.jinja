@@ -24,35 +24,34 @@ uuid={{ salt['cmd.run']("python2 -c \"import uuid; print uuid.uuid5(uuid.NAMESPA
 {%-   if segment == 'vpn' %}
 {%-     if config[segment].get('service_type', 'org.freedesktop.NetworkManager.openvpn') == 'org.freedesktop.NetworkManager.openvpn' %}
 {%-       set instance_name = config.get('_vpn_instance', network_name) %}
-{%-       set vpn_data = salt['pillar.get']('openvpn:client:'+instance_name, {}) %}
+{%-       set instance_data = salt['pillar.get']('openvpn:client:'+instance_name, {}) %}
+{%-       set vpn_data = salt['pillar.get']('openvpn:network_manager:networks:{}:{}'.format(network_name, segment), instance_data, True) %}
 connection-type=tls
 
 {%-       for key in ['ca', 'key', 'cert', 'remote_cert_tls'] -%}
 {%-         if key in vpn_data %}
-{{ key|replace('_', '-') }}={{ vpn_data[key] }}
+{{            key|replace('_', '-') }}={{ vpn_data.pop(key) }}
 {%-         endif -%}
 {%-       endfor %}
 
 {%-       if 'ciphers' in vpn_data %}
-cipher={{ vpn_data['ciphers']|first }}
+cipher={{ vpn_data.pop('ciphers')|first }}
 {%-       endif %}
 
 {%-       if 'auths' in vpn_data %}
-auth={{ vpn_data['auths']|first }}
+auth={{ vpn_data.pop('auths')|first }}
 {%-       endif %}
 
-{%-       set remote_list = vpn_data.get('remote', False) %}
-{%-       set remote = config[segment].get('remote', False) %}
-{%-       if remote %}
-{%-         set port = config[segment].pop('port', 1194) %}
-{%-       elif remote_list is iterable %}
-{%-         set remote_pair = remote_list[0].split(' ') %}
+{%-       set remote = vpn_data.pop('remote', False) %}
+{%-       set port = vpn_data.pop('port', 1194) %}
+{%-       if remote is iterable and not remote is string %}
+{%-         set remote = remote|first %}
+{%-       endif %}
+{%-       if remote is string %}
+{%-         set remote_pair = remote.split(' ') %}
 {%-         set remote = remote_pair|first %}
-{%-         set port = config[segment].pop('port', False) %}
-{%-         if port != False and remote_pair|length > 1 %}
+{%-         if remote_pair|length > 1 %}
 {%-           set port = remote_pair|last %}
-{%-         else %}
-{%-           set port = 1194 %}
 {%-         endif %}
 {%-       endif %}
 {%-       if remote and port %}
@@ -66,11 +65,11 @@ ta={{ multipart_param(vpn_data.tls_auth, 0) }}
 {%-       endif -%}
 
 {%-       if 'tun_mtu' in vpn_data %}
-tunnel-mtu={{ vpn_data['tun_mtu'] }}
+tunnel-mtu={{ vpn_data.pop('tun_mtu') }}
 {%-       endif -%}
 
 {%-       if 'comp_lzo' in vpn_data %}
-comp-lzo={{ vpn_data['comp_lzo'] }}
+comp-lzo={{ vpn_data.pop('comp_lzo') }}
 {%-       endif -%}
 
 {%-       if 'key_passphrase' in vpn_data and (grains['saltversioninfo'][0] > 2017 ) %}
@@ -78,18 +77,19 @@ comp-lzo={{ vpn_data['comp_lzo'] }}
 cert-pass-flags=1
 {%-       endif -%}
 
-{%-       if vpn_data.get('proto') == 'tcp' %}
+{%-       if vpn_data.pop('proto', 'udp') == 'tcp' %}
 proto-tcp=yes
 {%-       endif -%}
 
 {#- NOT WORKING IN Ubuntu 16.04 #}
 {%-       if salt['grains.get']('osfinger') != 'Ubuntu-16.04' %}
 {%-         if 'verify_x509_name' in vpn_data %}
-tls-remote=/{{ vpn_data['verify_x509_name']|replace(', ', '/')|replace("'", "") }}
+tls-remote=/{{ vpn_data.pop('verify_x509_name')|replace(', ', '/')|replace("'", "") }}
 {%-         endif -%}
 {%-       endif -%}
 
 {%-     endif -%}
+{%-   else %}{# not 'vpn' #}
+{{      pairs(config[segment]) }}
 {%-   endif %}
-{{ pairs(config[segment]) }}
 {%- endfor -%}
