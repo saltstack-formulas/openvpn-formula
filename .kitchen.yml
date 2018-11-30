@@ -23,7 +23,7 @@ suites:
   - name: config
     provisioner:
       pillars_from_files:
-        test.sls: test/config/pillars
+        test.sls: test/config/pillars.sls
       state_top:
         base:
           '*':
