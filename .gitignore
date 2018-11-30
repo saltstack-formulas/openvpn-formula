@@ -1,1 +1,6 @@
 *.swp
+.kitchen
+.kitchen.local.yml
+.cache
+junit-*.xml
+__pycache__

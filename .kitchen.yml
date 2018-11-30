@@ -1,0 +1,38 @@
+---
+driver:
+  name: vagrant
+
+platforms:
+  - name: bento/debian-9
+  - name: bento/debian-8
+  - name: bento/ubuntu-18.04
+  - name: bento/centos-7 
+
+provisioner:
+  salt_version: latest
+  name: salt_solo
+  formula: openvpn
+  require_chef: false
+  pillars:
+    top.sls:
+      base:
+        '*':
+           - test
+
+suites:
+  - name: config
+    provisioner:
+      pillars_from_files:
+        test.sls: test/config/pillars
+      state_top:
+        base:
+          '*':
+            - openvpn.config
+
+lifecycle:
+  post_converge:
+  - local: sleep 10
+
+verifier:
+  name: shell
+  command: py.test -vvv --junit-xml junit-$KITCHEN_INSTANCE.xml test/$KITCHEN_SUITE
