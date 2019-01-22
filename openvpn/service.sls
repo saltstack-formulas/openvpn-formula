@@ -25,7 +25,7 @@
 {% endif %}
 
 openvpn_{{ name }}_service:
-  service.running:
+  service.{{ map.service_function }}:
     - name: {{ service_name }}
     - enable: True
     - require:
@@ -42,7 +42,7 @@ openvpn_{{ name }}_service:
 {% else %}
 # Ensure openvpn service is running and autostart is enabled
 openvpn_service:
-  service.running:
+  service.{{ map.service_function }}:
     - name: {{ map.service }}
     - enable: True
     - require:

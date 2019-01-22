@@ -48,6 +48,10 @@ openvpn:
     # You can suppress this by: (Default on FreeBSD)
     manage_group: False
 
+    # If you want to control the openvpn services via other tools,
+    # you want to 'disabled' it in your system. Default: running
+    #service_function: disabled
+
 openvpn:
   server:
     myserver1:
