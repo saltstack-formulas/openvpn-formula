@@ -10,6 +10,7 @@ openvpn:
   multi_services: False
   pkgs: ['openvpn']
   service: openvpn
+  service_function: running
   user: nobody
   network_manager_pkgs:
     - network-manager-openvpn
