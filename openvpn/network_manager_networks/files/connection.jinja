@@ -78,7 +78,7 @@ comp-lzo={{ vpn_data.pop('comp_lzo') }}
 cert-pass-flags=1
 {%-       endif -%}
 
-{%-       if vpn_data.pop('proto', 'udp') == 'tcp' %}
+{%-       if vpn_data.pop('proto', 'udp') in ['tcp', 'tcp-client'] %}
 proto-tcp=yes
 {%-       endif -%}
 
