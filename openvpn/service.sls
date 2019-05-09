@@ -12,7 +12,7 @@
 
 # How to name the service (instance)?
 {% if salt['grains.has_value']('systemd') %}
-{% set service_name = 'openvpn@' ~ name %}
+{% set service_name = 'openvpn-' ~ type ~ '@' ~ name %}
 {% else %}
 {% set service_name = 'openvpn_' ~ name %}
 {% endif %}
