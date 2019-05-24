@@ -17,7 +17,13 @@ else
     # multiple services
     else
       %w(server client).each do |role|
-        describe service("openvpn@my#{role}1.service") do
+
+        prefix = case os[:name]
+        when 'fedora' then "openvpn-#{role}"
+        else 'openvpn'
+        end
+
+        describe service("#{prefix}@my#{role}1.service") do
           it { should be_enabled }
           it { should be_running }
         end

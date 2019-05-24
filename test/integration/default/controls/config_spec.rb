@@ -5,7 +5,12 @@ group = 'openvpn'
 control 'OpenVPN server configuration' do
   title 'should match desired lines'
 
-  describe file('/etc/openvpn/myserver1.conf') do
+  cfgfile = case os[:name]
+  when 'fedora' then '/etc/openvpn/server/myserver1.conf'
+  else '/etc/openvpn/myserver1.conf'
+  end
+
+  describe file(cfgfile) do
     it { should be_file }
     it { should be_owned_by user }
     it { should be_grouped_into group }
@@ -23,7 +28,12 @@ end
 control 'OpenVPN client configuration' do
   title 'should match desired lines'
 
-  describe file('/etc/openvpn/myclient1.conf') do
+  cfgfile = case os[:name]
+  when 'fedora' then '/etc/openvpn/client/myclient1.conf'
+  else '/etc/openvpn/myclient1.conf'
+  end
+
+  describe file(cfgfile) do
     it { should be_file }
     it { should be_owned_by user }
     it { should be_grouped_into group }

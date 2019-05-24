@@ -19,7 +19,11 @@ include:
 
 {% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
 
-{% set config_dir = config.conf_dir if config.conf_dir is defined else map.conf_dir %}
+{%- set config_dir = config.conf_dir if config.conf_dir is defined else map.conf_dir %}
+{%- if grains.os == "Fedora" %}
+{#-   Fedora uses /etc/openvpn/{client,server} as their working directory #}
+{%-   set config_dir = config_dir ~ '/' ~ type %}
+{%- endif %}
 
 {% set config_file = "{0}/openvpn_{1}.conf".format(config_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(config_dir, name, map.conf_ext) %}
 
