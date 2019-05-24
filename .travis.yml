@@ -34,7 +34,8 @@ env:
     # - INSTANCE: default-debian-9-2018-3-py2
     - INSTANCE: default-ubuntu-1604-2018-3-py2
     # - INSTANCE: default-centos-7-2018-3-py2
-    - INSTANCE: default-fedora-29-2018-3-py2
+    # Currently fails with "Cipher 'AES-256-GCM' mode not supported"
+    #- INSTANCE: default-fedora-29-2018-3-py2
     # TODO: Use this when fixed instead of `opensuse-leap-42`
     # Ref: https://github.com/netmanagers/salt-image-builder/issues/2
     # - INSTANCE: default-opensuse-leap-15-2018-3-py2
