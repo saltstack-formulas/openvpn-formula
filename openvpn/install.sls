@@ -11,12 +11,14 @@ openvpn_pkgs:
       {%- for pkg in map.pkgs %}
       - {{ pkg }}
       {%- endfor %}
-{% if salt['grains.get']('os_family') == 'Windows' %}
-    - require:
-      - win_pki: openvpn_publisher_cert
 
-openvpn_publisher_cert:
+{% if salt['grains.get']('os_family') == 'Windows' %}
+{%   for cert_num in ['1', '2'] %}
+openvpn_publisher_cert_{{ cert_num }}:
   win_pki.import_cert:
-    - name: salt://openvpn/files/openvpn-1.cer
+    - name: salt://openvpn/files/openvpn-{{ cert_num }}.cer
     - store: TrustedPublisher
+    - require_in:
+      - pkg: openvpn_pkgs
+{%   endfor %}
 {% endif %}
