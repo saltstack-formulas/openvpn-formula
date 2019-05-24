@@ -1,12 +1,7 @@
 openvpn:
   lookup:
-    {% if ( grains.os == "Debian" and grains.osmajorrelease >= 9 ) %}
-    user: root
-    group: root
-    {% else %}
     user: openvpn
     group: openvpn
-    {% endif %}
     manage_user: True
     manage_group: True
     external_repo_enabled: True
