@@ -31,9 +31,11 @@ openvpn_user:
 openvpn_config_dir:
   file.directory:
     - name: {{ map.conf_dir }}
+{%- if not grains['os_family'] == 'Windows' %}
     - mode: 750
     - user: {{ map.user }}
     - group: {{ map.group }}
+{%- endif %}
     - require_in:
       - sls: openvpn.config
 
