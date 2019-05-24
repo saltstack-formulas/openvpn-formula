@@ -12,9 +12,9 @@
 
 # How to name the service (instance)?
 {% if salt['grains.has_value']('systemd') %}
-{% set service_name = 'openvpn@' ~ name %}
+{% set service_name = map.service ~ '@' ~ name %}
 {% else %}
-{% set service_name = 'openvpn_' ~ name %}
+{% set service_name = map.service ~ '_' ~ name %}
 {% endif %}
 
 # Create an init script?
