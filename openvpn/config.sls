@@ -169,7 +169,7 @@ openvpn_{{ type }}_{{ name }}_log_file:
     - name: {{ config.log }}
     - makedirs: True
     - replace: False
-    {{ _permissions(640) }}
+    {{ _permissions(640, map.log_user) }}
     - require_in:
       {%- if map.multi_services %}
       - service: openvpn_{{name}}_service
@@ -185,7 +185,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
     - name: {{ config.log_append }}
     - makedirs: True
     - replace: False
-    {{ _permissions(640) }}
+    {{ _permissions(640, map.log_user) }}
     - require_in:
       {%- if map.multi_services %}
       - service: openvpn_{{name}}_service

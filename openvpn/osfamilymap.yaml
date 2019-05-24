@@ -4,6 +4,7 @@ Arch:
     - easy-rsa
 Debian:
   group: nogroup
+  log_user: root
 RedHat:
   pkgs:
     - openvpn
