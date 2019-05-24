@@ -37,3 +37,11 @@ openvpn_config_dir:
     - require_in:
       - sls: openvpn.config
 
+{%- if grains.os_family == 'FreeBSD' %}
+openvpn_kldload_if_tap:
+  kmod.present:
+    - name: if_tap
+    - persist: True
+    - require_in:
+      - sls: openvpn.config
+{%- endif %}
