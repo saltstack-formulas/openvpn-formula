@@ -42,6 +42,7 @@ openvpn_config_{{ type }}_{{ name }}:
         type: {{ type }}
         user: {{ map.user }}
         group: {{ map.group }}
+        config: {{ config | json }}
     - watch_in:
       - service: {{ service_id }}
 
