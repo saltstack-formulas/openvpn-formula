@@ -321,3 +321,7 @@ rcvbuf {{ config.rcvbuf }}
 {%  if config.get('float', False) -%}
 float
 {%- endif %}
+
+{%- if config.script_security is defined %}
+script-security {{ config.script_security }}
+{%- endif %}
