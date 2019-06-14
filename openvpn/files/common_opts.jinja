@@ -179,9 +179,9 @@ dh {{ config.dh }}
 dh dh1024.pem
 {%- endif %}
 
-{%- if config.ta_content is defined and config.tls_crypt is defined %}
+{%- if config.tls_crypt is defined %}
 tls-crypt {{ config.tls_crypt }}
-{%- elif config.ta_content is defined and config.tls_auth is defined %}
+{%- elif config.tls_auth is defined %}
 tls-auth {{ multipart_param(config.tls_auth) }}
 {%- endif %}
 
