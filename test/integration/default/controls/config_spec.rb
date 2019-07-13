@@ -5,10 +5,13 @@ group = 'openvpn'
 control 'OpenVPN server configuration' do
   title 'should match desired lines'
 
-  cfgfile = case os[:name]
-  when 'fedora' then '/etc/openvpn/server/myserver1.conf'
-  else '/etc/openvpn/myserver1.conf'
-  end
+  cfgfile =
+    case os[:name]
+    when 'fedora' then
+      '/etc/openvpn/server/myserver1.conf'
+    else
+      '/etc/openvpn/myserver1.conf'
+    end
 
   describe file(cfgfile) do
     it { should be_file }
@@ -28,10 +31,13 @@ end
 control 'OpenVPN client configuration' do
   title 'should match desired lines'
 
-  cfgfile = case os[:name]
-  when 'fedora' then '/etc/openvpn/client/myclient1.conf'
-  else '/etc/openvpn/myclient1.conf'
-  end
+  cfgfile =
+    case os[:name]
+    when 'fedora' then
+      '/etc/openvpn/client/myclient1.conf'
+    else
+      '/etc/openvpn/myclient1.conf'
+    end
 
   describe file(cfgfile) do
     it { should be_file }

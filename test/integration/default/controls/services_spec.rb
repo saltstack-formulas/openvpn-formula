@@ -13,10 +13,13 @@ control 'OpenVPN service' do
   else
     %w(server client).each do |role|
 
-      prefix = case os[:name]
-      when 'fedora' then "openvpn-#{role}"
-      else 'openvpn'
-      end
+      prefix =
+        case os[:name]
+        when 'fedora' then
+          "openvpn-#{role}"
+        else
+          'openvpn'
+        end
 
       describe service("#{prefix}@my#{role}1.service") do
         it { should be_enabled }
