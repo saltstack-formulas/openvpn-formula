@@ -3,7 +3,7 @@ control 'OpenVPN service' do
   title 'should be running and enabled'
 
   # single service
-  if os[:name] == 'centos' and os[:release].start_with?('6')
+  if os[:name] == 'centos' && os[:release].start_with?('6')
       describe service("openvpn") do
         it { should be_enabled }
         it { should be_running }
