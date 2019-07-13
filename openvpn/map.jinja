@@ -22,17 +22,3 @@
     ),
     base='openvpn')
  %}
-
-{%- macro multipart_param(value, index=None) %}
-{%-   if value is string %}
-{%-     set value = value.split() %}
-{%-   endif %}
-{%-   if not index is none -%}
-{{ value[index] }}
-{%-   else -%}
-{%-     for item in value -%}
-{%-       if not loop.first %} {% endif -%}
-{{        item }}
-{%-     endfor %}
-{%-   endif %}
-{%- endmacro -%}

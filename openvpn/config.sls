@@ -1,5 +1,5 @@
 {% from "openvpn/map.jinja" import map with context %}
-{% from "openvpn/map.jinja" import multipart_param with context %}
+{% from "openvpn/macros.jinja" import multipart_param with context %}
 
 include:
   - openvpn
