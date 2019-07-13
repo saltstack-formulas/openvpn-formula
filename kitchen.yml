@@ -125,7 +125,7 @@ provisioner:
         '*':
           - openvpn
   pillars_from_files:
-    openvpn.sls: test/config/pillars.sls
+    openvpn.sls: test/integration/repositories/pillars.sls
 
 verifier:
   # https://www.inspec.io/

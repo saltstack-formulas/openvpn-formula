@@ -23,7 +23,7 @@
 #                                     # Info here: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
 #                                     # Valid options: stable (default), testing, release/2.3, release/2.4
 
-See also the example used in tests: test/config/pillars.sls
+#See also the example used in tests: test/integration/repositories/pillars.sls
 
 ##
 # OpenVPN user and group
