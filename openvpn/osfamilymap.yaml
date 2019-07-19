@@ -1,7 +1,14 @@
+Arch:
+  pkgs:
+    - openvpn
+    - easy-rsa
 Debian:
   group: nogroup
-Arch:
-  pkgs: ['openvpn', 'easy-rsa']
+  log_user: root
+RedHat:
+  pkgs:
+    - openvpn
+    - openssl
 FreeBSD:
   conf_dir: /usr/local/etc/openvpn
   group: openvpn

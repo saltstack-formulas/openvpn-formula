@@ -1,5 +1,5 @@
 {% from "openvpn/map.jinja" import map with context %}
-{% from "openvpn/map.jinja" import multipart_param with context %}
+{% from "openvpn/macros.jinja" import multipart_param with context %}
 
 include:
   - openvpn
@@ -19,7 +19,11 @@ include:
 
 {% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
 
-{% set config_dir = config.conf_dir if config.conf_dir is defined else map.conf_dir %}
+{%- set config_dir = config.conf_dir if config.conf_dir is defined else map.conf_dir %}
+{%- if grains.os == "Fedora" %}
+{#-   Fedora uses /etc/openvpn/{client,server} as their working directory #}
+{%-   set config_dir = config_dir ~ '/' ~ type %}
+{%- endif %}
 
 {% set config_file = "{0}/openvpn_{1}.conf".format(config_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(config_dir, name, map.conf_ext) %}
 
@@ -38,6 +42,7 @@ openvpn_config_{{ type }}_{{ name }}:
         type: {{ type }}
         user: {{ map.user }}
         group: {{ map.group }}
+        config: {{ config | json }}
     - watch_in:
       - service: {{ service_id }}
 
@@ -168,7 +173,14 @@ openvpn_{{ type }}_{{ name }}_log_file:
   file.managed:
     - name: {{ config.log }}
     - makedirs: True
-    {{ _permissions(640) }}
+    - replace: False
+    {{ _permissions(640, map.log_user) }}
+    - require_in:
+      {%- if map.multi_services %}
+      - service: openvpn_{{name}}_service
+      {%- else %}
+      - service: openvpn_service
+      {%- endif %}
 {% endif %}
 
 {% if config.log_append is defined %}
@@ -177,7 +189,14 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
   file.managed:
     - name: {{ config.log_append }}
     - makedirs: True
-    {{ _permissions(640) }}
+    - replace: False
+    {{ _permissions(640, map.log_user) }}
+    - require_in:
+      {%- if map.multi_services %}
+      - service: openvpn_{{name}}_service
+      {%- else %}
+      - service: openvpn_service
+      {%- endif %}
 {% endif %}
 
 {% if config.client_config_dir is defined %}

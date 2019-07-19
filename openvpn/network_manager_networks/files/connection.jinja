@@ -1,4 +1,4 @@
-{%- from "openvpn/map.jinja" import multipart_param with context -%}
+{%- from "openvpn/macros.jinja" import multipart_param with context -%}
 {%- set config = salt['pillar.get']('openvpn:network_manager:networks:'+network_name, {}) -%}
 {%- macro pairs(data) -%}
 {%-   for key, value in data|dictsort -%}

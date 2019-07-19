@@ -3,7 +3,6 @@
 # Template: {{ source }}
 
 {% include 'openvpn/files/common_opts.jinja' %}
-{%- set config = salt['pillar.get']("openvpn:{}:{}".format(type, name), {}) %}
 
 {%- if not (config.pull is defined and config.pull == False) %}
 pull

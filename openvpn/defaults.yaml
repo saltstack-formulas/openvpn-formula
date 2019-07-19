@@ -7,6 +7,8 @@ openvpn:
   external_repo_supported: []
   external_repo_version: stable
   group: nobody
+  # None, will default to 'user'
+  log_user:
   multi_services: False
   pkgs: ['openvpn']
   service: openvpn
