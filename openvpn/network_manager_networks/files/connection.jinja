@@ -46,21 +46,24 @@ auth={{ vpn_data.pop('auths')|first }}
 {%-       endif %}
 
 {%-       set remote = vpn_data.pop('remote', False) %}
-{%-       set port = vpn_data.pop('port', 1194) %}
+{%-       set port = vpn_data.pop('port', False) %}
 {%-       if remote is iterable and not remote is string %}
 {%-         set remote = remote|first %}
 {%-       endif %}
 {%-       if remote is string %}
 {%-         set remote_pair = remote.split(' ') %}
 {%-         set remote = remote_pair|first %}
-{%-         if remote_pair|length > 1 %}
+{%-         if not port and remote_pair|length > 1 %}
 {%-           set port = remote_pair|last %}
 {%-         endif %}
 {%-       endif %}
-{%-       if remote and port %}
+{%-       if remote %}
 remote={{ remote }}
-port={{ port }}
 {%-       endif %}
+{%-       if not port %}
+{%-         set port = 1194 %}
+{%-       endif %}
+port={{ port }}
 
 {%-       if 'tls_auth' in vpn_data %}
 ta-dir={{ multipart_param(vpn_data.tls_auth, 1) }}
