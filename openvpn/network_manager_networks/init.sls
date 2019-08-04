@@ -8,9 +8,12 @@ include:
   pkg.installed: []
 {%- endfor %}
 
-{%- set networks = salt['pillar.get']('openvpn:network_manager:networks', {}) %}
+{%- set openvpn_pillar = salt['pillar.get']('openvpn', {}) %}
+{%- set clients = openvpn_pillar.get('client', {}) %}
+{%- set networks = openvpn_pillar.get('network_manager', {}).get('networks', {}) %}
 
 {%- for name, data in networks.items() %}
+{%-   set config = networks.get(name, {}) %}
 "/etc/NetworkManager/system-connections/{{ name }}":
 {%-   if data.get('remove', False) %}
   file.absent: []
@@ -20,6 +23,8 @@ include:
     - source: salt://openvpn/network_manager_networks/files/connection.jinja
     - defaults:
       network_name: "{{ name }}"
+      config: {{ config | json }}
+      clients: {{ clients | json }}
     - mode: 600
     - onchanges_in:
       - cmd: network_manager_connection_reload
