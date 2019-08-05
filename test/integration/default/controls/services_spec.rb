@@ -15,7 +15,11 @@ control 'OpenVPN service' do
 
       prefix =
         case os[:name]
+        when 'debian' then
+          "openvpn-#{role}"
         when 'fedora' then
+          "openvpn-#{role}"
+        when 'ubuntu' then
           "openvpn-#{role}"
         else
           'openvpn'
