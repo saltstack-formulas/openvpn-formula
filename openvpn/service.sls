@@ -12,12 +12,11 @@
 
 # How to name the service (instance)?
 {% if salt['grains.has_value']('systemd') %}
-{%-   if grains.os == "Fedora" %}
-{#-     Fedora uses /etc/openvpn/{client,server} as their working directory #}
-{%      set service_name = map.service ~ '-' ~ type ~ '@' ~ name %}
-{%-   else %}
-{%      set service_name = map.service ~ '@' ~ name %}
-{%-   endif %}
+{#-   
+   Some distributions use /etc/openvpn/{client,server} as their working directory
+   and openvpn-{client,server} as their service.
+#}
+{% set service_name = map.get(type ~ "_service", map.service) ~ '@' ~ name %}
 {% else %}
 {% set service_name = map.service ~ '_' ~ name %}
 {% endif %}

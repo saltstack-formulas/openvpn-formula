@@ -8,6 +8,10 @@ Arch:
 Debian:
   group: nogroup
   log_user: root
+  client_conf_dir: /etc/openvpn/client
+  client_service: openvpn-client
+  server_conf_dir: /etc/openvpn/server
+  server_service: openvpn-server
 RedHat:
   pkgs:
     - openvpn
