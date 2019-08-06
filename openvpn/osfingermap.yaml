@@ -1,2 +1,5 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
 CentOS-6:
   multi_services: false
