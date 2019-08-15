@@ -1,5 +1,18 @@
 # Changelog
 
+# [0.14.0](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.13.1...v0.14.0) (2019-08-15)
+
+
+### Bug Fixes
+
+* **network_manager_networks:** properly override port ([1d58ec6](https://github.com/saltstack-formulas/openvpn-formula/commit/1d58ec6))
+* **network_manager_networks:** reduced pillar.get calls ([7ee9eed](https://github.com/saltstack-formulas/openvpn-formula/commit/7ee9eed))
+
+
+### Features
+
+* **yamllint:** include for this repo and apply rules throughout ([4355ac6](https://github.com/saltstack-formulas/openvpn-formula/commit/4355ac6))
+
 ## [0.13.1](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.13.0...v0.13.1) (2019-07-19)
 
 
