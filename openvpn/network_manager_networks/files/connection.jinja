@@ -1,5 +1,6 @@
 {%- from "openvpn/macros.jinja" import multipart_param with context -%}
-{%- set config = salt['pillar.get']('openvpn:network_manager:networks:'+network_name, {}) -%}
+{%- from "openvpn/map.jinja" import map with context %}
+
 {%- macro pairs(data) -%}
 {%-   for key, value in data|dictsort -%}
 {{ key|replace('_', '-') }}={{ value }}
@@ -24,8 +25,9 @@ uuid={{ salt['cmd.run']("python2 -c \"import uuid; print uuid.uuid5(uuid.NAMESPA
 {%-   if segment == 'vpn' %}
 {%-     if config[segment].get('service_type', 'org.freedesktop.NetworkManager.openvpn') == 'org.freedesktop.NetworkManager.openvpn' %}
 {%-       set instance_name = config.get('_vpn_instance', network_name) %}
-{%-       set instance_data = salt['pillar.get']('openvpn:client:'+instance_name, {}) %}
-{%-       set vpn_data = salt['pillar.get']('openvpn:network_manager:networks:{}:{}'.format(network_name, segment), instance_data, True) %}
+{%-       set instance_data = clients.get(instance_name, {}) %}
+{%-       set vpn_data = instance_data %}
+{%-       do vpn_data.update(config.get(segment, {})) %}
 connection-type=tls
 service-type={{ vpn_data.pop('service_type') }}
 
@@ -44,21 +46,24 @@ auth={{ vpn_data.pop('auths')|first }}
 {%-       endif %}
 
 {%-       set remote = vpn_data.pop('remote', False) %}
-{%-       set port = vpn_data.pop('port', 1194) %}
+{%-       set port = vpn_data.pop('port', False) %}
 {%-       if remote is iterable and not remote is string %}
 {%-         set remote = remote|first %}
 {%-       endif %}
 {%-       if remote is string %}
 {%-         set remote_pair = remote.split(' ') %}
 {%-         set remote = remote_pair|first %}
-{%-         if remote_pair|length > 1 %}
+{%-         if not port and remote_pair|length > 1 %}
 {%-           set port = remote_pair|last %}
 {%-         endif %}
 {%-       endif %}
-{%-       if remote and port %}
+{%-       if remote %}
 remote={{ remote }}
-port={{ port }}
 {%-       endif %}
+{%-       if not port %}
+{%-         set port = 1194 %}
+{%-       endif %}
+port={{ port }}
 
 {%-       if 'tls_auth' in vpn_data %}
 ta-dir={{ multipart_param(vpn_data.tls_auth, 1) }}
