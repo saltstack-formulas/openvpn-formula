@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
 Arch:
   pkgs:
     - openvpn
@@ -12,10 +15,10 @@ RedHat:
 FreeBSD:
   conf_dir: /usr/local/etc/openvpn
   group: openvpn
-  multi_services: True
+  multi_services: true
   user: openvpn
-  manage_user: False
-  manage_group: False
+  manage_user: false
+  manage_group: false
 Windows:
   conf_dir: C:\Program Files\OpenVPN\config
   conf_ext: ovpn

@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
 openvpn:
   lookup:
     user: openvpn
     group: openvpn
-    manage_user: True
-    manage_group: True
-    external_repo_enabled: True
+    manage_user: true
+    manage_group: true
+    external_repo_enabled: true
     dh_files: ['512']
   server:
     myserver1:
@@ -49,9 +52,9 @@ openvpn:
       topology: p2p
       dev: tun
       comp_lzo: "yes"
-      pull: False
-      tls_client: False
-      nobind: False
+      pull: false
+      tls_client: false
+      nobind: false
       ifconfig: 169.254.0.2 169.254.0.1
       log_append: /var/log/openvpn/myclient1.log
       secret: /etc/openvpn/myclient1_secret.key
@@ -78,4 +81,3 @@ openvpn:
         4c099bf8e74b8bf4e6509de69b7a79ad
         7391b6cf3f4ae296ecf8b552144a2947
         -----END OpenVPN Static key V1-----
-

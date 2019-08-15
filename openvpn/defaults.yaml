@@ -1,15 +1,18 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
 openvpn:
   conf_dir: /etc/openvpn
   conf_ext: conf
   dh_files: ['2048', '4096']
-  dsaparam: False
-  external_repo_enabled: False
+  dsaparam: false
+  external_repo_enabled: false
   external_repo_supported: []
   external_repo_version: stable
   group: nobody
   # None, will default to 'user'
   log_user:
-  multi_services: False
+  multi_services: false
   pkgs: ['openvpn']
   service: openvpn
   service_function: running

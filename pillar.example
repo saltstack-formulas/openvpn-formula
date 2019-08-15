@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+---
 # See https://openvpn.net/index.php/open-source/documentation/howto.html#examples
 # for configuration details
 # Important: Replace all '-' in names on left side with '_'!
@@ -5,31 +8,37 @@
 # Defaults can be overwritten, see openvpn/map.jinja for default values
 # openvpn:
 #   lookup:
-#     dh_files: ['4096']              # This creates a dh file with 4096 bits (which will take a long time).
-#     dh_files: ['2048']              # This creates a dh file with 2048 bits (which should be enough.)
-#                                     # Default: ['2048', '4096']
-#                                     # (It creates both variants.)
+#     # This creates a dh file with 4096 bits (which will take a long time).
+#     dh_files: ['4096']
+#     # This creates a dh file with 2048 bits (which should be enough.)
+#     # Default: ['2048', '4096']
+#     # (It creates both variants.)
+#     dh_files: ['2048']
 #
-#     dsaparam: False                 # Set this to True if you want to use the -dsaparam flag in DH param generation.
-#                                     # See also:
-#                                     # https://github.com/saltstack-formulas/openvpn-formula/pull/77
-#                                     # https://security.stackexchange.com/questions/42415/openvpn-dhparam
+#     # Set this to true if you want to use the -dsaparam flag in DH param generation.
+#     # See also:
+#     # https://github.com/saltstack-formulas/openvpn-formula/pull/77
+#     # https://security.stackexchange.com/questions/42415/openvpn-dhparam
+#     dsaparam: false
 #
-#     external_repo_enabled: True     # This will use the OpenVPN repository documented
-#                                     # at the following URL: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
-#                                     # Only valid for Debian OS family
+#     # This will use the OpenVPN repository documented
+#     # at the following URL:
+#     # https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
+#     # Only valid for Debian OS family
+#     external_repo_enabled: true
 #
-#     external_repo_version: testing  # The version to use for OpenVPN if 'external_repo_enabled' is set to 'True'
-#                                     # Info here: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
-#                                     # Valid options: stable (default), testing, release/2.3, release/2.4
+#     # The version to use for OpenVPN if 'external_repo_enabled' is set to 'true'
+#     # Info here: https://community.openvpn.net/openvpn/wiki/OpenvpnSoftwareRepos
+#     # Valid options: stable (default), testing, release/2.3, release/2.4
+#     external_repo_version: testing
 
-#See also the example used in tests: test/integration/repositories/pillars.sls
+# See also the example used in tests: test/integration/repositories/pillars.sls
 
 ##
 # OpenVPN user and group
 #
 # For historic reasons these are the default values:
-#openvpn:
+# openvpn:
 #  lookup:
 #    user: nobody
 #    group: nobody  # nogroup on Debian
@@ -43,17 +52,16 @@ openvpn:
     group: openvpn
     # When the user is not 'nobody', it will be managed by this formula.
     # You can suppress this by: (Default on FreeBSD)
-    manage_user: False
+    manage_user: false
     # When the group is neither 'nobody' nor 'nogroup',
     # it will be managed by this formula.
     # You can suppress this by: (Default on FreeBSD)
-    manage_group: False
+    manage_group: false
 
     # If you want to control the openvpn services via other tools,
     # you want to 'disabled' it in your system. Default: running
-    #service_function: disabled
+    # service_function: disabled
 
-openvpn:
   server:
     myserver1:
       ca: /path/to/mycacert.pem
@@ -100,7 +108,7 @@ openvpn:
       # tl;dr: The bigger, the better.
       dh: dh4096.pem
       # for faster DP params generation use only ['2048'] in openvpn:lookup:dh_files
-      #dh: dh2048.pem
+      # dh: dh2048.pem
       server: '10.8.0.0 255.255.255.0'
       ifconfig_pool_persist: ipp.txt
       server_bridge:
@@ -114,8 +122,8 @@ openvpn:
         client1: |
           iroute 192.168.10.0 255.255.255.0
       learn_address:
-      client_to_client: False
-      duplicate_cn: False
+      client_to_client: false
+      duplicate_cn: false
       keepalive: '10 120'
       # `tls-auth` and `tls-crypt` are mutually exclusive
       # and `tls-crypt` is only valid for OpenVPN 2.4 and above.
@@ -133,6 +141,7 @@ openvpn:
         - AES-256-CBC
       auths:
         - SHA384
+      # yamllint disable-line rule:line-length
       tls_cipher: 'DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-CAMELLIA256-SHA:DHE-RSA-AES256-SHA:DHE-RSA-CAMELLIA128-SHA:DHE-RSA-AES128-SHA:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA'
       comp_lzo:
       max_clients: 100
@@ -162,9 +171,9 @@ openvpn:
       ifconfig: '10.8.0.1 10.8.0.2'
       secret: /path/to/mysecret.key
       # or
-      #secret: /path/to/mysecret.key 0
+      # secret: /path/to/mysecret.key 0
       # or
-      #secret:  # use this form for paths with spaces
+      # secret:  # use this form for paths with spaces
       #  - /path/to/mysecret.key
       #  - 0
       secret_content: |
@@ -211,13 +220,11 @@ openvpn:
       http_proxy_retry:
       http_proxy: 'proxy-server proxy-port'
       mute_replay_warnings:
-{% if grains['os_family'] == 'Windows' %}
-      dev_node: ovpn-myclient2
-      # Take care with the quoting for Windows paths with spaces
-      ca: '"C:\\Program Files\\OpenVPN\\config\\mycacert.pem"'
-{% else %}
       ca: /path/to/mycacert.pem
-{% endif %}
+      # The following two commented options are examples for Windows
+      # dev_node: ovpn-myclient2
+      # Take care with the quoting for Windows paths with spaces
+      # ca: '"C:\\Program Files\\OpenVPN\\config\\mycacert.pem"'
       ca_content: |
         -----BEGIN CERTIFICATE-----
         ...
@@ -236,7 +243,7 @@ openvpn:
       askpass_content: |
         p4ssw0rd
       ns_cert_type: server
-      #tls_auth: /path/to/tls.key 0
+      # tls_auth: /path/to/tls.key 0
       # or:
       tls_auth:  # use this form for paths with spaces
         - /path/to/tls.key
@@ -250,6 +257,7 @@ openvpn:
         - AES-256-CBC
       auths:
         - SHA384
+      # yamllint disable-line rule:line-length
       tls_cipher: 'DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-CAMELLIA256-SHA:DHE-RSA-AES256-SHA:DHE-RSA-CAMELLIA128-SHA:DHE-RSA-AES128-SHA:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA'
       remote_cert_tls: server
       comp_lzo:
@@ -257,9 +265,9 @@ openvpn:
       mute: 20
       up: /usr/local/bin/tunnel_up.sh
       down: /usr/local/bin/tunnel_down.sh
-      up_delay: True
-      down_pre: True
-      up_restart: True
+      up_delay: true
+      down_pre: true
+      up_restart: true
       _append:
         - script-security 2
         - up 'echo up'
@@ -283,12 +291,12 @@ openvpn:
       route:
         - "8.8.8.8 255.255.255.255 net_gateway"
     myclient3:
-      pull: False
+      pull: false
       # from the man page:
       # This option must be used on a client which is connecting to a
       # multi-client server. It indicates to OpenVPN that it should accept
       # options pushed by the server, provided they are part of the legal
-      # set of pushable options 
+      # set of pushable options
 
   ifconfig_pool_persist:
     ipp.txt:
@@ -301,7 +309,7 @@ openvpn:
 
   ##
   # Use latest OpenVPN packages (default: false)
-  use_latest: False
+  use_latest: false
 
   # Managing clients which use NetworkManager
   # (Intentionally does not handle certificate/key distribution!)
