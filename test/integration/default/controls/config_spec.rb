@@ -26,10 +26,6 @@ control 'OpenVPN server configuration' do
     its('content') { should include '# Managed by Salt' }
     its('content') { should include 'user' }
   end
-
-  describe command("ls -l #{cfgfile}") do
-    its('stdout') { should include " #{user} #{group} " }
-  end
 end
 
 control 'OpenVPN client configuration' do
@@ -55,9 +51,5 @@ control 'OpenVPN client configuration' do
     its('content') { should include '# OpenVPN client configuration' }
     its('content') { should include '# Managed by Salt' }
     its('content') { should include 'user' }
-  end
-
-  describe command("ls -l #{cfgfile}") do
-    its('stdout') { should include " #{user} #{group} " }
   end
 end
