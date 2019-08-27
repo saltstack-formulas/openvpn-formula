@@ -12,7 +12,7 @@
 
 # How to name the service (instance)?
 {% if salt['grains.has_value']('systemd') %}
-{#-   
+{#-
    Some distributions use /etc/openvpn/{client,server} as their working directory
    and openvpn-{client,server} as their service.
 #}
