@@ -7,11 +7,11 @@ control 'OpenVPN server configuration' do
 
   cfgfile =
     case os[:name]
-    when 'debian' then
+    when 'debian'
       '/etc/openvpn/server/myserver1.conf'
-    when 'fedora' then
+    when 'fedora'
       '/etc/openvpn/server/myserver1.conf'
-    when 'ubuntu' then
+    when 'ubuntu'
       '/etc/openvpn/server/myserver1.conf'
     else
       '/etc/openvpn/myserver1.conf'
@@ -37,11 +37,11 @@ control 'OpenVPN client configuration' do
 
   cfgfile =
     case os[:name]
-    when 'debian' then
+    when 'debian'
       '/etc/openvpn/client/myclient1.conf'
-    when 'fedora' then
+    when 'fedora'
       '/etc/openvpn/client/myclient1.conf'
-    when 'ubuntu' then
+    when 'ubuntu'
       '/etc/openvpn/client/myclient1.conf'
     else
       '/etc/openvpn/myclient1.conf'
