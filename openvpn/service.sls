@@ -17,6 +17,14 @@
    and openvpn-{client,server} as their service.
 #}
 {% set service_name = map.get(type, {}).get("service", map.service) ~ '@' ~ name %}
+{#-
+   For an successful upgrade we need to make sure the old services are deactivated.
+   This affects at least Debian.
+#}
+obsolete_openvpn_{{ name }}_service:
+  service.dead:
+    - name: {{ map.service ~ '@' ~ name }}
+    - enable: False
 {% else %}
 {% set service_name = map.service ~ '_' ~ name %}
 {% endif %}
