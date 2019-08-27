@@ -24,7 +24,7 @@ include:
 {%-   set config_dir = config.conf_dir %}
 {%- else %}
 {#-   Some distributions use /etc/openvpn/{client,server} as their working directory #}
-{%-   set config_dir = map.get(type ~ "_conf_dir", map.conf_dir) %}
+{%-   set config_dir = map.get(type, {}).get("conf_dir", map.conf_dir) %}
 {%- endif %}
 
 {% set config_file = "{0}/openvpn_{1}.conf".format(config_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(config_dir, name, map.conf_ext) %}

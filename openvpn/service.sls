@@ -16,7 +16,7 @@
    Some distributions use /etc/openvpn/{client,server} as their working directory
    and openvpn-{client,server} as their service.
 #}
-{% set service_name = map.get(type ~ "_service", map.service) ~ '@' ~ name %}
+{% set service_name = map.get(type, {}).get("service", map.service) ~ '@' ~ name %}
 {% else %}
 {% set service_name = map.service ~ '_' ~ name %}
 {% endif %}
