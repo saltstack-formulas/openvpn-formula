@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.14.1](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.14.0...v0.14.1) (2019-09-01)
+
+
+### Bug Fixes
+
+* **config:** configurable distinction between server and client services ([18c4c4a](https://github.com/saltstack-formulas/openvpn-formula/commit/18c4c4a))
+* **config:** sub-mappings for client and server ([b30b23d](https://github.com/saltstack-formulas/openvpn-formula/commit/b30b23d))
+* **service:** make sure the now obsolete systemd services are disabled ([2dfae46](https://github.com/saltstack-formulas/openvpn-formula/commit/2dfae46))
+* **service:** removed trailing whitespace ([85d2458](https://github.com/saltstack-formulas/openvpn-formula/commit/85d2458))
+* **test:** drop ' then$' ([62c2f70](https://github.com/saltstack-formulas/openvpn-formula/commit/62c2f70))
+* **test:** dropped redundant permission checks ([9c3ea71](https://github.com/saltstack-formulas/openvpn-formula/commit/9c3ea71))
+
+
+### Continuous Integration
+
+* **kitchen+travis:** replace EOL pre-salted images ([2577535](https://github.com/saltstack-formulas/openvpn-formula/commit/2577535))
+
+
+### Tests
+
+* **kitchen:** debian and ubuntu use different paths now ([dfd784e](https://github.com/saltstack-formulas/openvpn-formula/commit/dfd784e))
+* **pillar:** set 'status' to fix kitchen tests ([07bb5b6](https://github.com/saltstack-formulas/openvpn-formula/commit/07bb5b6))
+
 # [0.14.0](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.13.1...v0.14.0) (2019-08-15)
 
 
