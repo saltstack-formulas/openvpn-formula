@@ -12,12 +12,19 @@
 
 # How to name the service (instance)?
 {% if salt['grains.has_value']('systemd') %}
-{%-   if grains.os == "Fedora" %}
-{#-     Fedora uses /etc/openvpn/{client,server} as their working directory #}
-{%      set service_name = map.service ~ '-' ~ type ~ '@' ~ name %}
-{%-   else %}
-{%      set service_name = map.service ~ '@' ~ name %}
-{%-   endif %}
+{#-
+   Some distributions use /etc/openvpn/{client,server} as their working directory
+   and openvpn-{client,server} as their service.
+#}
+{% set service_name = map.get(type, {}).get("service", map.service) ~ '@' ~ name %}
+{#-
+   For an successful upgrade we need to make sure the old services are deactivated.
+   This affects at least Debian.
+#}
+obsolete_openvpn_{{ name }}_service:
+  service.dead:
+    - name: {{ map.service ~ '@' ~ name }}
+    - enable: False
 {% else %}
 {% set service_name = map.service ~ '_' ~ name %}
 {% endif %}

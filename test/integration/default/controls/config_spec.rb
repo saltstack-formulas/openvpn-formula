@@ -7,7 +7,11 @@ control 'OpenVPN server configuration' do
 
   cfgfile =
     case os[:name]
-    when 'fedora' then
+    when 'debian'
+      '/etc/openvpn/server/myserver1.conf'
+    when 'fedora'
+      '/etc/openvpn/server/myserver1.conf'
+    when 'ubuntu'
       '/etc/openvpn/server/myserver1.conf'
     else
       '/etc/openvpn/myserver1.conf'
@@ -22,10 +26,6 @@ control 'OpenVPN server configuration' do
     its('content') { should include '# Managed by Salt' }
     its('content') { should include 'user' }
   end
-
-  describe command('ls -l /etc/openvpn/myserver1.conf') do
-    its('stdout') { should include " #{user} #{group} " }
-  end
 end
 
 control 'OpenVPN client configuration' do
@@ -33,7 +33,11 @@ control 'OpenVPN client configuration' do
 
   cfgfile =
     case os[:name]
-    when 'fedora' then
+    when 'debian'
+      '/etc/openvpn/client/myclient1.conf'
+    when 'fedora'
+      '/etc/openvpn/client/myclient1.conf'
+    when 'ubuntu'
       '/etc/openvpn/client/myclient1.conf'
     else
       '/etc/openvpn/myclient1.conf'
@@ -47,9 +51,5 @@ control 'OpenVPN client configuration' do
     its('content') { should include '# OpenVPN client configuration' }
     its('content') { should include '# Managed by Salt' }
     its('content') { should include 'user' }
-  end
-
-  describe command('ls -l /etc/openvpn/myclient1.conf') do
-    its('stdout') { should include " #{user} #{group} " }
   end
 end

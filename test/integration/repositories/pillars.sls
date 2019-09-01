@@ -19,6 +19,7 @@ openvpn:
       comp_lzo: "yes"
       ifconfig: 169.254.0.1 169.254.0.2
       log_append: /var/log/openvpn/myserver1.log
+      status: /var/log/openvpn/myserver1-status.log
       secret: /etc/openvpn/myserver1_secret.key
       # /usr/sbin/openvpn --genkey --secret /dev/stdout
       secret_content: |
@@ -56,6 +57,7 @@ openvpn:
       tls_client: false
       nobind: false
       ifconfig: 169.254.0.2 169.254.0.1
+      status: /var/log/openvpn/myclient1-status.log
       log_append: /var/log/openvpn/myclient1.log
       secret: /etc/openvpn/myclient1_secret.key
       # /usr/sbin/openvpn --genkey --secret /dev/stdout

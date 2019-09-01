@@ -6,6 +6,13 @@ Debian:
     - wheezy
     - jessie
     - stretch
+Fedora:
+  client:
+    conf_dir: /etc/openvpn/client
+    service: openvpn-client
+  server:
+    conf_dir: /etc/openvpn/server
+    service: openvpn-server
 Ubuntu:
   external_repo_supported:
     - precise
