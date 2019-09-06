@@ -136,6 +136,10 @@ log {{ config.log }}
 log-append {{ config.log_append }}
 {%- endif %}
 
+{%- if config.syslog is defined and config.syslog %}
+syslog {%- if config.syslog is string %} {{ config.syslog }}{% endif %}
+{%- endif %}
+
 {%- if config.mute_replay_warnings is defined %}
 mute-replay-warnings
 {%- endif %}
