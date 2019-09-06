@@ -2,6 +2,15 @@
 Changelog
 =========
 
+`0.14.2 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.14.1...v0.14.2>`_ (2019-09-06)
+------------------------------------------------------------------------------------------------------------
+
+Documentation
+^^^^^^^^^^^^^
+
+
+* **pillar.example:** update with quoted "yes" for comp-lzo (\ `1b49b24 <https://github.com/saltstack-formulas/openvpn-formula/commit/1b49b24>`_\ )
+
 `0.14.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.14.0...v0.14.1>`_ (2019-09-01)
 ------------------------------------------------------------------------------------------------------------
 
