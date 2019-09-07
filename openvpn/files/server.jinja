@@ -112,6 +112,13 @@ management {{ config.management }}
 auth-user-pass-verify {{ config.auth_user_pass_verify }}
 {%- endif %}
 
+{#- `false is number` and `true is number` both also return true... #}
+{%- if config.auth_gen_token is defined
+        and (config.auth_gen_token|int is sameas (config.auth_gen_token)
+             or config.auth_gen_token is sameas true) %}
+auth-gen-token{% if config.auth_gen_token is not sameas true %} {{ config.auth_gen_token|int }}{% endif %}
+{%- endif %}
+
 {%- if config.setenv is defined %}
 {%- for setenv in config.setenv %}
 setenv {{ setenv }}
