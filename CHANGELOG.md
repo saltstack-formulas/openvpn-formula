@@ -1,5 +1,13 @@
 # Changelog
 
+# [0.15.0](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.14.2...v0.15.0) (2019-09-07)
+
+
+### Features
+
+* **auth_gen_token:** support for auth-gen-token ([333edd7](https://github.com/saltstack-formulas/openvpn-formula/commit/333edd7))
+* **syslog:** support for syslog ([24b370c](https://github.com/saltstack-formulas/openvpn-formula/commit/24b370c))
+
 ## [0.14.2](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.14.1...v0.14.2) (2019-09-06)
 
 
