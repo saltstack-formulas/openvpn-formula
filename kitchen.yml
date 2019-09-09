@@ -161,7 +161,7 @@ suites:
             '*':
               - openvpn
       pillars_from_files:
-        openvpn.sls: test/integration/repositories/pillars.sls
+        openvpn.sls: test/salt/pillar/default.sls
     verifier:
       inspec_tests:
         - path: test/integration/default

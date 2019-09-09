@@ -58,7 +58,7 @@ jobs:
         # Install and run `yamllint`
         - pip install --user yamllint
         # yamllint disable-line rule:line-length
-        - yamllint -s . .yamllint pillar.example test/integration/repositories/pillars.sls
+        - yamllint -s . .yamllint pillar.example test/salt/pillar/default.sls
         # Install and run `commitlint`
         - npm install @commitlint/config-conventional -D
         - npm install @commitlint/travis-cli -D

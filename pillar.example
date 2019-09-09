@@ -32,7 +32,7 @@
 #     # Valid options: stable (default), testing, release/2.3, release/2.4
 #     external_repo_version: testing
 
-# See also the example used in tests: test/integration/repositories/pillars.sls
+# See also the example used in tests: test/salt/pillar/default.sls
 
 ##
 # OpenVPN user and group
