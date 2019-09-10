@@ -11,7 +11,7 @@ openvpn:
   external_repo_version: stable
   group: nobody
   # None, will default to 'user'
-  log_user:
+  log_user: ~
   multi_services: false
   pkgs: ['openvpn']
   service: openvpn

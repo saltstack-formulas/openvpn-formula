@@ -78,9 +78,9 @@ openvpn:
       ping: 10
       ping_restart: 30
       ping_exit: 60
-      print-timer-rem:
+      print-timer-rem: ~
       dev: tun
-      dev_node:
+      dev_node: ~
       ca: /path/to/mycacert.pem
       ca_content: |
         -----BEGIN CERTIFICATE-----
@@ -111,17 +111,17 @@ openvpn:
       # dh: dh2048.pem
       server: '10.8.0.0 255.255.255.0'
       ifconfig_pool_persist: ipp.txt
-      server_bridge:
+      server_bridge: ~
       push:
         - "route 192.168.10.0 255.255.255.0"
-      route_nopull:
+      route_nopull: ~
       route:
         - "192.168.11.0 255.255.255.0"
       client_config_dir: clients
       client_config:
         client1: |
           iroute 192.168.10.0 255.255.255.0
-      learn_address:
+      learn_address: ~
       client_to_client: false
       duplicate_cn: false
       keepalive: '10 120'
@@ -148,8 +148,8 @@ openvpn:
       user: nobody
       group: nobody
       tun_mtu: 1350
-      persist_key:
-      persist_tun:
+      persist_key: ~
+      persist_tun: ~
       status: openvpn-status.log
       log: openvpn.log
       log_append: openvpn.log
@@ -163,13 +163,13 @@ openvpn:
       # or, a lifetime in seconds:
       # auth_gen_token: 604800
     myserver3:
-      daemon:
+      daemon: ~
       port: 443
       port_share: '127.0.0.1 4430'
-      ccd_exclusive:
+      ccd_exclusive: ~
       auths:
         - SHA384
-      username_as_common_name:
+      username_as_common_name: ~
       plugins:
         - '/usr/lib/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf'
     mysitetosite1:
@@ -209,23 +209,23 @@ openvpn:
       cert: /path/to/mycert.pem
       key: /path/to/mykey.pem
     myclient2:
-      client:
+      client: ~
       dev: tun
-      dev_node:
+      dev_node: ~
       proto: udp
       remote:
         - 'my-server-1 1194'
         - 'my-server-2 1194'
-      remote_random:
-      resolv_retry infinite:
-      nobind:
+      remote_random: ~
+      resolv_retry: infinite
+      nobind: ~
       user: nobody
       group: nobody
-      persist_key:
-      persist_tun:
-      http_proxy_retry:
+      persist_key: ~
+      persist_tun: ~
+      http_proxy_retry: ~
       http_proxy: 'proxy-server proxy-port'
-      mute_replay_warnings:
+      mute_replay_warnings: ~
       ca: /path/to/mycacert.pem
       # The following two commented options are examples for Windows
       # dev_node: ovpn-myclient2
@@ -282,9 +282,9 @@ openvpn:
       auth_user_pass_content: |
         user
         password
-      fast_io:
-      pull:
-      tls-client:
+      fast_io: ~
+      pull: ~
+      tls-client: ~
       key-direction: 1
       route-method: exe
       route-delay: 2
@@ -293,7 +293,7 @@ openvpn:
       keysize: 256
       sndbuf: 524288
       rcvbuf: 524288
-      route_nopull:
+      route_nopull: ~
       route:
         - "8.8.8.8 255.255.255.255 net_gateway"
     myclient3:
