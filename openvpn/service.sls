@@ -21,10 +21,13 @@
    For an successful upgrade we need to make sure the old services are deactivated.
    This affects at least Debian.
 #}
+{% set obsolete_service_name = map.service ~ '@' ~ name %}
+{% if obsolete_service_name != service_name %}
 obsolete_openvpn_{{ name }}_service:
   service.dead:
-    - name: {{ map.service ~ '@' ~ name }}
+    - name: {{ obsolete_service_name }}
     - enable: False
+{% endif %}
 {% else %}
 {% set service_name = map.service ~ '_' ~ name %}
 {% endif %}
