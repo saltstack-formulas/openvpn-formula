@@ -2,6 +2,22 @@
 Changelog
 =========
 
+`0.15.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.0...v0.15.1>`_ (2019-09-21)
+------------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **repo:** provide EPEL repo configuration for ``Amazon Linux-2`` (\ `bfb29bd <https://github.com/saltstack-formulas/openvpn-formula/commit/bfb29bd>`_\ )
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* use ``dist: bionic`` & apply ``opensuse-leap-15`` SCP error workaround (\ `5e02797 <https://github.com/saltstack-formulas/openvpn-formula/commit/5e02797>`_\ )
+* **yamllint:** add rule ``empty-values`` & use new ``yaml-files`` setting (\ `a437b3b <https://github.com/saltstack-formulas/openvpn-formula/commit/a437b3b>`_\ )
+
 `0.15.0 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.14.2...v0.15.0>`_ (2019-09-07)
 ------------------------------------------------------------------------------------------------------------
 
