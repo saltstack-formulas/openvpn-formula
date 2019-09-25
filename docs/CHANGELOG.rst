@@ -2,6 +2,21 @@
 Changelog
 =========
 
+`0.15.2 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.1...v0.15.2>`_ (2019-09-25)
+------------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **service:** stop old service only if name is different to new service (\ `1724dfd <https://github.com/saltstack-formulas/openvpn-formula/commit/1724dfd>`_\ ), closes `#119 <https://github.com/saltstack-formulas/openvpn-formula/issues/119>`_
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **kitchen:** change ``log_level`` to ``debug`` instead of ``info`` (\ `e94c9ba <https://github.com/saltstack-formulas/openvpn-formula/commit/e94c9ba>`_\ )
+
 `0.15.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.0...v0.15.1>`_ (2019-09-21)
 ------------------------------------------------------------------------------------------------------------
 
