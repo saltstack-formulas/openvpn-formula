@@ -4,7 +4,7 @@
 {%- for filename, config in  salt['pillar.get']('openvpn', {}).get('ifconfig_pool_persist', {}).items() %}
 openvpn_config_ifconfig_pool_persist_{{ filename }}:
   file.managed:
-    - name: {{ map.conf_dir }}/{{filename}}
+    - name: {{ map.conf_dir }}/{{ filename }}
     - source: salt://openvpn/files/ifconfig_pool_persist.jinja
     - template: jinja
     - context:
@@ -17,7 +17,7 @@ openvpn_config_ifconfig_pool_persist_{{ filename }}:
 {% for type, names in salt['pillar.get']('openvpn', {}).items() %}
 {% if type in ['client', 'server', 'peer'] %}
 {% for name in names %}
-      - service: openvpn_{{name}}_service
+      - service: openvpn_{{ name }}_service
 {% endfor %}
 {% endif %}
 {% endfor %}

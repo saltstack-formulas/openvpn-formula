@@ -27,7 +27,14 @@ include:
 {%-   set config_dir = map.get(type, {}).get("conf_dir", map.conf_dir) %}
 {%- endif %}
 
-{% set config_file = "{0}/openvpn_{1}.conf".format(config_dir, name) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(config_dir, name, map.conf_ext) %}
+{%- set config_file = "{0}/openvpn_{1}.conf".format(
+           config_dir,
+           name,
+       ) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(
+           config_dir,
+           name,
+           map.conf_ext,
+       ) %}
 
 # Deploy {{ type }} {{ name }} config files
 openvpn_config_{{ type }}_{{ name }}:
@@ -163,7 +170,7 @@ openvpn_{{ type }}_{{ name }}_status_file:
     {{ _permissions(600, 'root', 0) }}  # different group names on FreeBSD and Debian/Ubuntu
     - watch_in:
 {%- if map.multi_services %}
-      - service: openvpn_{{name}}_service
+      - service: openvpn_{{ name }}_service
 {%- else %}
       - service: openvpn_service
 {%- endif %}
@@ -179,7 +186,7 @@ openvpn_{{ type }}_{{ name }}_log_file:
     {{ _permissions(640, map.log_user) }}
     - require_in:
       {%- if map.multi_services %}
-      - service: openvpn_{{name}}_service
+      - service: openvpn_{{ name }}_service
       {%- else %}
       - service: openvpn_service
       {%- endif %}
@@ -195,7 +202,7 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
     {{ _permissions(640, map.log_user) }}
     - require_in:
       {%- if map.multi_services %}
-      - service: openvpn_{{name}}_service
+      - service: openvpn_{{ name }}_service
       {%- else %}
       - service: openvpn_service
       {%- endif %}
@@ -205,12 +212,12 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
 # Ensure client config dir exists
 openvpn_config_{{ type }}_{{ name }}_client_config_dir:
   file.directory:
-    - name: {{ config_dir }}/{{ config.client_config_dir}}
+    - name: {{ config_dir }}/{{ config.client_config_dir }}
     {{ _permissions(750, 'root') }}
     - makedirs: True
     - watch_in:
 {%- if map.multi_services %}
-      - service: openvpn_{{name}}_service
+      - service: openvpn_{{ name }}_service
 {%- else %}
       - service: openvpn_service
 {%- endif %}
@@ -219,7 +226,7 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
 # Client config for {{ client }}
 openvpn_config_{{ type }}_{{ name }}_{{ client }}_client_config:
   file.managed:
-    - name: {{ config_dir }}/{{ config.client_config_dir}}/{{ client }}
+    - name: {{ config_dir }}/{{ config.client_config_dir }}/{{ client }}
     {{ _permissions(640, 'root') }}
     - contents_pillar: openvpn:{{ type }}:{{ name }}:client_config:{{ client }}
     - makedirs: True
