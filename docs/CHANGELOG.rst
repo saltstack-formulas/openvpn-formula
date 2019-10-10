@@ -2,6 +2,26 @@
 Changelog
 =========
 
+`0.15.3 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.2...v0.15.3>`_ (2019-10-10)
+------------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **config.sls:** fix ``salt-lint`` errors (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/1b3f7f6>`_\ )
+* **ifconfig_pool_persist.sls:** fix ``salt-lint`` errors (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/6969083>`_\ )
+* **map.jinja:** fix ``salt-lint`` errors (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/eabfc57>`_\ )
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **kitchen:** install required packages to bootstrapped ``opensuse`` [skip ci] (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/b76dcc9>`_\ )
+* **kitchen:** use bootstrapped ``opensuse`` images until ``2019.2.2`` [skip ci] (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/0db9651>`_\ )
+* **platform:** add ``arch-base-latest`` (commented out for now) [skip ci] (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/75d7aaa>`_\ )
+* merge travis matrix, add ``salt-lint`` & ``rubocop`` to ``lint`` job (\ ` <https://github.com/saltstack-formulas/openvpn-formula/commit/d7f1607>`_\ )
+
 `0.15.2 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.1...v0.15.2>`_ (2019-09-25)
 ------------------------------------------------------------------------------------------------------------
 
