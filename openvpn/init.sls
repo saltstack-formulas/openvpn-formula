@@ -3,5 +3,6 @@
 include:
   - openvpn.repo
   - openvpn.install
+  - openvpn.adapters
   - openvpn.dhparams
   - openvpn.service
