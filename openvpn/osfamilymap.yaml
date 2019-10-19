@@ -26,6 +26,7 @@ FreeBSD:
   manage_user: false
   manage_group: false
 Windows:
+  bin_dir: C:\Program Files\OpenVPN\bin\
   conf_dir: C:\Program Files\OpenVPN\config
   conf_ext: ovpn
   service: OpenVPNServiceInteractive
