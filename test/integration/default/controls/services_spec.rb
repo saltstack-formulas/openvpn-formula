@@ -1,43 +1,45 @@
+# frozen_string_literal: true
+
 control 'OpenVPN service' do
   impact 0.5
   title 'should be running and enabled'
 
-  # single service
+  require 'rspec/retry'
+
+  log_dir = '/var/log/openvpn/'
+
   if os[:name] == 'centos' && os[:release].start_with?('6')
-      describe service("openvpn") do
-        it { should be_enabled }
-        it { should be_running }
-      end
-
-  # multiple services
+    services = ['openvpn']
+  elsif os[:family] == 'windows'
+    log_dir = 'C:\\Program Files\\OpenVPN\\log\\'
+    services = ['OpenVPNService']
   else
-    %w(server client).each do |role|
-
+    services = []
+    %w[server client].each do |role|
       prefix =
         case os[:name]
-        when 'debian'
-          "openvpn-#{role}"
-        when 'fedora'
-          "openvpn-#{role}"
-        when 'ubuntu'
+        when 'debian', 'fedora', 'ubuntu'
           "openvpn-#{role}"
         else
           'openvpn'
         end
-
-      describe service("#{prefix}@my#{role}1.service") do
-        it { should be_enabled }
-        it { should be_running }
-      end
+      services << "#{prefix}@my#{role}1.service"
     end
   end
 
-  %w(server client).each do |role|
-    logfile = "/var/log/openvpn/my#{role}1.log"
+  services.each do |service|
+    describe service(service) do
+      it { should be_enabled }
+      it { should be_running }
+    end
+  end
 
-    describe command("sh -c 'for i in $(seq 1 60); do if grep \"Initialization Sequence Completed\" #{logfile}; then exit 0; fi; echo -n '.'; sleep 1; done; cat #{logfile}; exit 1'") do
-      its('exit_status') { should be 0 }
-      its('stdout') { should include "Initialization Sequence Completed" }
+  %w[server client].each do |role|
+    logfile = "#{log_dir}my#{role}1.log"
+    describe 'Initialization' do
+      it 'should be completed', retry: 60, retry_wait: 1 do
+        expect(file(logfile).content).to include 'Initialization Sequence Completed'
+      end
     end
   end
 end
