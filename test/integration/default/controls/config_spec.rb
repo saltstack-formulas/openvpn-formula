@@ -1,55 +1,45 @@
-# Overide by OS
+# frozen_string_literal: true
+
+if os[:family] == 'windows'
+  conf_dir = 'C:\\Program Files\\OpenVPN\\config'
+  conf_ext = 'ovpn'
+else
+  conf_dir = '/etc/openvpn'
+  conf_ext = 'conf'
+end
+
 user = 'root'
 group = 'openvpn'
 
-control 'OpenVPN server configuration' do
-  title 'should match desired lines'
-
+%w[server client].each do |role|
   cfgfile =
     case os[:name]
-    when 'debian'
-      '/etc/openvpn/server/myserver1.conf'
-    when 'fedora'
-      '/etc/openvpn/server/myserver1.conf'
-    when 'ubuntu'
-      '/etc/openvpn/server/myserver1.conf'
+    when 'debian', 'fedora', 'ubuntu'
+      "#{conf_dir}/#{role}/my#{role}1.#{conf_ext}"
     else
-      '/etc/openvpn/myserver1.conf'
+      "#{conf_dir}/my#{role}1.#{conf_ext}"
     end
 
-  describe file(cfgfile) do
-    it { should be_file }
-    it { should be_owned_by user }
-    it { should be_grouped_into group }
-    its('mode') { should cmp '0640' }
-    its('content') { should include '# OpenVPN server configuration' }
-    its('content') { should include '# Managed by Salt' }
-    its('content') { should include 'user' }
+  control "OpenVPN #{role} configuration" do
+    title 'should match desired lines'
+
+    describe file(cfgfile) do
+      it { should be_file }
+      its('content') { should include "# OpenVPN #{role} configuration" }
+      its('content') { should include '# Managed by Salt' }
+      its('content') { should include 'user' }
+    end
   end
-end
 
-control 'OpenVPN client configuration' do
-  title 'should match desired lines'
+  control "OpenVPN #{role} configuration file permissions" do
+    title 'should be correct'
 
-  cfgfile =
-    case os[:name]
-    when 'debian'
-      '/etc/openvpn/client/myclient1.conf'
-    when 'fedora'
-      '/etc/openvpn/client/myclient1.conf'
-    when 'ubuntu'
-      '/etc/openvpn/client/myclient1.conf'
-    else
-      '/etc/openvpn/myclient1.conf'
+    only_if('Skip on Windows') { os[:family] != 'windows' }
+
+    describe file(cfgfile) do
+      it { should be_owned_by user }
+      it { should be_grouped_into group }
+      its('mode') { should cmp '0640' }
     end
-
-  describe file(cfgfile) do
-    it { should be_file }
-    it { should be_owned_by user }
-    it { should be_grouped_into group }
-    its('mode') { should cmp '0640' }
-    its('content') { should include '# OpenVPN client configuration' }
-    its('content') { should include '# Managed by Salt' }
-    its('content') { should include 'user' }
   end
 end

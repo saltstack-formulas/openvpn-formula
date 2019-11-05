@@ -8,7 +8,7 @@
     {%- set dh_file = config_dir ~ "/dh" ~ dh ~ ".pem" %}
 openvpn_create_dh_{{ dh }}:
   cmd.run:
-    - name: openssl dhparam {% if map.dsaparam %}-dsaparam {% endif %}-out {{ dh_file }} {{ dh }}
+    - name: '"{{ map.bin_dir | default('', true) }}openssl" dhparam {% if map.dsaparam %}-dsaparam {% endif %}-out "{{ dh_file }}" {{ dh }}'
     - creates: {{ dh_file }}
     - require:
       - pkg: openvpn_pkgs

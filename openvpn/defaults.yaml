@@ -2,6 +2,7 @@
 # vim: ft=yaml
 ---
 openvpn:
+  bin_dir: ~
   conf_dir: /etc/openvpn
   conf_ext: conf
   dh_files: ['2048', '4096']
