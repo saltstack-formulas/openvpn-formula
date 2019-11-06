@@ -2,6 +2,48 @@
 Changelog
 =========
 
+`0.15.4 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.3...v0.15.4>`_ (2019-11-06)
+------------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **adapters:** call ``adapters.sls`` in ``init.sls`` (\ `3ebcbe9 <https://github.com/saltstack-formulas/openvpn-formula/commit/3ebcbe93f8245fb435c3e9af91853930683e16b1>`_\ )
+* **dhparams:** allow generating Diffie Hellman parameters on Windows (\ `3802024 <https://github.com/saltstack-formulas/openvpn-formula/commit/3802024a69d5e4008d192084d10858511f3dca4d>`_\ )
+* **release.config.js:** use full commit hash in commit link [skip ci] (\ `81d922d <https://github.com/saltstack-formulas/openvpn-formula/commit/81d922d7a3053c309e0e8f965825063df576921e>`_\ )
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **kitchen:** use ``debian-10-master-py3`` instead of ``develop`` [skip ci] (\ `83e00e1 <https://github.com/saltstack-formulas/openvpn-formula/commit/83e00e1c4d64e86f79b2fa9cb6e8be0490cdb83e>`_\ )
+* **kitchen:** use ``develop`` image until ``master`` is ready (\ ``amazonlinux``\ ) [skip ci] (\ `06a09f2 <https://github.com/saltstack-formulas/openvpn-formula/commit/06a09f29e187f9b01865b582eff944c30e294302>`_\ )
+* **kitchen+travis:** upgrade matrix after ``2019.2.2`` release [skip ci] (\ `4eb9d3b <https://github.com/saltstack-formulas/openvpn-formula/commit/4eb9d3bed2df51360822db639c2085414bfc13e3>`_\ )
+* **travis:** merge ``rubocop`` linter into main ``lint`` job (\ `9f82955 <https://github.com/saltstack-formulas/openvpn-formula/commit/9f82955081169661780b8a236c1b20da15bf9aa2>`_\ )
+* **travis:** update ``salt-lint`` config for ``v0.0.10`` [skip ci] (\ `d465b4f <https://github.com/saltstack-formulas/openvpn-formula/commit/d465b4f6063ab78864cf2f25a26c339e74b64c18>`_\ )
+* merge travis matrix, add ``salt-lint`` & ``rubocop`` to ``lint`` job (\ `70dab6c <https://github.com/saltstack-formulas/openvpn-formula/commit/70dab6c4ee9d9d69f80c81ae314df0d97c79114e>`_\ )
+
+Documentation
+^^^^^^^^^^^^^
+
+
+* add steps required for testing using Vagrant (\ `0229d14 <https://github.com/saltstack-formulas/openvpn-formula/commit/0229d1446f89d0ebe44f70b1834a0a9aa8cb68e1>`_\ )
+* **contributing:** remove to use org-level file instead [skip ci] (\ `8703eb5 <https://github.com/saltstack-formulas/openvpn-formula/commit/8703eb50a6ea7505716b2350e34b88f894a4e725>`_\ )
+* **readme:** update link to ``CONTRIBUTING`` [skip ci] (\ `a72049f <https://github.com/saltstack-formulas/openvpn-formula/commit/a72049f738005c95548db7e3b87847d8ce741eda>`_\ )
+
+Performance Improvements
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **travis:** improve ``salt-lint`` invocation [skip ci] (\ `26838e5 <https://github.com/saltstack-formulas/openvpn-formula/commit/26838e5ccd0400390bb3a2eb29741d36a8992ac3>`_\ )
+
+Tests
+^^^^^
+
+
+* **windows:** add local testing of Windows using Vagrant/Virtualbox (\ `96c3001 <https://github.com/saltstack-formulas/openvpn-formula/commit/96c300125dfa86c67d14e09f772b453eddde7c84>`_\ )
+
 `0.15.3 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.2...v0.15.3>`_ (2019-10-10)
 ------------------------------------------------------------------------------------------------------------
 
