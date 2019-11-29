@@ -2,6 +2,25 @@
 Changelog
 =========
 
+`0.16.0 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.4...v0.16.0>`_ (2019-11-29)
+------------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **travis:** apply changes from build config validation [skip ci] (\ `ea3336a <https://github.com/saltstack-formulas/openvpn-formula/commit/ea3336af6f3657d24c0657173f07ed224140a46b>`_\ )
+* **travis:** opt-in to ``dpl v2`` to complete build config validation [skip ci] (\ `bb43f31 <https://github.com/saltstack-formulas/openvpn-formula/commit/bb43f31450ccb48601ef61620a42c9904c502e0d>`_\ )
+* **travis:** quote pathspecs used with ``git ls-files`` [skip ci] (\ `667bc1f <https://github.com/saltstack-formulas/openvpn-formula/commit/667bc1f04b7e96bd2c5cdce8a91d76552d34c884>`_\ )
+* **travis:** run ``shellcheck`` during lint job [skip ci] (\ `9d63e36 <https://github.com/saltstack-formulas/openvpn-formula/commit/9d63e36fa618df6d966ad1278bfa64153db0a9fe>`_\ )
+* **travis:** use build config validation (beta) [skip ci] (\ `d2f7fe2 <https://github.com/saltstack-formulas/openvpn-formula/commit/d2f7fe24a19033b8db907be89f184b26b128b326>`_\ )
+
+Features
+^^^^^^^^
+
+
+* **auth_nocache:** support for auth-nocache (\ `c21b7f5 <https://github.com/saltstack-formulas/openvpn-formula/commit/c21b7f52cc0ce24c96cf1b9173a9fda9e3eb7ae7>`_\ )
+
 `0.15.4 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.3...v0.15.4>`_ (2019-11-06)
 ------------------------------------------------------------------------------------------------------------
 
