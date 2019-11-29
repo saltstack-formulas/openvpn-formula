@@ -33,3 +33,7 @@ http-proxy {{ config.http_proxy }}
 {%- if config.auth_user_pass is defined %}
 auth-user-pass {{ config.auth_user_pass }}
 {%- endif %}
+
+{%- if config.auto_nocache is defined %}
+auth-nocache
+{%- endif %}

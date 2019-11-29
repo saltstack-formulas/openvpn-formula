@@ -282,6 +282,7 @@ openvpn:
       auth_user_pass_content: |
         user
         password
+      auth_nocache: ~
       fast_io: ~
       pull: ~
       tls-client: ~
