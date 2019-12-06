@@ -2,6 +2,15 @@
 Changelog
 =========
 
+`0.16.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.0...v0.16.1>`_ (2019-12-06)
+------------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **auth_nocache:** fix typo in client template (\ `c8f0971 <https://github.com/saltstack-formulas/openvpn-formula/commit/c8f0971d148be9efb8405ff7eef5bbe4eeae9ea8>`_\ ), closes `#125 <https://github.com/saltstack-formulas/openvpn-formula/issues/125>`_
+
 `0.16.0 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.15.4...v0.16.0>`_ (2019-11-29)
 ------------------------------------------------------------------------------------------------------------
 
