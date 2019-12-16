@@ -2,6 +2,21 @@
 Changelog
 =========
 
+`0.16.2 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.1...v0.16.2>`_ (2019-12-16)
+------------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **gemfile:** restrict ``train`` gem version until upstream fix [skip ci] (\ `ed6b7f0 <https://github.com/saltstack-formulas/openvpn-formula/commit/ed6b7f0c0d6a9171eadca2ffbc3682e24a3e346b>`_\ )
+
+Tests
+^^^^^
+
+
+* add test for auth-nocache option (\ `79c1055 <https://github.com/saltstack-formulas/openvpn-formula/commit/79c10556dee2431d93ce9d678d002ec1036d219b>`_\ )
+
 `0.16.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.0...v0.16.1>`_ (2019-12-06)
 ------------------------------------------------------------------------------------------------------------
 
