@@ -79,3 +79,4 @@ openvpn:
       secret: '''{{ conf_dir }}myclient1_secret.key'''
       # /usr/sbin/openvpn --genkey --secret /dev/stdout
       secret_content: *secret_key
+      auth_nocache: true
