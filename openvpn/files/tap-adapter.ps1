@@ -12,10 +12,10 @@ if ($PSCmdlet.ParameterSetName -eq 'new') {
         Write-Host "changed=no comment=`'TAP-Windows adapter $New exists`'"
         exit
     }
-    if (-Not (Get-NetAdapter -InterfaceDescription $tapDesc | Where-Object Name -Like Eth*)) {
+    if (-Not (Get-NetAdapter -InterfaceDescription $tapDesc | Where-Object Name -Match "^(Ethernet|Local Area Connection)")) {
         $p = Start-Process $tapInstallCmd -ArgumentList $tapInstallArgs -NoNewWindow -Wait -PassThru
     }
-    Get-NetAdapter -InterfaceDescription $tapDesc | Where-Object Name -Like Eth* `
+    Get-NetAdapter -InterfaceDescription $tapDesc | Where-Object Name -Match "^(Ethernet|Local Area Connection)" `
         | Select-Object -First 1 | Rename-NetAdapter -NewName $New
     Write-Host "changed=yes comment=`'TAP-Windows adapter $New created`'"
 }
