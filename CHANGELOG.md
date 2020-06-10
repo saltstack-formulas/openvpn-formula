@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.16.3](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.2...v0.16.3) (2020-06-10)
+
+
+### Bug Fixes
+
+* **tap-adapter.ps1:** work with alternate name `Local Area Connection` ([372b3b6](https://github.com/saltstack-formulas/openvpn-formula/commit/372b3b6d80ef5ede742961bca44d726d16249646))
+
+
+### Continuous Integration
+
+* **gemfile.lock:** add to repo with updated `Gemfile` [skip ci] ([0aa9fd6](https://github.com/saltstack-formulas/openvpn-formula/commit/0aa9fd6d93533d824f4c6d144474d6721dd1bca6))
+* **github:** add Windows testing using Actions ([2d4b79c](https://github.com/saltstack-formulas/openvpn-formula/commit/2d4b79c5f8afe73eeeef187e63d9613bbf7bd793))
+* **kitchen:** avoid using bootstrap for `master` instances [skip ci] ([6eb1b44](https://github.com/saltstack-formulas/openvpn-formula/commit/6eb1b4437df9e2b8bb3171f8811bcf1d091113d9))
+* **kitchen+travis:** remove `master-py2-arch-base-latest` [skip ci] ([9e7aa34](https://github.com/saltstack-formulas/openvpn-formula/commit/9e7aa34a499b30eab737295ae4649e510365deab))
+* **travis:** add notifications => zulip [skip ci] ([80930cd](https://github.com/saltstack-formulas/openvpn-formula/commit/80930cdb479fb9f2eef7a0044b93e08fabb1d804))
+* **travis:** use `major.minor` for `semantic-release` version [skip ci] ([4099f15](https://github.com/saltstack-formulas/openvpn-formula/commit/4099f15a1440bf7d9dfde707137593d9cf495d02))
+* **workflows/commitlint:** add to repo [skip ci] ([5900915](https://github.com/saltstack-formulas/openvpn-formula/commit/5900915e5b86cdad1fdca9163873e1fd9ee44f98))
+
 ## [0.16.2](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.1...v0.16.2) (2019-12-16)
 
 
