@@ -5,7 +5,7 @@ driver:
   name: vagrant
 
 platforms:
-  - name: windows-81-2019-2-py3
+  - name: windows
     driver:
       box: techneg/win81x64-pro-salt
       gui: false
@@ -15,4 +15,4 @@ platforms:
         salt-call --local state.single file.managed
         C:\Users\vagrant\AppData\Local\Temp\kitchen\srv\salt\win\repo-ng\openvpn.sls
         source=https://github.com/saltstack/salt-winrepo-ng/raw/master/openvpn.sls
-        skip_verify=True makedirs=True
+        skip_verify=True makedirs=True; exit 0
