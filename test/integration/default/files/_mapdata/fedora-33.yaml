@@ -1,0 +1,32 @@
+# yamllint disable rule:indentation rule:line-length
+# Fedora-33
+---
+bin_dir: null
+client:
+  conf_dir: /etc/openvpn/client
+  service: openvpn-client
+conf_dir: /etc/openvpn
+conf_ext: conf
+dh_files:
+- '512'
+dsaparam: false
+external_repo_enabled: true
+external_repo_supported: []
+external_repo_version: stable
+group: openvpn
+log_user: null
+manage_group: true
+manage_user: true
+multi_services: true
+network_manager_pkgs:
+- network-manager-openvpn
+- network-manager-openvpn-gnome
+pkgs:
+- openvpn
+- openssl
+server:
+  conf_dir: /etc/openvpn/server
+  service: openvpn-server
+service: openvpn
+service_function: running
+user: openvpn
