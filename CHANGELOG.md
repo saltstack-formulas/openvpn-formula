@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.16.4](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.3...v0.16.4) (2020-10-30)
+
+
+### Continuous Integration
+
+* **kitchen:** use `saltimages` Docker Hub where available [skip ci] ([740ba4e](https://github.com/saltstack-formulas/openvpn-formula/commit/740ba4e80e01a724b7833ee6b3d7e66740ced795))
+* **pre-commit:** add to formula [skip ci] ([95bbd5e](https://github.com/saltstack-formulas/openvpn-formula/commit/95bbd5eee34dd7ae36642ea38f2fc388c385cb30))
+* **pre-commit:** enable/disable `rstcheck` as relevant [skip ci] ([92e02f2](https://github.com/saltstack-formulas/openvpn-formula/commit/92e02f2b549ed599786bb08562dc4bc60df84c49))
+* **pre-commit:** finalise `rstcheck` configuration [skip ci] ([44e040d](https://github.com/saltstack-formulas/openvpn-formula/commit/44e040d3a143c7d3a2ad6805ae1f42e261bb7f32))
+* avoid `init_environment` failing due to saltstack/salt[#57628](https://github.com/saltstack-formulas/openvpn-formula/issues/57628) ([398932b](https://github.com/saltstack-formulas/openvpn-formula/commit/398932b8332b701b6a1430018629d097b2f41155))
+
+
+### Tests
+
+* **map:** verify `map.jinja` dump using `_mapdata` state ([ecac1b1](https://github.com/saltstack-formulas/openvpn-formula/commit/ecac1b107f8a5309b803cb7fe41d1802b427b5fe))
+
 ## [0.16.3](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.2...v0.16.3) (2020-06-10)
 
 
