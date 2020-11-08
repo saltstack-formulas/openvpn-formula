@@ -1,4 +1,4 @@
-{% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import mapdata with context %}
 {% from "openvpn/macros.jinja" import multipart_param with context %}
 
 include:
@@ -12,28 +12,28 @@ include:
 {% macro _permissions(mode=644, user=None, group=None) %}
 {%-  if not grains['os_family'] == 'Windows' -%}
     - mode: {{ mode }}
-    - user: {% if not user is none %}{{ user }}{% elif config.user is defined %}{{ config.user }}{% else %}{{ map.user }}{% endif %}
-    - group: {% if not group is none %}{{ group }}{% elif config.group is defined %}{{ config.group }}{% else %}{{ map.group }}{% endif %}
+    - user: {% if not user is none %}{{ user }}{% elif config.user is defined %}{{ config.user }}{% else %}{{ mapdata.user }}{% endif %}
+    - group: {% if not group is none %}{{ group }}{% elif config.group is defined %}{{ config.group }}{% else %}{{ mapdata.group }}{% endif %}
 {%-  endif -%}
 {% endmacro %}
 
-{% set service_id = "openvpn_{0}_service".format(name) if map.multi_services else "openvpn_service" %}
+{% set service_id = "openvpn_{0}_service".format(name) if mapdata.multi_services else "openvpn_service" %}
 
 {%- if config.conf_dir is defined %}
 {#-   Use the explicit config from Pillar, if it is present. #}
 {%-   set config_dir = config.conf_dir %}
 {%- else %}
 {#-   Some distributions use /etc/openvpn/{client,server} as their working directory #}
-{%-   set config_dir = map.get(type, {}).get("conf_dir", map.conf_dir) %}
+{%-   set config_dir = mapdata.get(type, {}).get("conf_dir", mapdata.conf_dir) %}
 {%- endif %}
 
 {%- set config_file = "{0}/openvpn_{1}.conf".format(
            config_dir,
            name,
-       ) if map.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(
+       ) if mapdata.multi_services and grains['os_family'] == 'FreeBSD' else "{0}/{1}.{2}".format(
            config_dir,
            name,
-           map.conf_ext,
+           mapdata.conf_ext,
        ) %}
 
 # Deploy {{ type }} {{ name }} config files
@@ -49,8 +49,8 @@ openvpn_config_{{ type }}_{{ name }}:
     - context:
         name: {{ name }}
         type: {{ type }}
-        user: {{ map.user }}
-        group: {{ map.group }}
+        user: {{ mapdata.user }}
+        group: {{ mapdata.group }}
         config: {{ config | json }}
     - watch_in:
       - service: {{ service_id }}
@@ -169,7 +169,7 @@ openvpn_{{ type }}_{{ name }}_status_file:
     - makedirs: True
     {{ _permissions(600, 'root', 0) }}  # different group names on FreeBSD and Debian/Ubuntu
     - watch_in:
-{%- if map.multi_services %}
+{%- if mapdata.multi_services %}
       - service: openvpn_{{ name }}_service
 {%- else %}
       - service: openvpn_service
@@ -183,9 +183,9 @@ openvpn_{{ type }}_{{ name }}_log_file:
     - name: {{ config.log }}
     - makedirs: True
     - replace: False
-    {{ _permissions(640, map.log_user) }}
+    {{ _permissions(640, mapdata.log_user) }}
     - require_in:
-      {%- if map.multi_services %}
+      {%- if mapdata.multi_services %}
       - service: openvpn_{{ name }}_service
       {%- else %}
       - service: openvpn_service
@@ -199,9 +199,9 @@ openvpn_{{ type }}_{{ name }}_log_file_append:
     - name: {{ config.log_append }}
     - makedirs: True
     - replace: False
-    {{ _permissions(640, map.log_user) }}
+    {{ _permissions(640, mapdata.log_user) }}
     - require_in:
-      {%- if map.multi_services %}
+      {%- if mapdata.multi_services %}
       - service: openvpn_{{ name }}_service
       {%- else %}
       - service: openvpn_service
@@ -216,7 +216,7 @@ openvpn_config_{{ type }}_{{ name }}_client_config_dir:
     {{ _permissions(750, 'root') }}
     - makedirs: True
     - watch_in:
-{%- if map.multi_services %}
+{%- if mapdata.multi_services %}
       - service: openvpn_{{ name }}_service
 {%- else %}
       - service: openvpn_service

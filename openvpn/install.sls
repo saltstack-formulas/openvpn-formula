@@ -1,4 +1,4 @@
-{%- from "openvpn/map.jinja" import map with context %}
+{%- from "openvpn/map.jinja" import mapdata with context %}
 
 # Install openvpn packages
 openvpn_pkgs:
@@ -8,7 +8,7 @@ openvpn_pkgs:
   pkg.installed:
 {% endif %}
     - pkgs:
-      {%- for pkg in map.pkgs %}
+      {%- for pkg in mapdata.pkgs %}
       - {{ pkg }}
       {%- endfor %}
 

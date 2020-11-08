@@ -1,24 +1,24 @@
 {# This SLS serves only as a capsule to ease handling of dependencies. #}
 
-{% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import mapdata with context %}
 
-{%- if map.manage_group is sameas false or map.user in ['nobody', 'nogroup'] %}
+{%- if mapdata.manage_group is sameas false or mapdata.user in ['nobody', 'nogroup'] %}
 {%-   set manage_group = False %}
 {%- else %}
 {%-   set manage_group = True %}
 openvpn_group:
   group.present:
-    - name: {{ map.group }}
+    - name: {{ mapdata.group }}
     - require_in:
       - file: openvpn_config_dir
       - sls: openvpn.config
 {%- endif %}
 
-{%- if not (map.manage_user is sameas false or map.user == 'nobody') %}
+{%- if not (mapdata.manage_user is sameas false or mapdata.user == 'nobody') %}
 openvpn_user:
   user.present:
-    - name: {{ map.user }}
-    - gid: {{ map.group }}
+    - name: {{ mapdata.user }}
+    - gid: {{ mapdata.group }}
 {%-   if manage_group %}
     - require:
       - group: openvpn_group
@@ -30,11 +30,11 @@ openvpn_user:
 
 openvpn_config_dir:
   file.directory:
-    - name: {{ map.conf_dir }}
+    - name: {{ mapdata.conf_dir }}
 {%- if not grains['os_family'] == 'Windows' %}
     - mode: 750
-    - user: {{ map.user }}
-    - group: {{ map.group }}
+    - user: {{ mapdata.user }}
+    - group: {{ mapdata.group }}
 {%- endif %}
     - require_in:
       - sls: openvpn.config

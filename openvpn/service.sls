@@ -1,9 +1,9 @@
 # Ensure openvpn service is running and autostart is enabled
 
-{% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import mapdata with context %}
 
 
-{% if map.multi_services %}
+{% if mapdata.multi_services %}
 # If the OS is using systemd, then each openvpn config has its own service
 # e.g for office.conf -> openvpn@office
 {% for type, names in salt['pillar.get']('openvpn', {}).items() %}
@@ -16,12 +16,12 @@
    Some distributions use /etc/openvpn/{client,server} as their working directory
    and openvpn-{client,server} as their service.
 #}
-{% set service_name = map.get(type, {}).get("service", map.service) ~ '@' ~ name %}
+{% set service_name = mapdata.get(type, {}).get("service", mapdata.service) ~ '@' ~ name %}
 {#-
    For an successful upgrade we need to make sure the old services are deactivated.
    This affects at least Debian.
 #}
-{% set obsolete_service_name = map.service ~ '@' ~ name %}
+{% set obsolete_service_name = mapdata.service ~ '@' ~ name %}
 {% if obsolete_service_name != service_name %}
 obsolete_openvpn_{{ name }}_service:
   service.dead:
@@ -29,7 +29,7 @@ obsolete_openvpn_{{ name }}_service:
     - enable: False
 {% endif %}
 {% else %}
-{% set service_name = map.service ~ '_' ~ name %}
+{% set service_name = mapdata.service ~ '_' ~ name %}
 {% endif %}
 
 # Create an init script?
@@ -40,7 +40,7 @@ obsolete_openvpn_{{ name }}_service:
 {% endif %}
 
 openvpn_{{ name }}_service:
-  service.{{ map.service_function }}:
+  service.{{ mapdata.service_function }}:
     - name: {{ service_name }}
     - enable: True
     - require:
@@ -57,8 +57,8 @@ openvpn_{{ name }}_service:
 {% else %}
 # Ensure openvpn service is running and autostart is enabled
 openvpn_service:
-  service.{{ map.service_function }}:
-    - name: {{ map.service }}
+  service.{{ mapdata.service_function }}:
+    - name: {{ mapdata.service }}
     - enable: True
     - require:
       - pkg: openvpn_pkgs

@@ -5,7 +5,7 @@
 
 {% do defaults.openvpn.update({'multi_services': salt['grains.has_value']('systemd')}) %}
 
-{% set map = salt['grains.filter_by'](
+{% set mapdata = salt['grains.filter_by'](
     defaults,
     merge=salt['grains.filter_by'](
         osfamilymap,

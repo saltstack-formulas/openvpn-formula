@@ -1,4 +1,4 @@
-{% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import mapdata with context %}
 
 include:
     - openvpn.config
@@ -17,8 +17,8 @@ extend:
         - context:
             name: {{ name }}
             config: {{ config }}
-            user: {{ map.user }}
-            group: {{ map.group }}
+            user: {{ mapdata.user }}
+            group: {{ mapdata.group }}
 
 {% endfor %}
 {% endif %}

@@ -1,9 +1,9 @@
-{% from "openvpn/map.jinja" import map with context %}
+{% from "openvpn/map.jinja" import mapdata with context %}
 
 include:
   - openvpn.repo
 
-{%- for pkg_name in map.network_manager_pkgs %}
+{%- for pkg_name in mapdata.network_manager_pkgs %}
 {{ pkg_name }}:
   pkg.installed: []
 {%- endfor %}
