@@ -1,0 +1,206 @@
+---
+###############################################################################
+# Define all YAML node anchors
+###############################################################################
+.node_anchors:
+  # `stage`
+  stage_lint: &stage_lint 'lint'
+  stage_release: &stage_release 'release'
+  stage_test: &stage_test 'test'
+  # `image`
+  image_docker: &image_docker 'docker:latest'
+  image_node: &image_node 'node:12-buster-slim'
+  image_yamllint: &image_yamllint
+    name: 'cytopia/yamllint:latest'
+    entrypoint: ['/bin/ash', '-c']
+  # `before_script`
+  before_script_image_node: &before_script_image_node
+    - 'apt-get update
+       && apt-get install -y --no-install-recommends git-core ca-certificates'
+  # `only` (also used for `except` where applicable)
+  only_branch_master: &only_branch_master ['master']
+
+###############################################################################
+# Define stages and global variables
+###############################################################################
+stages:
+  # - *stage_lint
+  - *stage_test
+  - *stage_release
+variables:
+  DOCKER_DRIVER: 'overlay2'
+
+###############################################################################
+# `lint` stage: `yamllint` & `commitlint`
+###############################################################################
+# yamllint:
+#   stage: *stage_lint
+#   image: *image_yamllint
+#   script:
+#     - 'yamllint -s .'
+
+# commitlint:
+#   stage: *stage_lint
+#   image: *image_node
+#   before_script: *before_script_image_node
+#   script:
+#     # Add `upstream` remote to get access to `upstream/master`
+#     - 'git remote add upstream
+#        https://gitlab.com/myii/openvpn-formula.git'
+#     - 'git fetch --all'
+#     # Install and run `commitlint`
+#     - 'npm install -D @commitlint/config-conventional
+#                       @commitlint/cli'
+#     - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
+#                       --to   "${CI_COMMIT_SHA}"
+#                       --verbose'
+
+###############################################################################
+# Define `test` template
+###############################################################################
+.test_image:
+  stage: *stage_test
+  image: *image_docker
+  services:
+    - 'docker:dind'
+  before_script:
+    - 'apk update
+       && apk add git ruby-full ruby-dev make cmake gcc g++ libc-dev'
+    - 'gem install bundler'
+    - 'bundle install'
+  script:
+    - 'bin/kitchen verify "${INSTANCE}"'
+
+###############################################################################
+# `test` stage: `...`
+###############################################################################
+# VARS:
+# DN:  distro name (amazonlinux, archlinux, centos,      debian, fedora,
+#                   gentoo,      opensuse,  oraclelinux, ubuntu)
+# DV:  distro version
+# PI:  packages installer, used as dockerfile extension (apt, dnf, emg, pac, yum, zyp)
+# SIM: salt install method (git, stable)
+# SV:  salt version (tiamat, master, 3002.2, 3001.3, 3000.5)
+# PV:  python version (3, 2)
+# EP:  extra packages required for the specific test
+
+# yamllint disable rule:commas rule:line-length
+# AMAZONLINUX
+amaz-02.0-tiamat-py3: {extends: '.test_image', variables: {INSTANCE: 'default-amazonlinux-2-tiamat-py3'}}
+# amaz-02.0-master-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}
+# amaz-02.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}
+# amaz-02.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}
+# amaz-02.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '2'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'yum-utils python3-pip procps-ng'}}
+# amaz-01.0-3000.5-py2: {extends: '.test_image', variables: {DN: 'amazonlinux'    , DV: '1'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '2' , EP: 'yum-utils python-pip procps'}}
+#
+# # ARCHLINUX
+# # The Salt bootstrap installer does not provide packages nor installs with py3 for Arch
+# # so we're testing only the git'ted py2 versions
+# # NOTE: Removed broken `py2` image for `SV: 'master'` since that's been deprecated in `Sodium` and
+# #       no working `py3` version available
+# arch-late-3002.2-py3: {extends: '.test_image', variables: {DN: 'archlinux/base' , DV: 'latest' , PI: 'pac' , SIM: 'git'    , SV: '3002.2' , PV: '3' , EP: 'openssl openssh awk procps python-pip'}}
+# arch-late-3001.3-py3: {extends: '.test_image', variables: {DN: 'archlinux/base' , DV: 'latest' , PI: 'pac' , SIM: 'git'    , SV: '3001.3' , PV: '3' , EP: 'openssl openssh awk procps python-pip'}}
+# arch-late-3000.5-py2: {extends: '.test_image', variables: {DN: 'archlinux/base' , DV: 'latest' , PI: 'pac' , SIM: 'git'    , SV: '3000.5' , PV: '2' , EP: 'openssl openssh awk procps python2-pip'}}
+#
+# # CENTOS
+# cent-08.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# cent-08.0-master-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '8'      , PI: 'yum' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# cent-08.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# cent-08.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# cent-08.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# cent-07.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# cent-07.0-master-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '7'      , PI: 'yum' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# cent-07.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# cent-07.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# cent-07.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'centos'         , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# cent-06.0-3000.5-py2: {extends: '.test_image', variables: {DN: 'centos'         , DV: '6'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '2' , EP: 'python27-pip'}}
+#
+# # DEBIAN
+# debi-10.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '10'     , PI: 'apt' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3-pip'}}
+# debi-10.0-master-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '10'     , PI: 'apt' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-apt python3-pip'}}
+# debi-10.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '10'     , PI: 'apt' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# debi-10.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '10'     , PI: 'apt' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# debi-10.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '10'     , PI: 'apt' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3-pip'}}
+# debi-09.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '9'      , PI: 'apt' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3-pip'}}
+# debi-09.0-master-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '9'      , PI: 'apt' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-pip'}}
+# debi-09.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '9'      , PI: 'apt' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# debi-09.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '9'      , PI: 'apt' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# debi-09.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'debian'         , DV: '9'      , PI: 'apt' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3-pip'}}
+#
+# # FEDORA
+# # Fedora has no python3 packages due to a tornado issue,
+# # but they ship with Python3 since 29, so we install it using git
+# # https://bugzilla.redhat.com/show_bug.cgi?id: 1723207
+# fedo-33.0-master-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '33'     , PI: 'dnf' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-pip'}}
+# fedo-33.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '33'     , PI: 'dnf' , SIM: 'git'    , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# fedo-33.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '33'     , PI: 'dnf' , SIM: 'git'    , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# fedo-32.0-master-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '32'     , PI: 'dnf' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-pip'}}
+# fedo-32.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '32'     , PI: 'dnf' , SIM: 'git'    , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# fedo-32.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '32'     , PI: 'dnf' , SIM: 'git'    , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# fedo-31.0-master-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '31'     , PI: 'dnf' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-pip'}}
+# fedo-31.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '31'     , PI: 'dnf' , SIM: 'git'    , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# fedo-31.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '31'     , PI: 'dnf' , SIM: 'git'    , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# fedo-31.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'fedora'         , DV: '31'     , PI: 'dnf' , SIM: 'git'    , SV: '3000.5' , PV: '3' , EP: 'python3-pip'}}
+#
+# # GENTOO
+# gent-late-master-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'latest' , PI: 'emg' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-late-3002.2-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'latest' , PI: 'emg' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-late-3001.3-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'latest' , PI: 'emg' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-late-3000.5-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'latest' , PI: 'emg' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-sysd-master-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'systemd', PI: 'emg' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-sysd-3002.2-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'systemd', PI: 'emg' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-sysd-3001.3-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'systemd', PI: 'emg' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'dev-python/pip'}}
+# gent-sysd-3000.5-py3: {extends: '.test_image', variables: {DN: 'gentoo/stage3'  , DV: 'systemd', PI: 'emg' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'dev-python/pip'}}
+#
+# # OPENSUSE
+# opsu-15.2-master-py3: {extends: '.test_image', variables: {DN: 'opensuse/leap'  , DV: '15.2'   , PI: 'zyp' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-pip'}}
+# opsu-15.2-3002.2-py3: {extends: '.test_image', variables: {DN: 'opensuse/leap'  , DV: '15.2'   , PI: 'zyp' , SIM: 'git'    , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# opsu-15.2-3001.3-py3: {extends: '.test_image', variables: {DN: 'opensuse/leap'  , DV: '15.2'   , PI: 'zyp' , SIM: 'git'    , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# opsu-15.2-3000.5-py3: {extends: '.test_image', variables: {DN: 'opensuse/leap'  , DV: '15.2'   , PI: 'zyp' , SIM: 'git'    , SV: '3000.5' , PV: '3' , EP: 'python3-pip'}}
+#
+# # ORACLELINUX
+# orac-08.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# orac-08.0-master-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '8'      , PI: 'yum' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# orac-08.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# orac-08.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# orac-08.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '8'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig glibc-langpack-en'}}
+# orac-07.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# # Fails due to dependency issues, probably ignore permanently
+# # orac-07.0-master-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '7'      , PI: 'yum' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# orac-07.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# orac-07.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+# orac-07.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'oraclelinux'    , DV: '7'      , PI: 'yum' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3 python3-pip python3-devel openssl-devel swig gcc-g++ zeromq zeromq-devel'}}
+#
+# # UBUNTU
+# ubun-20.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '20.04'  , PI: 'apt' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3-pip'}}
+# ubun-20.0-master-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '20.04'  , PI: 'apt' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-apt python3-pip'}}
+# ubun-20.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '20.04'  , PI: 'apt' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# ubun-20.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '20.04'  , PI: 'apt' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# ubun-18.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '18.04'  , PI: 'apt' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3-pip'}}
+# ubun-18.0-master-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '18.04'  , PI: 'apt' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-apt python3-pip'}}
+# ubun-18.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '18.04'  , PI: 'apt' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# ubun-18.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '18.04'  , PI: 'apt' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# ubun-18.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '18.04'  , PI: 'apt' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3-pip'}}
+# ubun-18.0-3000.5-py2: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '18.04'  , PI: 'apt' , SIM: 'stable' , SV: '3000.5' , PV: '2' , EP: 'python-pip'}}
+# ubun-16.0-tiamat-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '16.04'  , PI: 'apt' , SIM: 'stable' , SV: 'tiamat' , PV: '3' , EP: 'python3-pip'}}
+# ubun-16.0-master-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '16.04'  , PI: 'apt' , SIM: 'git'    , SV: 'master' , PV: '3' , EP: 'python3-pip'}}
+# ubun-16.0-3002.2-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '16.04'  , PI: 'apt' , SIM: 'stable' , SV: '3002.2' , PV: '3' , EP: 'python3-pip'}}
+# ubun-16.0-3001.3-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '16.04'  , PI: 'apt' , SIM: 'stable' , SV: '3001.3' , PV: '3' , EP: 'python3-pip'}}
+# ubun-16.0-3000.5-py3: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '16.04'  , PI: 'apt' , SIM: 'stable' , SV: '3000.5' , PV: '3' , EP: 'python3-pip'}}
+# ubun-16.0-3000.5-py2: {extends: '.test_image', variables: {DN: 'ubuntu'         , DV: '16.04'  , PI: 'apt' , SIM: 'stable' , SV: '3000.5' , PV: '2' , EP: 'python-pip'}}
+# yamllint enable rule:commas rule:line-length
+
+###############################################################################
+# `release` stage: `semantic-release`
+###############################################################################
+semantic-release:
+  only: *only_branch_master
+  stage: *stage_release
+  image: *image_node
+  before_script: *before_script_image_node
+  script:
+    - 'npm install -g semantic-release
+                      @semantic-release/gitlab
+                      @semantic-release/changelog
+                      @semantic-release/git'
+    - 'semantic-release'
