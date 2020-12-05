@@ -1,5 +1,7 @@
 module.exports = {
   branch: 'master',
+  // branches: ['master', 'ci/test-gitlab-ci'],
+  repositoryUrl: 'https://github.com/myii/openvpn-formula',
   plugins: [
       ['@semantic-release/commit-analyzer', {
         preset: 'angular',

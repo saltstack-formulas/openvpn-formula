@@ -24,7 +24,7 @@
 # Define stages and global variables
 ###############################################################################
 stages:
-  # - *stage_lint
+  - *stage_lint
   - *stage_test
   - *stage_release
 variables:
@@ -39,21 +39,21 @@ variables:
 #   script:
 #     - 'yamllint -s .'
 
-# commitlint:
-#   stage: *stage_lint
-#   image: *image_node
-#   before_script: *before_script_image_node
-#   script:
-#     # Add `upstream` remote to get access to `upstream/master`
-#     - 'git remote add upstream
-#        https://gitlab.com/myii/openvpn-formula.git'
-#     - 'git fetch --all'
-#     # Install and run `commitlint`
-#     - 'npm install -D @commitlint/config-conventional
-#                       @commitlint/cli'
-#     - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
-#                       --to   "${CI_COMMIT_SHA}"
-#                       --verbose'
+commitlint:
+  stage: *stage_lint
+  image: *image_node
+  before_script: *before_script_image_node
+  script:
+    # Add `upstream` remote to get access to `upstream/master`
+    - 'git remote add upstream
+       https://gitlab.com/myii/openvpn-formula.git'
+    - 'git fetch --all'
+    # Install and run `commitlint`
+    - 'npm install -D @commitlint/config-conventional
+                      @commitlint/cli'
+    - 'npx commitlint --from "$(git merge-base upstream/master HEAD)"
+                      --to   "${CI_COMMIT_SHA}"
+                      --verbose'
 
 ###############################################################################
 # Define `test` template
@@ -194,13 +194,19 @@ amaz-02.0-tiamat-py3: {extends: '.test_image', variables: {INSTANCE: 'default-am
 # `release` stage: `semantic-release`
 ###############################################################################
 semantic-release:
-  only: *only_branch_master
+  # only: *only_branch_master
   stage: *stage_release
   image: *image_node
   before_script: *before_script_image_node
   script:
+    # # Update `AUTHORS.md`
+    # - export MAINTAINER_TOKEN=${GH_TOKEN}
+    # - go get github.com/myii/maintainer
+    # - maintainer contributor
+
+    # Install all dependencies required for `semantic-release`
     - 'npm install -g semantic-release
-                      @semantic-release/gitlab
                       @semantic-release/changelog
+                      @semantic-release/exec
                       @semantic-release/git'
     - 'semantic-release'
