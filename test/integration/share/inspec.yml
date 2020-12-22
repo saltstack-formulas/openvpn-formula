@@ -2,7 +2,7 @@
 # vim: ft=yaml
 ---
 name: share
-title: openvpn formula
+title: InSpec shared resources
 maintainer: SaltStack Formulas
 license: Apache-2.0
 summary: shared resources
