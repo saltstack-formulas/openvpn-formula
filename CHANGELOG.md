@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.16.5](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.4...v0.16.5) (2020-12-22)
+
+
+### Continuous Integration
+
+* **commitlint:** ensure `upstream/master` uses main repo URL [skip ci] ([f15efd1](https://github.com/saltstack-formulas/openvpn-formula/commit/f15efd16b04fa54bfd808431b1bbd645b74dd9bf))
+* **gitlab-ci:** add `rubocop` linter (with `allow_failure`) [skip ci] ([901af81](https://github.com/saltstack-formulas/openvpn-formula/commit/901af81f2bdb9962bf5f1806c26faee9598fde6a))
+* **gitlab-ci:** use GitLab CI as Travis CI replacement ([01cd86a](https://github.com/saltstack-formulas/openvpn-formula/commit/01cd86afa7d26b86507cf3ee894b9d4d42fa94f0))
+* **kitchen+gitlab:** update for new pre-salted images [skip ci] ([a0fdc61](https://github.com/saltstack-formulas/openvpn-formula/commit/a0fdc618b009180a67f33a634699bc34e8ed163c))
+
+
+### Tests
+
+* **_mapdata:** fix existing verification files ([b61d904](https://github.com/saltstack-formulas/openvpn-formula/commit/b61d904e9ad95d94cbaf589d2db9b2a324fc9602))
+* **_mapdata:** generate remaining verification files ([97ccbb3](https://github.com/saltstack-formulas/openvpn-formula/commit/97ccbb303f10a23ae741c3c5af9da6a5307ba7e3))
+* **map:** standardise `map.jinja` verification ([a755b4d](https://github.com/saltstack-formulas/openvpn-formula/commit/a755b4d28202f9b55c25ac616157a7f959947abd))
+
 ## [0.16.4](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.3...v0.16.4) (2020-10-30)
 
 
