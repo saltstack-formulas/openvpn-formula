@@ -1,25 +1,27 @@
 # yamllint disable rule:indentation rule:line-length
 # Gentoo-2
 ---
-bin_dir: null
-conf_dir: /etc/openvpn
-conf_ext: conf
-dh_files:
-- '512'
-dsaparam: false
-external_repo_enabled: true
-external_repo_supported: []
-external_repo_version: stable
-group: openvpn
-log_user: null
-manage_group: true
-manage_user: true
-multi_services: false
-network_manager_pkgs:
-- network-manager-openvpn
-- network-manager-openvpn-gnome
-pkgs:
-- openvpn
-service: openvpn
-service_function: running
-user: openvpn
+values:
+  map:
+    bin_dir: null
+    conf_dir: /etc/openvpn
+    conf_ext: conf
+    dh_files:
+    - '512'
+    dsaparam: false
+    external_repo_enabled: true
+    external_repo_supported: []
+    external_repo_version: stable
+    group: openvpn
+    log_user: null
+    manage_group: true
+    manage_user: true
+    multi_services: false
+    network_manager_pkgs:
+    - network-manager-openvpn
+    - network-manager-openvpn-gnome
+    pkgs:
+    - openvpn
+    service: openvpn
+    service_function: running
+    user: openvpn
