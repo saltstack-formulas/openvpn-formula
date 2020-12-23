@@ -2,6 +2,15 @@
 Changelog
 =========
 
+`0.16.6 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.5...v0.16.6>`_ (2020-12-23)
+------------------------------------------------------------------------------------------------------------
+
+Code Refactoring
+^^^^^^^^^^^^^^^^
+
+
+* **map:** use top-level ``values:`` key in ``map.jinja`` dumps (\ `132e38a <https://github.com/saltstack-formulas/openvpn-formula/commit/132e38afd496b3e75b8e117c6c8468d00e6e1ea5>`_\ )
+
 `0.16.5 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.4...v0.16.5>`_ (2020-12-22)
 ------------------------------------------------------------------------------------------------------------
 
