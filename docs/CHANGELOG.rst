@@ -2,6 +2,21 @@
 Changelog
 =========
 
+`0.16.7 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.6...v0.16.7>`_ (2021-01-14)
+------------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **_mapdata:** ensure map data is directly under ``values`` (\ `0f96d55 <https://github.com/saltstack-formulas/openvpn-formula/commit/0f96d554e7fef9d467b023ac24e8de45f0355766>`_\ )
+
+Tests
+^^^^^
+
+
+* **_mapdata:** update for ``_mapdata/init.sls`` change (\ `241d349 <https://github.com/saltstack-formulas/openvpn-formula/commit/241d349f3a63ddea03ec0692df8b9ca61abb452c>`_\ )
+
 `0.16.6 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.5...v0.16.6>`_ (2020-12-23)
 ------------------------------------------------------------------------------------------------------------
 
