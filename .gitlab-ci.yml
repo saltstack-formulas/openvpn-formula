@@ -143,6 +143,7 @@ default-centos-7-master-py3: {extends: '.test_instance'}
 # default-fedora-33-master-py3: {extends: '.test_instance'}
 # default-fedora-32-master-py3: {extends: '.test_instance'}
 default-opensuse-leap-152-master-py3: {extends: '.test_instance'}
+default-opensuse-tmbl-latest-master-py3: {extends: '.test_instance'}
 default-amazonlinux-2-master-py3: {extends: '.test_instance'}
 # default-oraclelinux-8-master-py3: {extends: '.test_instance'}
 # default-gentoo-stage3-latest-master-py3: {extends: '.test_instance'}
@@ -157,6 +158,7 @@ default-amazonlinux-2-master-py3: {extends: '.test_instance'}
 # default-fedora-33-3002-2-py3: {extends: '.test_instance'}
 # default-fedora-32-3002-2-py3: {extends: '.test_instance'}
 # default-opensuse-leap-152-3002-2-py3: {extends: '.test_instance'}
+# default-opensuse-tmbl-latest-3002-2-py3: {extends: '.test_instance'}
 # default-amazonlinux-2-3002-2-py3: {extends: '.test_instance'}
 # default-oraclelinux-8-3002-2-py3: {extends: '.test_instance'}
 default-oraclelinux-7-3002-2-py3: {extends: '.test_instance'}
@@ -173,6 +175,7 @@ default-oraclelinux-7-3002-2-py3: {extends: '.test_instance'}
 # default-fedora-33-3001-4-py3: {extends: '.test_instance'}
 # default-fedora-32-3001-4-py3: {extends: '.test_instance'}
 # default-opensuse-leap-152-3001-4-py3: {extends: '.test_instance'}
+# default-opensuse-tmbl-latest-3001-4-py3: {extends: '.test_instance'}
 # default-amazonlinux-2-3001-4-py3: {extends: '.test_instance'}
 # default-oraclelinux-8-3001-4-py3: {extends: '.test_instance'}
 # default-oraclelinux-7-3001-4-py3: {extends: '.test_instance'}
