@@ -2,6 +2,22 @@
 Changelog
 =========
 
+`0.16.8 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.7...v0.16.8>`_ (2021-01-29)
+------------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **kitchen+gitlab:** update for new pre-salted images (\ `0b96901 <https://github.com/saltstack-formulas/openvpn-formula/commit/0b969018bacdd565170528636f4b976466ef1cae>`_\ )
+
+Tests
+^^^^^
+
+
+* **services_spec:** add test for ``be_installed`` (\ `fe77843 <https://github.com/saltstack-formulas/openvpn-formula/commit/fe7784331d6fe29f5e8312627b9ba40d14497fb9>`_\ )
+* **tumbleweed:** add map verification file (\ `ff5a9cf <https://github.com/saltstack-formulas/openvpn-formula/commit/ff5a9cfbfa7a98d8742351224bac239b79c4528c>`_\ )
+
 `0.16.7 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.6...v0.16.7>`_ (2021-01-14)
 ------------------------------------------------------------------------------------------------------------
 
