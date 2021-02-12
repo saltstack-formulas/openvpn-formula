@@ -1,7 +1,8 @@
+# yamllint disable-file
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
-openvpn:
+values:
   bin_dir: ~
   conf_dir: /etc/openvpn
   conf_ext: conf
@@ -13,7 +14,7 @@ openvpn:
   group: nobody
   # None, will default to 'user'
   log_user: ~
-  multi_services: false
+  multi_services: {{ salt['grains.has_value']('systemd') }}
   pkgs: ['openvpn']
   service: openvpn
   service_function: running
@@ -21,3 +22,4 @@ openvpn:
   network_manager_pkgs:
     - network-manager-openvpn
     - network-manager-openvpn-gnome
+...

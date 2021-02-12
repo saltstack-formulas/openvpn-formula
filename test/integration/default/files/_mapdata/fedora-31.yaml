@@ -18,6 +18,14 @@ values:
   log_user: null
   manage_group: true
   manage_user: true
+  map_jinja:
+    sources:
+    - Y:G@osarch
+    - Y:G@os_family
+    - Y:G@os
+    - Y:G@osfinger
+    - C@openvpn:lookup
+    - Y:G@id
   multi_services: true
   network_manager_pkgs:
   - network-manager-openvpn

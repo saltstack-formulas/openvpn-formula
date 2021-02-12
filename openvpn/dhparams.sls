@@ -1,4 +1,4 @@
-{%- from "openvpn/map.jinja" import map with context %}
+{%- from "openvpn/map.jinja" import mapdata as map with context %}
 
 # Generate diffie hellman files
 {% if salt['pillar.get']('openvpn:server', False) %}

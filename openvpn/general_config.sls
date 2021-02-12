@@ -1,6 +1,6 @@
 {# This SLS serves only as a capsule to ease handling of dependencies. #}
 
-{% from "openvpn/map.jinja" import map with context %}
+{%- from "openvpn/map.jinja" import mapdata as map with context %}
 
 {%- if map.manage_group is sameas false or map.user in ['nobody', 'nogroup'] %}
 {%-   set manage_group = False %}
