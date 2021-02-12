@@ -93,7 +93,7 @@ We create a configuration for the DNS domain ``example.net`` in ``/srv/salt/TEMP
       config: /etc/template-formula-example-net.conf
     ...
 
-We create another configuration for the DNS domain ``example.com`` in ``/srv/salt/TEMPLATE/parameters/dns:domain/example.com.yaml``:
+We create another configuration for the DNS domain ``example.com`` in the Jinja YAML template ``/srv/salt/TEMPLATE/parameters/dns:domain/example.com.yaml.jinja``:
 
 .. code-block:: yaml
 
@@ -263,15 +263,21 @@ Here is a valid example:
       config: '/path/to/a/configuration/file'
     ...
 
-You can use `Jinja`_ as with any SLS files:
 
-.. code-block:: yaml
+Using Jinja2 YAML template
+``````````````````````````
+
+You can provide a Jinja2 YAML template file with a name suffixed with ``.yaml.jinja``, it must produce a YAML file conform to the `Format of configuration YAML files`_, for example:
+
+.. code-block:: jinja2
 
     ---
     strategy: 'overwrite'
     merge_lists: 'true'
     values:
-      output_dir: /tmp/{{ grains['id'] }}
+    {%- if grains["os"] == "Debian" %}
+      output_dir: /tmp/{{ grains["id"] }}
+    {%- endif %}
     ...
 
 
@@ -285,13 +291,24 @@ The ``map.jinja`` file aggregates configuration values from several sources:
 - `grains`_
 - configuration gathered with `salt['config.get']`_
 
+For the values loaded from YAML files, ``map.jinja`` will automatically try to load a Jinja2 template with the same name as the YAML file with the addition of the ``.jinja`` extension, for example ``foo/bar/quux.yaml.jinja``.
+
+After loading values from all sources, it will try to include the ``salt://parameters/post-map.jinja`` Jinja file if it exists which can post-process the ``mapdata`` variable.
+
 Configuring ``map.jinja`` sources
 `````````````````````````````````
 
 The ``map.jinja`` file uses several sources where to lookup parameter values. The list of sources can be configured in two places:
 
-1. a global ``salt://parameters/map_jinja.yaml``
-2. a per formula ``salt://{{ tplroot }}/parameters/map_jinja.yaml``, it overrides the global configuration
+1. globally
+
+   1. with a plain YAML file ``salt://parameters/map_jinja.yaml``
+   2. with a Jinja2 YAML template file ``salt://parameters/map_jinja.yaml.jinja``
+
+2. per formula
+
+   1. with a plain YAML file ``salt://{{ tplroot }}/parameters/map_jinja.yaml``
+   2. with a Jinja2 YAML template file ``salt://{{ tplroot }}/parameters/map_jinja.yaml.jinja``
 
 .. note::
 
@@ -318,7 +335,10 @@ Finally, the ``<KEY>`` describes what to lookup to either build the YAML filenam
 
 .. note::
 
-    For the YAML type, if the ``<KEY>`` can't be looked up, then it's used a literal string path to a YAML file, for example: ``any/path/can/be/used/here.yaml`` will result in the loading of ``salt://{{ tplroot }}/parameters/any/path/can/be/used/here.yaml`` if it exists.
+    For the YAML type:
+
+    - if the ``<KEY>`` can't be looked up, then it's used a literal string path to a YAML file, for example: ``any/path/can/be/used/here.yaml`` will result in the loading of ``salt://{{ tplroot }}/parameters/any/path/can/be/used/here.yaml`` if it exists
+    - ``map.jinja`` will automatically try to load a Jinja2 template, after the corresponding YAML file, with the same name as the YAML file extended with the ``.jinja`` extension, for example ``any/path/can/be/used/here.yaml.jinja``
 
 The built-in ``map.jinja`` sources are:
 
@@ -332,19 +352,24 @@ The built-in ``map.jinja`` sources are:
     - "C@{{ tplroot }}"
     - "Y:G@id"
 
-This is strictly equivalent to the following ``map_jinja.yaml`` using `Jinja`_:
+This is strictly equivalent to the following ``map_jinja.yaml.jinja``:
 
 .. code-block:: sls
 
     values:
       sources:
         - "parameters/osarch/{{ salt['grains.get']('osarch') }}.yaml"
+        - "parameters/osarch/{{ salt['grains.get']('osarch') }}.yaml.jinja"
         - "parameters/os_family/{{ salt['grains.get']('os_family') }}.yaml"
+        - "parameters/os_family/{{ salt['grains.get']('os_family') }}.yaml.jinja"
         - "parameters/os/{{ salt['grains.get']('os') }}.yaml"
+        - "parameters/os/{{ salt['grains.get']('os') }}.yaml.jinja"
         - "parameters/osfinger/{{ salt['grains.get']('osfinger') }}.yaml"
+        - "parameters/osfinger/{{ salt['grains.get']('osfinger') }}.yaml.jinja"
         - "C@{{ tplroot ~ ':lookup' }}"
         - "C@{{ tplroot }}"
         - "parameters/id/{{ salt['grains.get']('id') }}.yaml"
+        - "parameters/id/{{ salt['grains.get']('id') }}.yaml.jinja"
 
 
 Loading values from the configuration sources
@@ -356,14 +381,21 @@ For each configuration source defined, ``map.jinja`` will:
 
    - for YAML file sources
 
-     - if the ``<KEY>`` can be looked up, load values from the YAML file named ``salt://{{ tplroot }}/paramaters/<KEY>/{{ salt['<QUERY_METHOD>']('<KEY>') }}.yaml`` if it exists
-     - otherwise, load the YAML file named ``salt://{{ tplroot }}/parameters/<KEY>.yaml`` if it exists
+     - if the ``<KEY>`` can be looked up:
+
+       - load values from the YAML file named ``salt://{{ tplroot }}/paramaters/<KEY>/{{ salt['<QUERY_METHOD>']('<KEY>') }}.yaml`` if it exists
+       - load values from the Jinja2 YAML template file named ``salt://{{ tplroot }}/paramaters/<KEY>/{{ salt['<QUERY_METHOD>']('<KEY>') }}.yaml.jinja`` if it exists
+
+     - otherwise:
+
+       - load the YAML file named ``salt://{{ tplroot }}/parameters/<KEY>.yaml`` if it exists
+       - load the Jinja2 YAML template file named ``salt://{{ tplroot }}/parameters/<KEY>.yaml.jinja`` if it exists
 
    - for ``C``, ``G`` or ``I`` source type, lookup the value of ``salt['<QUERY_METHOD>']('<KEY>')``
 
 #. merge the loaded values with the previous ones using `salt.slsutil.merge`_
 
-There will be no error if a YAML file does not exists, they are all optional.
+There will be no error if a YAML or Jinja2 file does not exists, they are all optional.
 
 
 Configuration values from ``salt['config.get']``
@@ -383,13 +415,19 @@ Global view of the order of preferences
 To summarise, here is a complete example of the load order of formula configuration values for an ``AMD64`` ``Ubuntu 18.04`` minion named ``minion1.example.net`` for the ``libvirt`` formula:
 
 #. ``parameters/defaults.yaml``
+#. ``parameters/defaults.yaml.jinja``
 #. ``parameters/osarch/amd64.yaml``
+#. ``parameters/osarch/amd64.yaml.jinja``
 #. ``parameters/os_family/Debian.yaml``
+#. ``parameters/os_family/Debian.yaml.jinja``
 #. ``parameters/os/Ubuntu.yaml``
+#. ``parameters/os/Ubuntu.yaml.jinja``
 #. ``parameters/osfinger/Ubuntu-18.04.yaml``
+#. ``parameters/osfinger/Ubuntu-18.04.yaml.jinja``
 #. ``salt['config.get']('libvirt:lookup')``
 #. ``salt['config.get']('libvirt')``
 #. ``parameters/id/minion1.example.net.yaml``
+#. ``parameters/id/minion1.example.net.yaml.jinja``
 
 Remember that the order is important, for example, the value of ``key1:subkey1`` loaded from ``parameters/os_family/Debian.yaml`` is overridden by a value loaded from ``parameters/id/minion1.example.net.yaml``.
 
