@@ -106,6 +106,7 @@ jobs:
     - env: INSTANCE=default-opensuse-tmbl-latest-master-py3
     - env: INSTANCE=default-amazonlinux-2-master-py3
     # - env: INSTANCE=default-oraclelinux-8-master-py3
+    - env: INSTANCE=default-oraclelinux-7-master-py3
     # - env: INSTANCE=default-gentoo-stage3-latest-master-py3
     # - env: INSTANCE=default-gentoo-stage3-systemd-master-py3
     # - env: INSTANCE=default-debian-10-3002-2-py3
@@ -121,7 +122,7 @@ jobs:
     # - env: INSTANCE=default-opensuse-tmbl-latest-3002-2-py3
     # - env: INSTANCE=default-amazonlinux-2-3002-2-py3
     # - env: INSTANCE=default-oraclelinux-8-3002-2-py3
-    - env: INSTANCE=default-oraclelinux-7-3002-2-py3
+    # - env: INSTANCE=default-oraclelinux-7-3002-2-py3
     # - env: INSTANCE=default-arch-base-latest-3002-2-py3
     # - env: INSTANCE=default-gentoo-stage3-latest-3002-2-py3
     # - env: INSTANCE=default-gentoo-stage3-systemd-3002-2-py3

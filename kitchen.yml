@@ -8,8 +8,6 @@ driver:
   privileged: true
   run_command: /lib/systemd/systemd
 
-# Make sure the platforms listed below match up with
-# the `env.matrix` instances defined in `.travis.yml`
 platforms:
   ## SALT `tiamat`
   - name: debian-10-tiamat-py3
@@ -93,6 +91,9 @@ platforms:
   - name: oraclelinux-8-master-py3
     driver:
       image: saltimages/salt-master-py3:oraclelinux-8
+  - name: oraclelinux-7-master-py3
+    driver:
+      image: saltimages/salt-master-py3:oraclelinux-7
   - name: gentoo-stage3-latest-master-py3
     driver:
       image: saltimages/salt-master-py3:gentoo-stage3-latest
