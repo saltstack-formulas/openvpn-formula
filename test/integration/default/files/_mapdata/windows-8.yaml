@@ -13,6 +13,14 @@ values:
   external_repo_version: stable
   group: nobody
   log_user: null
+  map_jinja:
+    sources:
+    - Y:G@osarch
+    - Y:G@os_family
+    - Y:G@os
+    - Y:G@osfinger
+    - C@openvpn:lookup
+    - Y:G@id
   multi_services: false
   network_manager_pkgs:
   - network-manager-openvpn

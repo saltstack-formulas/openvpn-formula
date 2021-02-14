@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
-openvpn:
+values:
   bin_dir: ~
   conf_dir: /etc/openvpn
   conf_ext: conf
@@ -21,3 +21,4 @@ openvpn:
   network_manager_pkgs:
     - network-manager-openvpn
     - network-manager-openvpn-gnome
+...

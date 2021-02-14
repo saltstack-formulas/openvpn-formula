@@ -1,6 +1,6 @@
 # Ensure openvpn service is running and autostart is enabled
 
-{% from "openvpn/map.jinja" import map with context %}
+{%- from "openvpn/map.jinja" import mapdata as map with context %}
 
 
 {% if map.multi_services %}

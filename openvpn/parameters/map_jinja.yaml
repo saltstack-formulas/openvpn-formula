@@ -1,0 +1,17 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+#
+# Formula specific configuration of `map.jinja`
+---
+values:
+  sources:
+    - "Y:G@osarch"
+    - "Y:G@os_family"
+    - "Y:G@os"
+    - "Y:G@osfinger"
+
+    # For compatibility, don't merge `salt["config.get"]("openvpn")`
+    - "C@openvpn:lookup"
+
+    - "Y:G@id"
+...

@@ -1,0 +1,15 @@
+{#- -*- coding: utf-8 -*- #}
+{#- vim: ft=jinja #}
+{#-
+    Setup variables after loading `defaults.yaml`.
+
+    This jinja2 file must return a valid `map.jinja` YAML which will
+    be merged into `defaults.yaml`.
+
+    If you do not need to provide calculated defaults, you can remove
+    this file or provide at least an empty dict, e.g.  values: {}
+#}
+---
+values:
+  multi_services: {{ salt['grains.has_value']('systemd') }}
+...

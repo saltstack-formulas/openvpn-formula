@@ -1,4 +1,4 @@
-{%- from "openvpn/map.jinja" import map with context %}
+{%- from "openvpn/map.jinja" import mapdata as map with context %}
 
 include:
   - openvpn.install
