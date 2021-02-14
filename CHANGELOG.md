@@ -1,5 +1,24 @@
 # Changelog
 
+# [1.0.0](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.8...v1.0.0) (2021-02-14)
+
+
+### Continuous Integration
+
+* **pre-commit:** update hook for `rubocop` [skip ci] ([4d77262](https://github.com/saltstack-formulas/openvpn-formula/commit/4d772627d43eb1ce051fc6549639ca826fad9481))
+
+
+### Features
+
+* **map:** the YAML files must not use any Jinja ([4db7d6f](https://github.com/saltstack-formulas/openvpn-formula/commit/4db7d6f6b33ea6741a5bdc67265c51cefde61a75))
+* **map:** update to v5 `map.jinja` ([c28acb9](https://github.com/saltstack-formulas/openvpn-formula/commit/c28acb9c0cf9125d955095d35fc1023113186509))
+
+
+### BREAKING CHANGES
+
+* **map:** `map.jinja` now export a generic `mapdata` variable
+* **map:** The parameters per grains are now under `openvpn/parameters/`
+
 ## [0.16.8](https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.7...v0.16.8) (2021-01-29)
 
 
