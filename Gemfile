@@ -2,6 +2,9 @@
 
 source 'https://rubygems.org'
 
+# Versions of `chef-utils` newer than `16.6.14` depend on Ruby 2.6 or
+# newer, but the GitHub Actions Windows image comes with Ruby 2.5.8
+gem 'chef-utils', '~> 16.6.14'
 # Use the latest version of `inspec` prior to `4.23.4`, which introduces a
 # regression where the diff isn't displayed when comparing using `eq`.
 gem 'inspec',      '~> 4.22.22'
