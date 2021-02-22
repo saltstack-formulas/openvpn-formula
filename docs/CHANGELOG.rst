@@ -2,6 +2,23 @@
 Changelog
 =========
 
+`1.0.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.0...v1.0.1>`_ (2021-02-22)
+---------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* **gemfile+lock:** use ``ssf`` customised ``kitchen-docker`` repo [skip ci] (\ `a69b613 <https://github.com/saltstack-formulas/openvpn-formula/commit/a69b6134e6a0b8a77aed6078e24394ba236808a0>`_\ )
+* **github+windows:** install and use Chef embedded Ruby (\ `f1cc1b9 <https://github.com/saltstack-formulas/openvpn-formula/commit/f1cc1b9e2676dbae6366518788beece49de30f8c>`_\ )
+* **kitchen+gitlab-ci:** use latest pre-salted images [skip ci] (\ `8eeb429 <https://github.com/saltstack-formulas/openvpn-formula/commit/8eeb4295f193cdaca85aea3954f7194c36dfe2b6>`_\ )
+
+Tests
+^^^^^
+
+
+* **kitchen+windows:** remove no longer needed workaround (\ `470f4d6 <https://github.com/saltstack-formulas/openvpn-formula/commit/470f4d6eb77e6281356d518b5ae83230f2ae1657>`_\ )
+
 `1.0.0 <https://github.com/saltstack-formulas/openvpn-formula/compare/v0.16.8...v1.0.0>`_ (2021-02-14)
 ----------------------------------------------------------------------------------------------------------
 
