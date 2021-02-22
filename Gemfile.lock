@@ -525,7 +525,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  chef-utils (~> 16.6.14)
   inspec (~> 4.22.22)
   kitchen-docker!
   kitchen-inspec (>= 2.2.1)
