@@ -2,6 +2,24 @@
 Changelog
 =========
 
+`1.0.2 <https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.1...v1.0.2>`_ (2021-03-26)
+---------------------------------------------------------------------------------------------------------
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* enable Vagrant-based testing using GitHub Actions (\ `290c8b4 <https://github.com/saltstack-formulas/openvpn-formula/commit/290c8b48e405e03c224ec28496aa135e1d336810>`_\ )
+* **kitchen+ci:** use latest pre-salted images (after CVE) [skip ci] (\ `deb3ac1 <https://github.com/saltstack-formulas/openvpn-formula/commit/deb3ac1d7bf8f52dc92f3f0b09009e669558f1cb>`_\ )
+* **windows:** use ``kitchen.windows.yml`` (\ `76491c4 <https://github.com/saltstack-formulas/openvpn-formula/commit/76491c4cb0fd12d8a44a9ffd7d5a3c66f768db0c>`_\ )
+
+Tests
+^^^^^
+
+
+* **_mapdata:** add verification file for Windows 2016 Server (\ `dda60f0 <https://github.com/saltstack-formulas/openvpn-formula/commit/dda60f07ec955db038a0eaaaa842c0f8bc08a1d1>`_\ )
+* standardise use of ``share`` suite & ``_mapdata`` state [skip ci] (\ `c247b83 <https://github.com/saltstack-formulas/openvpn-formula/commit/c247b83f47161e59289617467957f8e07f472ff1>`_\ )
+
 `1.0.1 <https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.0...v1.0.1>`_ (2021-02-22)
 ---------------------------------------------------------------------------------------------------------
 
