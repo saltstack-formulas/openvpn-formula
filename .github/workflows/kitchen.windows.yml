@@ -1,53 +1,101 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
 ---
 name: 'Kitchen (Windows)'
-
-'on': [push, pull_request]
+'on': ['push', 'pull_request']
 
 env:
   machine_user: kitchen
   machine_pass: Pass@word1
   machine_port: 5985
-  KITCHEN_LOCAL_YAML: kitchen.windows.yml
+  KITCHEN_LOCAL_YAML: 'kitchen.windows.yml'
 
 jobs:
-  test:
-    runs-on: windows-latest
-
+  test-2019:
+    runs-on: 'windows-2019'
+    strategy:
+      fail-fast: false
+      matrix:
+        instance:
+          - default-windows-2019-latest-py3
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Install Chef
-        uses: actionshub/chef-install@1.1.0
+      - name: 'Check out code'
+        uses: 'actions/checkout@v2'
+      - name: 'Install Chef'
+        uses: 'actionshub/chef-install@1.1.0'
         with:
-          project: chef
-          version: 16.10.8
-      - name: Add Chef bindir to PATH
-        uses: myci-actions/export-env-var-powershell@1
+          project: 'chef'
+          version: '16.10.8'
+      - name: 'Add Chef bindir to PATH'
+        uses: 'myci-actions/export-env-var-powershell@1'
         with:
-          name: PATH
+          name: 'PATH'
           value: "C:\\opscode\\chef\\bin;\
                   C:\\opscode\\chef\\embedded\\bin;$env:PATH"
-      - name: Set up Bundler cache
-        uses: actions/cache@v1
+      - name: 'Set up Bundler cache'
+        uses: 'actions/cache@v1'
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Set up test user
+          path: 'vendor/bundle'
+          key: "${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}"
+          restore-keys: "${{ runner.os }}-gems-"
+      - name: 'Set up test user'
         run: |
           $password = ConvertTo-SecureString $env:machine_pass -AsPlainText -Force
           New-LocalUser $env:machine_user -Password $password
           Add-LocalGroupMember -Group "Administrators" -Member $env:machine_user
-      - name: Set up WinRM
+      - name: 'Set up WinRM'
         run: >
           Set-WSManQuickConfig -Force;
           Set-WSManInstance -ResourceURI winrm/config/service
           -ValueSet @{AllowUnencrypted="true"}
-      - name: Run Bundler
+      - name: 'Run Bundler'
         run: |
           ruby --version
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-      - name: Run Test Kitchen
-        run: bundle exec kitchen verify
+      - name: 'Run Test Kitchen'
+        run: 'bundle exec kitchen verify ${{ matrix.instance }}'
+  test-2016:
+    runs-on: 'windows-2016'
+    strategy:
+      fail-fast: false
+      matrix:
+        instance:
+          - default-windows-2016-latest-py3
+    steps:
+      - name: 'Check out code'
+        uses: 'actions/checkout@v2'
+      - name: 'Install Chef'
+        uses: 'actionshub/chef-install@1.1.0'
+        with:
+          project: 'chef'
+          version: '16.10.8'
+      - name: 'Add Chef bindir to PATH'
+        uses: 'myci-actions/export-env-var-powershell@1'
+        with:
+          name: 'PATH'
+          value: "C:\\opscode\\chef\\bin;\
+                  C:\\opscode\\chef\\embedded\\bin;$env:PATH"
+      - name: 'Set up Bundler cache'
+        uses: 'actions/cache@v1'
+        with:
+          path: 'vendor/bundle'
+          key: "${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}"
+          restore-keys: "${{ runner.os }}-gems-"
+      - name: 'Set up test user'
+        run: |
+          $password = ConvertTo-SecureString $env:machine_pass -AsPlainText -Force
+          New-LocalUser $env:machine_user -Password $password
+          Add-LocalGroupMember -Group "Administrators" -Member $env:machine_user
+      - name: 'Set up WinRM'
+        run: >
+          Set-WSManQuickConfig -Force;
+          Set-WSManInstance -ResourceURI winrm/config/service
+          -ValueSet @{AllowUnencrypted="true"}
+      - name: 'Run Bundler'
+        run: |
+          ruby --version
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+      - name: 'Run Test Kitchen'
+        run: 'bundle exec kitchen verify ${{ matrix.instance }}'
