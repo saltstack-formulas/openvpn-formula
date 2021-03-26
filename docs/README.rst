@@ -159,8 +159,8 @@ Setup
    $ bundle install --with=vagrant
    $ bin/kitchen test [platform]
 
-Where ``[platform]`` is the platform name defined in ``kitchen.yml``,
-e.g. ``windows-81-2019-2-py3``.
+Where ``[platform]`` is the platform name defined in ``kitchen.vagrant.yml``,
+e.g. ``windows-81-latest-py3``.
 
 Note
 ^^^^
