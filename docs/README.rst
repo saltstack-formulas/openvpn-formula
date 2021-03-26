@@ -141,7 +141,7 @@ Gives you SSH access to the instance for manual testing.
 Testing with Vagrant
 --------------------
 
-Windows testing is done with ``kitchen-salt``.
+Windows/FreeBSD/OpenBSD testing is done with ``kitchen-salt``.
 
 Requirements
 ^^^^^^^^^^^^
@@ -198,4 +198,4 @@ Runs all of the stages above in one go: i.e. ``destroy`` + ``converge`` + ``veri
 ``bin/kitchen login``
 ^^^^^^^^^^^^^^^^^^^^^
 
-Gives you RDP access to the instance for manual testing.
+Gives you RDP/SSH access to the instance for manual testing.
