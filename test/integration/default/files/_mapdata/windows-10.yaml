@@ -1,0 +1,32 @@
+# yamllint disable rule:indentation rule:line-length
+# Windows-10
+---
+values:
+  bin_dir: C:\Program Files\OpenVPN\bin\
+  conf_dir: C:\Program Files\OpenVPN\config
+  conf_ext: ovpn
+  dh_files:
+  - '512'
+  dsaparam: false
+  external_repo_enabled: false
+  external_repo_supported: []
+  external_repo_version: stable
+  group: nobody
+  log_user: null
+  map_jinja:
+    sources:
+    - Y:G@osarch
+    - Y:G@os_family
+    - Y:G@os
+    - Y:G@osfinger
+    - C@openvpn:lookup
+    - Y:G@id
+  multi_services: false
+  network_manager_pkgs:
+  - network-manager-openvpn
+  - network-manager-openvpn-gnome
+  pkgs:
+  - openvpn
+  service: OpenVPNService
+  service_function: running
+  user: nobody

@@ -18,6 +18,7 @@ jobs:
           # - default-freebsd-114-master-py3
           # - default-freebsd-122-3002-6-py3
           # - default-freebsd-114-3002-6-py3
+          - default-windows-10-latest-py3
           - default-windows-81-latest-py3
     steps:
       - name: 'Check out code'
