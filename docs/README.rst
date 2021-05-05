@@ -1,5 +1,3 @@
-.. _readme:
-
 openvpn-formula
 ===============
 
@@ -74,7 +72,7 @@ Configures OpenVPN GUI (Windows only). Sets global registry settings as describe
 Manages TAP-Windows device adapters (Windows only). Ensures that any devices specified with ``dev_node`` in pillar exist.
 
 ``openvpn.ifconfig_pool_persist``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Installs and configures an ifconfig_pool_persist file. Used to assign host IPs.
 
