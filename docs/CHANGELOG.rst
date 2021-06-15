@@ -2,6 +2,34 @@
 Changelog
 =========
 
+`1.0.3 <https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.2...v1.0.3>`_ (2021-06-15)
+---------------------------------------------------------------------------------------------------------
+
+Bug Fixes
+^^^^^^^^^
+
+
+* **tumbleweed:** ensure ``openssl`` package is also installed (\ `69be26f <https://github.com/saltstack-formulas/openvpn-formula/commit/69be26fb00c83a0665ff830808ac3a7b22b84f02>`_\ )
+
+Continuous Integration
+^^^^^^^^^^^^^^^^^^^^^^
+
+
+* add ``arch-master`` to matrix and update ``.travis.yml`` [skip ci] (\ `a6d8b8e <https://github.com/saltstack-formulas/openvpn-formula/commit/a6d8b8e8f150844bbd792496d0c48512f576b762>`_\ )
+* **kitchen+gitlab:** adjust matrix to add ``3003`` [skip ci] (\ `83a97f4 <https://github.com/saltstack-formulas/openvpn-formula/commit/83a97f4373c52582f75e2d606448e2201fb434e5>`_\ )
+* **vagrant:** add FreeBSD 13.0 [skip ci] (\ `50b3c9f <https://github.com/saltstack-formulas/openvpn-formula/commit/50b3c9f13efad64e6c2c08ef84ae926ec7ea8747>`_\ )
+* **vagrant:** add Windows 10 pre-salted box [skip ci] (\ `085ca0c <https://github.com/saltstack-formulas/openvpn-formula/commit/085ca0c6fdf16f74798270771386500681f36e12>`_\ )
+* **vagrant:** use pre-salted boxes & conditional local settings [skip ci] (\ `e110c28 <https://github.com/saltstack-formulas/openvpn-formula/commit/e110c28eb4d3905f76d9b2b63cb56c130b5529fd>`_\ )
+
+Documentation
+^^^^^^^^^^^^^
+
+
+* **map.jinja:** fix ``rst-lint`` violation [skip ci] (\ `7887fb4 <https://github.com/saltstack-formulas/openvpn-formula/commit/7887fb4ff6beb6cd80bb44865de82d37209c22b3>`_\ )
+* **readme:** fix heading [skip ci] (\ `556e93a <https://github.com/saltstack-formulas/openvpn-formula/commit/556e93ad2985f1f995c644779870db316c285a36>`_\ )
+* **readme:** fix platform name location for Vagrant [skip ci] (\ `74e5dc0 <https://github.com/saltstack-formulas/openvpn-formula/commit/74e5dc073aa1a61babbe87f429a44590855c7000>`_\ )
+* **readme:** generalise Vagrant section to include ``*BSD`` [skip ci] (\ `6794d64 <https://github.com/saltstack-formulas/openvpn-formula/commit/6794d643a6a065d59baaf6899a2e8eac9f01c57c>`_\ )
+
 `1.0.2 <https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.1...v1.0.2>`_ (2021-03-26)
 ---------------------------------------------------------------------------------------------------------
 
