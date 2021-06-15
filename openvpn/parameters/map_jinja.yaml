@@ -8,6 +8,7 @@ values:
     - "Y:G@osarch"
     - "Y:G@os_family"
     - "Y:G@os"
+    - "Y:G@oscodename"
     - "Y:G@osfinger"
 
     # For compatibility, don't merge `salt["config.get"]("openvpn")`
