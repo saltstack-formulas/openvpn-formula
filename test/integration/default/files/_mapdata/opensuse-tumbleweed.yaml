@@ -20,6 +20,7 @@ values:
     - Y:G@osarch
     - Y:G@os_family
     - Y:G@os
+    - Y:G@oscodename
     - Y:G@osfinger
     - C@openvpn:lookup
     - Y:G@id
@@ -29,6 +30,7 @@ values:
   - network-manager-openvpn-gnome
   pkgs:
   - openvpn
+  - openssl
   service: openvpn
   service_function: running
   user: openvpn
