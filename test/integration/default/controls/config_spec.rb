@@ -43,5 +43,11 @@ group = 'openvpn'
       it { should be_grouped_into group }
       its('mode') { should cmp '0640' }
     end
+
+    describe file("#{conf_dir}/server/dh512.pem") do
+      it { should be_owned_by user }
+      it { should be_grouped_into 'root' }
+      its('mode') { should cmp '0644' }
+    end
   end
 end
