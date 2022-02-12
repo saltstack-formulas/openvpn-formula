@@ -16,4 +16,5 @@ values:
   user: openvpn
   manage_user: false
   manage_group: false
+  kernel_module_name: if_tap
 ...

@@ -42,8 +42,11 @@ openvpn_config_dir:
 {%- if grains.os_family == 'FreeBSD' %}
 openvpn_kldload_if_tap:
   kmod.present:
-    - name: if_tap
+    - name: {{ map.kernel_module_name }}
     - persist: True
+    - unless:
+      # In case the kernel has the module compiled in, we skip this state.
+      - sh -c "kldstat -v | grep --quiet --extended-regexp '^\s+[0-9]+ {{ map.kernel_module_name }}$'"
     - require_in:
       - sls: openvpn.config
 {%- endif %}
