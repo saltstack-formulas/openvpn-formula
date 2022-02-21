@@ -1,5 +1,47 @@
 # Changelog
 
+## [1.0.4](https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.3...v1.0.4) (2022-02-21)
+
+
+### Bug Fixes
+
+* **libmapstack:** allow mapping by booleans and numbers ([b16659b](https://github.com/saltstack-formulas/openvpn-formula/commit/b16659bdc49d2da00d45408fd122a965179fd7fe))
+* **libsaltcli+libmatchers:** ensure Salt client API detection [skip ci] ([920f23c](https://github.com/saltstack-formulas/openvpn-formula/commit/920f23c896d357fad8a651dcd61a549f12c80a11))
+
+
+### Code Refactoring
+
+* **map.jinja:** standardise v5 structure [skip ci] ([6e786a9](https://github.com/saltstack-formulas/openvpn-formula/commit/6e786a91e53e1a9209a5584c41a211fc39d1de15))
+
+
+### Continuous Integration
+
+* update linters to latest versions [skip ci] ([6667e73](https://github.com/saltstack-formulas/openvpn-formula/commit/6667e739a996c9c4bdcab96b98297a02c3cc5a97))
+* **3003.1:** update inc. AlmaLinux, Rocky & `rst-lint` [skip ci] ([15820aa](https://github.com/saltstack-formulas/openvpn-formula/commit/15820aa6d20c25d80a297b8131a51ab39bc030b8))
+* **gemfile:** allow rubygems proxy to be provided as an env var [skip ci] ([4b58f5f](https://github.com/saltstack-formulas/openvpn-formula/commit/4b58f5f0d1abdd2ef8f2795a1f128cf2d3406d59))
+* **gemfile+lock:** use `ssf` customised `inspec` repo [skip ci] ([31e9e91](https://github.com/saltstack-formulas/openvpn-formula/commit/31e9e911ae1192dd42bdd866d320b8e001649d27))
+* **kitchen:** move `provisioner` block & update `run_command` [skip ci] ([1e195ed](https://github.com/saltstack-formulas/openvpn-formula/commit/1e195ed8ac68418790eb53d8ee571d1af62f0950))
+* **kitchen+ci:** update with `3004` pre-salted images/boxes [skip ci] ([7390292](https://github.com/saltstack-formulas/openvpn-formula/commit/7390292911e528d2fd7aef26593358b5565f1589))
+* **kitchen+ci:** update with latest `3003.2` pre-salted images [skip ci] ([b20ac04](https://github.com/saltstack-formulas/openvpn-formula/commit/b20ac04ee45d52e2fb864db069b2f308df08059e))
+* **kitchen+ci:** update with latest CVE pre-salted images [skip ci] ([307d728](https://github.com/saltstack-formulas/openvpn-formula/commit/307d728b035511446b210bf77d244586de283fe8))
+* **kitchen+gitlab:** remove Ubuntu 16.04 & Fedora 32 (EOL) [skip ci] ([9887264](https://github.com/saltstack-formulas/openvpn-formula/commit/9887264547753c1fb880d2ca9ee1e6d8bf97573c))
+* **kitchen+gitlab:** update for new pre-salted images [skip ci] ([ea87444](https://github.com/saltstack-formulas/openvpn-formula/commit/ea87444e74ff83528164672f7def8e4aa66e0d7b))
+* **proxy:** replace deprecated Windows `2016` with `2022` [skip ci] ([227b032](https://github.com/saltstack-formulas/openvpn-formula/commit/227b032eea3216d0908743fada5745c450659c83))
+* **proxy+windows:** fix setting up WinRM [skip ci] ([3d5404a](https://github.com/saltstack-formulas/openvpn-formula/commit/3d5404ac86bc1d0cdd540894b0eb74de13050c85))
+* **windows:** use Salt version `3004` [skip ci] ([e388c90](https://github.com/saltstack-formulas/openvpn-formula/commit/e388c908bfae4635ffd9362858ac54a067c47527))
+* add Debian 11 Bullseye & update `yamllint` configuration [skip ci] ([af4e5a9](https://github.com/saltstack-formulas/openvpn-formula/commit/af4e5a98cdb8cee0e1c060d3ecdf9ed454e5f5a3))
+
+
+### Styles
+
+* **libsaltcli:** fix comments to jinja comments [skip ci] ([755b28e](https://github.com/saltstack-formulas/openvpn-formula/commit/755b28e1708eee3e5a8de601ac51b04c180aa7f3))
+
+
+### Tests
+
+* **_mapdata:** add verification file for `debian-11` [skip ci] ([e0d499e](https://github.com/saltstack-formulas/openvpn-formula/commit/e0d499e1e4675493f78547d9d03d2f51d62eab83))
+* **system:** add `build_platform_codename` [skip ci] ([3eeb52b](https://github.com/saltstack-formulas/openvpn-formula/commit/3eeb52b8e327f6f3ca141e1840317ae027a8833d))
+
 ## [1.0.3](https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.2...v1.0.3) (2021-06-15)
 
 
