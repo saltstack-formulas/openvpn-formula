@@ -25,6 +25,7 @@ include:
       network_name: "{{ name }}"
       config: {{ config | json }}
       clients: {{ clients | json }}
+      tpldir: {{ tpldir }}
     - mode: 600
     - onchanges_in:
       - cmd: network_manager_connection_reload
