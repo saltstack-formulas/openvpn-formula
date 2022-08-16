@@ -17,6 +17,8 @@ openvpn:
     manage_group: true
     external_repo_enabled: true
 {%- else %}
+    pkgs:
+      - openvpn: 2.4.11-I602-Win{{ {"8.1": "7"}[grains["osrelease"]]|default("10") }}
     service: OpenVPNService
 {%- endif %}
     dh_files: ['512']

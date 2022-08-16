@@ -27,7 +27,7 @@ values:
   - network-manager-openvpn
   - network-manager-openvpn-gnome
   pkgs:
-  - openvpn
+  - openvpn: 2.4.11-I602-Win10
   service: OpenVPNService
   service_function: running
   user: nobody
