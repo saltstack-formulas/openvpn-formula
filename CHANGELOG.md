@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.5](https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.4...v1.0.5) (2022-08-16)
+
+
+### Continuous Integration
+
+* update `pre-commit` configuration inc. for pre-commit.ci [skip ci] ([887c91b](https://github.com/saltstack-formulas/openvpn-formula/commit/887c91bf6301f63d577a163eba89a04e47e590a6))
+* **kitchen+gitlab:** update for new pre-salted images [skip ci] ([f7343ef](https://github.com/saltstack-formulas/openvpn-formula/commit/f7343ef1332c7331ff62373b01e3e302121a72fb))
+* **vagrant:** use `linked_clone` at all times (inc. CI) [skip ci] ([8b53ede](https://github.com/saltstack-formulas/openvpn-formula/commit/8b53ededd0c5e35238aaf52967cd2da28a2eed4e))
+
+
+### Tests
+
+* **_mapdata:** add verification file for `ubuntu-22` [skip ci] ([9d94d17](https://github.com/saltstack-formulas/openvpn-formula/commit/9d94d17b96439b4c3171f62413b37db244e995a3))
+* **system.rb:** add support for `mac_os_x` [skip ci] ([4269cbb](https://github.com/saltstack-formulas/openvpn-formula/commit/4269cbbb6b0032950d14f92160c04007f9738d34))
+* **windows:** fix failing tests by installing specific pkg version ([3cdbd08](https://github.com/saltstack-formulas/openvpn-formula/commit/3cdbd0840f8b35ca1b010ffb6dce4e55dd3bffa7))
+
 ## [1.0.4](https://github.com/saltstack-formulas/openvpn-formula/compare/v1.0.3...v1.0.4) (2022-02-21)
 
 
