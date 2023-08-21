@@ -15,7 +15,7 @@ id={{ config.get('_name') }}
 id={{ network_name }}
 {%-   endif %}
 {%- endif %}
-uuid={{ salt['cmd.run']("python2 -c \"import uuid; print uuid.uuid5(uuid.NAMESPACE_DNS, '{}{}')\"".format(network_name, grains['id'])) }}
+uuid={{ salt['cmd.run']("python -c \"import uuid; print(uuid.uuid5(uuid.NAMESPACE_DNS, '{}{}'))\"".format(network_name, grains['id'])) }}
 {{ pairs(config.get('connection', {})) }}
 
 {%- for segment, data in config|dictsort -%}
