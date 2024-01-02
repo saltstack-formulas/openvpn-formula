@@ -5,6 +5,12 @@
   {#- Some distributions use /etc/openvpn/{client,server} as their working directory #}
   {%- set config_dir = map.get("server", {}).get("conf_dir", map.conf_dir) %}
   {%- for dh in map.dh_files %}
+    {%- if loop.first %}
+openvpn_dh_config_dir:
+  file.directory:
+    - name: {{ config_dir }}
+    - makedirs: True
+    {%- endif %}
     {%- set dh_file = config_dir ~ "/dh" ~ dh ~ ".pem" %}
 openvpn_create_dh_{{ dh }}:
   cmd.run:
