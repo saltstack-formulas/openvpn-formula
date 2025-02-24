@@ -139,6 +139,9 @@ openvpn:
       # see https://bettercrypto.org/static/applied-crypto-hardening.pdf
       ciphers:
         - AES-256-CBC
+      # for version 2.5+ - https://community.openvpn.net/openvpn/wiki/CipherNegotiation
+      data_ciphers: "AES-256-GCM:AES-128-GCM"
+      data_ciphers_fallback: "AES-256-CBC"
       auths:
         - SHA384
       # yamllint disable-line rule:line-length

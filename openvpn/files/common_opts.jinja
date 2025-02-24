@@ -205,6 +205,14 @@ cipher "{{ cipher }}"
 {%- endfor %}
 {%- endif %}
 
+{%- if config.data_ciphers is defined %}
+data-ciphers "{{ config.data_ciphers }}"
+{%- endif %}
+
+{%- if config.data_ciphers_fallback is defined %}
+data-ciphers-fallback "{{ config.data_ciphers_fallback }}"
+{%- endif %}
+
 {%- if config.tls_cipher is defined %}
 tls-cipher {{ config.tls_cipher }}
 {%- endif %}
