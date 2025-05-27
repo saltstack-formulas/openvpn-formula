@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v1.3.1
+_src_path: https://github.com/dafyddj/copier-ssf-ci
+failure_permitted_pattern: -master
+formula_name: openvpn
+renovate_presets:
+- github>saltstack-formulas/.github
+- github>saltstack-formulas/.github:copier
+supported_oses:
+- Amazon Linux
+- Debian
+- openSUSE
+- Oracle Linux
+- Rocky Linux
+- Ubuntu
