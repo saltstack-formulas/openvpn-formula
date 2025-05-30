@@ -23,6 +23,4 @@ gem 'net-ssh', '>= 7.0.0'
 
 gem 'test-kitchen', '3.6.0'
 
-
-
 gem 'rspec-retry', '0.6.2'
