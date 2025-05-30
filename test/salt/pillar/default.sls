@@ -1,26 +1,27 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
+# yamllint disable rule:comments-indentation
 ---
-{%- if grains['os_family'] == 'Windows' %}
-{%-   set log_dir = 'C:\\Program Files\\OpenVPN\log\\' %}
-{%-   set conf_dir = 'C:\\ProgramData\\OpenVPN\config\\' %}
-{%- else %}
-{%-   set log_dir = '/var/log/openvpn/' %}
-{%-   set conf_dir = '/etc/openvpn/' %}
-{%- endif %}
+# {%- if grains['os_family'] == 'Windows' %}
+# {%-   set log_dir = 'C:\\Program Files\\OpenVPN\log\\' %}
+# {%-   set conf_dir = 'C:\\ProgramData\\OpenVPN\config\\' %}
+# {%- else %}
+# {%-   set log_dir = '/var/log/openvpn/' %}
+# {%-   set conf_dir = '/etc/openvpn/' %}
+# {%- endif %}
 openvpn:
   lookup:
-{%- if not grains['os_family'] == 'Windows' %}
+# {%- if not grains['os_family'] == 'Windows' %}
     user: openvpn
     group: openvpn
     manage_user: true
     manage_group: true
     external_repo_enabled: true
-{%- else %}
+# {%- else %}
     pkgs:
-      - openvpn: 2.4.11-I602-Win{{ {"8.1": "7"}[grains["osrelease"]]|default("10") }}
+      - openvpn: '2.4.11-I602-Win{{ {"8.1": "7"}[grains["osrelease"]]|default("10") }}'
     service: OpenVPNService
-{%- endif %}
+# {%- endif %}
     dh_files: ['512']
   server:
     myserver1:
@@ -29,9 +30,9 @@ openvpn:
       proto: udp
       topology: p2p
       dev: tun
-{%- if grains['os_family'] == 'Windows' %}
+# {%- if grains['os_family'] == 'Windows' %}
       dev_node: myserver1
-{%- endif %}
+# {%- endif %}
       comp_lzo: "yes"
       ifconfig: 169.254.0.1 169.254.0.2
       log_append: '''{{ log_dir }}myserver1.log'''
@@ -68,9 +69,9 @@ openvpn:
       proto: udp
       topology: p2p
       dev: tun
-{%- if grains['os_family'] == 'Windows' %}
+# {%- if grains['os_family'] == 'Windows' %}
       dev_node: myclient1
-{%- endif %}
+# {%- endif %}
       comp_lzo: "yes"
       pull: false
       tls_client: false
