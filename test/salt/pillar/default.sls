@@ -29,6 +29,8 @@ openvpn:
       port: 2000
       proto: udp
       topology: p2p
+      ciphers:
+        - AES-256-CBC
       dev: tun
 # {%- if grains['os_family'] == 'Windows' %}
       dev_node: myserver1
@@ -68,6 +70,8 @@ openvpn:
       lport: 62000
       proto: udp
       topology: p2p
+      ciphers:
+        - AES-256-CBC
       dev: tun
 # {%- if grains['os_family'] == 'Windows' %}
       dev_node: myclient1
