@@ -22,9 +22,9 @@ include:
     - template: jinja
     - source: salt://openvpn/network_manager_networks/files/connection.jinja
     - defaults:
-      network_name: "{{ name }}"
-      config: {{ config | json }}
-      clients: {{ clients | json }}
+        network_name: "{{ name }}"
+        config: {{ config | json }}
+        clients: {{ clients | json }}
     - mode: 600
     - onchanges_in:
       - cmd: network_manager_connection_reload
