@@ -115,7 +115,17 @@ openvpn_config_{{ type }}_{{ name }}_passwd_file:
       - service: {{ service_id }}
 {% endif %}
 
-{% if config.ta_content is defined and config.tls_crypt is defined %}
+{% if config.ta_content is defined and config.tls_crypt_v2 is defined %}
+# Deploy {{ type }} {{ name }} TLS key file
+openvpn_config_{{ type }}_{{ name }}_tls_crypt_v2:
+  file.managed:
+    - name: {{ config.tls_crypt_v2 }}
+    {{ _permissions(600, 'root') }}
+    - contents_pillar: openvpn:{{ type }}:{{ name }}:ta_content
+    - makedirs: True
+    - watch_in:
+      - service: {{ service_id }}
+{% elif config.ta_content is defined and config.tls_crypt is defined %}
 # Deploy {{ type }} {{ name }} TLS key file
 openvpn_config_{{ type }}_{{ name }}_tls_crypt_file:
   file.managed:

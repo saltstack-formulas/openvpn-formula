@@ -182,11 +182,14 @@ dh {{ config.dh }}
 dh dh1024.pem
 {%- endif %}
 
-{%- if config.tls_crypt is defined %}
+{%- if config.tls_crypt_v2 %}
+tls-crypt-v2 {{ config.tls_crypt_v2 }}
+{%- elif config.tls_crypt is defined %}
 tls-crypt {{ config.tls_crypt }}
 {%- elif config.tls_auth is defined %}
 tls-auth {{ multipart_param(config.tls_auth) }}
 {%- endif %}
+
 
 {%- if config.reneg_sec is defined %}
 reneg-sec {{ config.reneg_sec }}

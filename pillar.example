@@ -172,6 +172,18 @@ openvpn:
       username_as_common_name: ~
       plugins:
         - '/usr/lib/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf'
+    tls-server-v2:
+      server: '10.8.0.0 255.255.255.0'
+      ifconfig_ipv6: 2001:db8::1/64 2001:db8::1
+      ifconfig_ipv6_pool: 2001:db8::2/64
+      ca: /path/to/mycacert.pem
+      cert: /path/to/mycert.pem
+      key: /path/to/mykey.pem
+      tls_crypt_v2: /path/to/tlsv2key.key
+      ta_content: |
+        -----BEGIN OpenVPN tls-crypt-v2 server key-----
+        ...
+        -----END OpenVPN tls-crypt-v2 server key-----
     mysitetosite1:
       dev: tun
       ifconfig: '10.8.0.1 10.8.0.2'
